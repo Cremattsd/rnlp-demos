@@ -252,15 +252,12 @@ footer a{color:var(--gold-light)}
     <button class="modal-close" onclick="closeModal('inquireModal')">✕</button>
     <h2>Inquire About Property</h2>
     <p class="modal-sub" id="inquirePropertyName"></p>
-    <form class="modal-form" onsubmit="handleInquire(event)">
-      <div class="form-row">
-        <div class="form-field"><label>First Name</label><input type="text" required></div>
-        <div class="form-field"><label>Last Name</label><input type="text" required></div>
-      </div>
-      <div class="form-field"><label>Email</label><input type="email" required></div>
-      <div class="form-field"><label>Phone</label><input type="tel"></div>
-      <div class="form-field"><label>Message</label><textarea placeholder="Tell us about your needs…"></textarea></div>
-      <button class="submit-btn">Send Inquiry</button>
+    <form class="modal-form" onsubmit="submitInquiry(event)">
+      <div class="form-field"><label>Full Name</label><input id="inq-name" type="text" required></div>
+      <div class="form-field"><label>Email</label><input id="inq-email" type="email" required></div>
+      <div class="form-field"><label>Phone</label><input id="inq-phone" type="tel"></div>
+      <div class="form-field"><label>Message</label><textarea id="inq-msg" placeholder="Tell us about your needs…"></textarea></div>
+      <button class="submit-btn" type="submit">Send Inquiry</button>
     </form>
   </div>
 </div>
@@ -276,6 +273,7 @@ footer a{color:var(--gold-light)}
 <script>
 const PROXY='https://rnlp-proxy.onrender.com',SERIAL='RNLP-MDL-001',PER_PAGE=9;
 let all=[],filtered=[],page=1,filt='all';
+let currentPropId='',currentPropName='';
 
 async function load(){
   try{
@@ -303,7 +301,7 @@ function renderGrid(){
     const types=(p.PropertyTypes||[]).slice(0,2);
     return `<div class="card" onclick="showDetail('${p.Id}')">
       <div class="card-img" style="${img?'background-image:url('+img+')':''}">
-        <span class="card-badge ${bcls}">${badge}</span>
+        <span class="card-badge ${bcls}">${badgeIcon(lt,sold)}${badge}</span>
         ${pr?`<span class="card-price">${pr}</span>`:''}
       </div>
       <div class="card-body">
@@ -405,7 +403,7 @@ function renderDetail(p, demographics){
       </div>
       <div class="detail-sidebar">
         ${bname?`<div class="detail-broker"><div class="detail-broker-avatar">${binit}</div><div class="detail-broker-name">${esc(bname)}</div><div class="detail-broker-contact">${b.Email?`<a href="mailto:${esc(b.Email)}">${esc(b.Email)}</a><br>`:''}${b.Phone?`<a href="tel:${esc(b.Phone)}">${esc(b.Phone)}</a>`:''}</div></div>`:''}
-        <button class="detail-btn detail-btn-primary" onclick="closeModal('detailModal');openInquire('${escA(p.PropertyName||'')}')">Inquire About Property</button>
+        <button class="detail-btn detail-btn-primary" onclick="closeModal('detailModal');openInquire('${escA(p.PropertyName||'')}','${p.Id||''}')">Inquire About Property</button>
         <a class="detail-btn detail-btn-gold" href="https://realnex.com/listings/client/1/${p.Id}/${p.Id}" target="_blank">View Deal Room →</a>
         ${p.BrochureUrl?`<a class="detail-btn detail-btn-outline" href="${esc(p.BrochureUrl)}" target="_blank">Download Brochure</a>`:''}
         <button class="detail-btn detail-btn-outline" onclick="navigator.clipboard&&navigator.clipboard.writeText(location.href).then(()=>alert('Link copied!'))">Share Property</button>
@@ -415,9 +413,26 @@ function renderDetail(p, demographics){
 
 function openModal(id){document.getElementById(id).classList.add('open');document.body.style.overflow='hidden'}
 function closeModal(id){document.getElementById(id).classList.remove('open');document.body.style.overflow=''}
-function openInquire(name){document.getElementById('inquirePropertyName').textContent=name;openModal('inquireModal')}
-function handleInquire(e){e.preventDefault();alert('Your inquiry has been received!');closeModal('inquireModal')}
+function openInquire(name,id){currentPropName=name;currentPropId=id||'';document.getElementById('inquirePropertyName').textContent=name;openModal('inquireModal')}
+async function submitInquiry(e){
+  e.preventDefault();
+  const btn=e.target.querySelector('[type=submit]');
+  btn.disabled=true;btn.textContent='Sending…';
+  try{
+    const r=await fetch(PROXY+'/lead',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({serial:SERIAL,name:document.getElementById('inq-name').value,email:document.getElementById('inq-email').value,phone:document.getElementById('inq-phone').value,message:document.getElementById('inq-msg').value,property_id:currentPropId,property_name:currentPropName})});
+    const d=await r.json();
+    if(r.ok&&d.success){alert('Thank you! Your inquiry has been submitted.');e.target.reset();closeModal('inquireModal');}
+    else{alert('Error: '+(d.error||'Please try again.'));}
+  }catch(err){alert('Network error. Please try again.');}
+  finally{btn.disabled=false;btn.textContent='Send Inquiry';}
+}
 function handleContact(e){e.preventDefault();alert('Message sent! A broker will contact you soon.');e.target.reset()}
+function badgeIcon(lt,isSold){
+  if(isSold) return '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> ';
+  if(lt==='FOR LEASE') return '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="15.5" r="5.5"/><path d="M21 2l-9.6 9.6M15.5 7.5l3 3"/></svg> ';
+  if(lt==='FOR SALE') return '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg> ';
+  return '';
+}
 function getImg(p){const a=(p.Attachments||[]).find(x=>(x.AttachmentType||x.attachment_type)==='photo');return a?a.FileName+'?h=500&mode=max&autorotate=true':'';}
 function fmt(n){return Number(n).toLocaleString('en-US',{maximumFractionDigits:0})}
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}

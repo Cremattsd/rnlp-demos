@@ -256,14 +256,11 @@ footer a{color:rgba(255,255,255,.7)}
     <button class="modal-close" onclick="closeModal('inquireModal')">✕</button>
     <h2>Inquire About Property</h2>
     <p class="modal-sub" id="inquirePropertyName"></p>
-    <form class="modal-form" onsubmit="handleInquireSubmit(event)">
-      <div class="form-row">
-        <div class="form-field"><label>First Name</label><input type="text" required></div>
-        <div class="form-field"><label>Last Name</label><input type="text" required></div>
-      </div>
-      <div class="form-field"><label>Email</label><input type="email" required></div>
-      <div class="form-field"><label>Phone</label><input type="tel"></div>
-      <div class="form-field"><label>Message</label><textarea placeholder="Tell us about your needs…"></textarea></div>
+    <form class="modal-form" onsubmit="submitInquiry(event)">
+      <div class="form-field"><label>Full Name</label><input id="inq-name" type="text" required></div>
+      <div class="form-field"><label>Email</label><input id="inq-email" type="email" required></div>
+      <div class="form-field"><label>Phone</label><input id="inq-phone" type="tel"></div>
+      <div class="form-field"><label>Message</label><textarea id="inq-msg" placeholder="Tell us about your needs…"></textarea></div>
       <button class="submit-btn" type="submit">Send Inquiry</button>
     </form>
   </div>
@@ -283,6 +280,7 @@ const SERIAL = 'RNLP-TEST-001';
 const PER_PAGE = 9;
 
 let allListings = [];
+let currentPropId = '', currentPropName = '';
 let filtered = [];
 let currentPage = 1;
 let activeFilter = 'all';
@@ -321,7 +319,7 @@ function renderGrid() {
     const types = (p.PropertyTypes||[]).slice(0,2).join(', ');
     return `<div class="card" onclick="showDetail('${p.Id}','${escAttr(p.PropertyName)}')">
       <div class="card-img" style="${img?'background-image:url('+img+')':''}">
-        <span class="card-badge${isSold?' sold':''}">${badge}</span>
+        <span class="card-badge${isSold?' sold':''}">${badgeIcon(lt,isSold)}${badge}</span>
         ${price?`<span class="card-price">${price}</span>`:''}
       </div>
       <div class="card-body">
@@ -434,9 +432,27 @@ function renderDetail(p, demographics) {
 
 function openModal(id){document.getElementById(id).classList.add('open');document.body.style.overflow='hidden'}
 function closeModal(id){document.getElementById(id).classList.remove('open');document.body.style.overflow=''}
-function openInquire(name,id){document.getElementById('inquirePropertyName').textContent=name;openModal('inquireModal')}
-function handleInquireSubmit(e){e.preventDefault();alert('Thank you! Your inquiry has been submitted.');closeModal('inquireModal')}
+function openInquire(name,id){currentPropName=name;currentPropId=id||'';document.getElementById('inquirePropertyName').textContent=name;openModal('inquireModal')}
+async function submitInquiry(e){
+  e.preventDefault();
+  const btn=e.target.querySelector('[type=submit]');
+  btn.disabled=true;btn.textContent='Sending…';
+  try{
+    const r=await fetch(PROXY+'/lead',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({serial:SERIAL,name:document.getElementById('inq-name').value,email:document.getElementById('inq-email').value,phone:document.getElementById('inq-phone').value,message:document.getElementById('inq-msg').value,property_id:currentPropId,property_name:currentPropName})});
+    const d=await r.json();
+    if(r.ok&&d.success){alert('Thank you! Your inquiry has been submitted.');e.target.reset();closeModal('inquireModal');}
+    else{alert('Error: '+(d.error||'Please try again.'));}
+  }catch(err){alert('Network error. Please try again.');}
+  finally{btn.disabled=false;btn.textContent='Send Inquiry';}
+}
 function handleContactSubmit(e){e.preventDefault();alert('Message sent! Dana will be in touch shortly.');e.target.reset()}
+
+function badgeIcon(lt,isSold){
+  if(isSold) return '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> ';
+  if(lt==='FOR LEASE') return '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="15.5" r="5.5"/><path d="M21 2l-9.6 9.6M15.5 7.5l3 3"/></svg> ';
+  if(lt==='FOR SALE') return '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg> ';
+  return '';
+}
 
 function getImg(p){
   const att=(p.Attachments||[]).find(a=>(a.AttachmentType||a.attachment_type)==='photo');
