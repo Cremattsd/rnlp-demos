@@ -146,8 +146,14 @@ footer{background:#070809;border-top:1px solid var(--border);padding:32px 48px;d
 .detail-hero-text p{font-size:.825rem;color:rgba(255,255,255,.7);margin-top:4px}
 .detail-hero-badge{position:absolute;top:16px;left:24px;padding:4px 12px;border-radius:4px;font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;backdrop-filter:blur(6px)}
 .detail-hero-price{position:absolute;top:16px;right:24px;background:rgba(0,0,0,.65);color:var(--accent);padding:6px 14px;border-radius:6px;font-weight:700;font-size:.9rem;border:1px solid rgba(201,162,39,.2)}
-.detail-body{padding:24px;display:grid;grid-template-columns:1fr 1fr;gap:24px;background:var(--surface);border-radius:0 0 12px 12px}
-.detail-facts{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:10px}
+.detail-body{padding:24px;display:grid;grid-template-columns:65fr 35fr;gap:24px;background:var(--surface);border-radius:0 0 12px 12px}
+.detail-facts{display:flex;flex-wrap:nowrap;overflow-x:auto;gap:10px;padding:14px 24px;border-bottom:1px solid var(--border);scrollbar-width:none;-ms-overflow-style:none}
+.detail-facts::-webkit-scrollbar{display:none}
+.spaces-table{width:100%;border-collapse:collapse;font-size:.8rem;margin-top:8px}
+.spaces-table th{text-align:left;padding:7px 10px;background:var(--surface2);font-size:.65rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:700;border-bottom:2px solid var(--border)}
+.spaces-table td{padding:7px 10px;border-bottom:1px solid var(--border);color:var(--text)}
+.spaces-table tr:last-child td{border-bottom:none}
+.detail-demo{margin-top:20px;padding:14px 16px;background:var(--surface2);border-radius:6px;border-left:2px solid var(--accent)}
 .detail-fact{background:var(--surface2);padding:10px 14px;border-radius:6px;border-left:2px solid var(--accent)}
 .detail-fact-lbl{font-size:.65rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
 .detail-fact-val{font-size:.825rem;font-weight:700;color:var(--accent);margin-top:2px}
@@ -372,10 +378,10 @@ async function load(){
 }
 
 function badgeCls(p){
-  const sold=p.Status?.toUpperCase()==='SOLD';
-  if(sold) return 'badge-sold';
-  if(p.ListingType==='For Lease') return 'badge-lease';
-  if(p.ListingType==='For Sale') return 'badge-sale';
+  const lt=(p.ListingType||'').toUpperCase();
+  if(p.Status?.toUpperCase()==='SOLD'||lt==='SOLD'||lt==='LEASED') return 'badge-sold';
+  if(lt==='FOR LEASE') return 'badge-lease';
+  if(lt==='FOR SALE') return 'badge-sale';
   return 'badge-default';
 }
 
@@ -385,8 +391,9 @@ function renderGrid(){
   document.getElementById('resultsCount').textContent=filtered.length+' listing'+(filtered.length!==1?'s':'');
   if(!sl.length){g.innerHTML='<p style="color:var(--muted);text-align:center;padding:60px">No listings match your search.</p>';buildPag();return;}
   g.innerHTML=sl.map(p=>{
-    const img=getImg(p),sold=p.Status?.toUpperCase()==='SOLD',badge=sold?'SOLD':(p.ListingType||''),bc=badgeCls(p);
-    const pr=p.PriceDisclosed&&p.ListPrice?'$'+fmt(p.ListPrice)+(p.ListingType==='For Lease'&&p.PriceUnits?' /SF':''):'';
+    const img=getImg(p),sold=p.Status?.toUpperCase()==='SOLD',lt=(p.ListingType||'').toUpperCase(),bc=badgeCls(p);
+    const badge=lt==='FOR LEASE'?'For Lease':lt==='FOR SALE'?'For Sale':sold?'Sold':(p.ListingType||p.Status||'—');
+    const pr=p.PriceDisclosed&&p.ListPrice?'$'+fmt(p.ListPrice)+(lt==='FOR LEASE'&&p.PriceUnits?' /SF':''):'';
     const bsf=p.BuildingSf?fmt(p.BuildingSf)+' SF':'',asf=p.SpaceAvailMin?fmt(p.SpaceAvailMin)+' SF':(p.LandSize?p.LandSize+' '+(p.LandSizeType||'AC'):'');
     const types=(p.PropertyTypes||[]).slice(0,2);
     return `<div class="card" onclick="showDetail('${p.Id}')">
@@ -431,7 +438,8 @@ function applyFilters(){
   const q=document.getElementById('searchInput').value.toLowerCase();
   filtered=all.filter(p=>{
     const mt=!q||[p.PropertyName,p.Street,p.City,p.State].filter(Boolean).join(' ').toLowerCase().includes(q);
-    const mf=filt==='all'||(filt==='SOLD'&&p.Status?.toUpperCase()==='SOLD')||(filt!=='SOLD'&&p.ListingType===filt&&p.Status?.toUpperCase()!=='SOLD');
+    const lt2=(p.ListingType||'').toUpperCase(),isSold2=p.Status?.toUpperCase()==='SOLD'||lt2==='SOLD'||lt2==='LEASED';
+    const mf=filt==='all'||(filt==='SOLD'&&isSold2)||(filt==='For Lease'&&lt2==='FOR LEASE'&&!isSold2)||(filt==='For Sale'&&lt2==='FOR SALE'&&!isSold2);
     return mt&&mf;
   });
   const s=document.getElementById('sortSelect').value;
@@ -456,34 +464,53 @@ document.getElementById('mapToggle').addEventListener('click',()=>{
 async function showDetail(id){
   document.getElementById('detailContent').innerHTML='<div class="loading" style="padding:80px"><div class="spinner"></div><p>Loading property data…</p></div>';
   openModal('detailModal');
-  try{const r=await fetch(PROXY+'/property',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({serial:SERIAL,property_id:id})});const _d=await r.json();renderDetail(_d.property||_d);}
+  try{const r=await fetch(PROXY+'/property',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({serial:SERIAL,property_id:id})});const _d=await r.json();renderDetail(_d.property||_d,_d.demographics||null);}
   catch(e){document.getElementById('detailContent').innerHTML='<p style="padding:40px;color:var(--muted)">Could not load property details.</p>';}
 }
 
-function renderDetail(p){
-  const img=getImg(p),badge=p.Status?.toUpperCase()==='SOLD'?'SOLD':(p.ListingType||''),bc=badgeCls(p),pr=p.PriceDisclosed&&p.ListPrice?'$'+fmt(p.ListPrice):'';
-  const users=p.UserList||(p.User?[p.User]:[]),b=users[0]||{},bname=((b.FirstName||'')+' '+(b.LastName||'')).trim(),init=((b.FirstName?.[0]||'H')+(b.LastName?.[0]||'C')).toUpperCase();
+function renderDetail(p, demographics){
+  const heroImg=(p.Attachments||[])[0]?.FileName?(p.Attachments[0].FileName+'?h=600&mode=max&autorotate=true'):'';
+  const lt=(p.ListingType||'').toUpperCase();
+  const isSold=p.Status?.toUpperCase()==='SOLD'||lt==='SOLD'||lt==='LEASED';
+  const badgeText=lt==='FOR LEASE'?'For Lease':lt==='FOR SALE'?'For Sale':isSold?'Sold':(p.ListingType||p.Status||'');
+  const badgeStyle=lt==='FOR LEASE'?'background:rgba(16,185,129,.9);color:#fff':lt==='FOR SALE'?'background:rgba(59,130,246,.9);color:#fff':isSold?'background:rgba(220,38,38,.9);color:#fff':'background:rgba(0,0,0,.65);color:#fff';
+  const pr=p.PriceDisclosed&&p.ListPrice?'$'+fmt(p.ListPrice)+(lt==='FOR LEASE'&&p.PriceUnits?' /SF':''):'';
+  const users=p.UserList||(p.User?[p.User]:[]),b=users[0]||{};
+  const bname=((b.FirstName||'')+' '+(b.LastName||'')).trim();
+  const binit=((b.FirstName?.[0]||'H')+(b.LastName?.[0]||'C')).toUpperCase();
+  const facts=[
+    p.BuildingSf&&{l:'Building SF',v:fmt(p.BuildingSf)+' SF'},
+    p.SpaceAvailMin&&{l:'Avail SF',v:fmt(p.SpaceAvailMin)+' SF'},
+    p.YearBuilt&&{l:'Year Built',v:p.YearBuilt},
+    p.BuildingClass&&{l:'Class',v:p.BuildingClass},
+    p.Stories&&{l:'Stories',v:p.Stories},
+    p.Units&&{l:'Units',v:p.Units},
+    p.LandSize&&{l:'Land',v:p.LandSize+' '+(p.LandSizeType||'AC')},
+    (p.PropertyTypes||[]).length&&{l:'Type',v:p.PropertyTypes.slice(0,2).join(', ')},
+    p.Zip&&{l:'ZIP',v:p.Zip},
+  ].filter(Boolean);
+  const spaces=(p.Spaces||[]).slice(0,10);
   document.getElementById('detailContent').innerHTML=`
-    <div class="detail-hero" style="${img?'background-image:url('+img+')':''}">
+    <div class="detail-hero" style="background-image:${heroImg?'url('+heroImg+')':'linear-gradient(135deg,var(--bg),var(--surface2))'}">
       <div class="detail-hero-overlay"></div>
-      <span class="detail-hero-badge ${bc}">${badge}</span>
-      ${pr?`<span class="detail-hero-price">${pr}</span>`:''}
+      <span class="detail-hero-badge" style="${badgeStyle}">${esc(badgeText)}</span>
+      ${pr?`<span class="detail-hero-price">${esc(pr)}</span>`:''}
       <div class="detail-hero-text"><h2>${esc(ucw(p.PropertyName||''))}</h2><p>${esc([p.Street,p.City,p.State,p.Zip].filter(Boolean).join(', '))}</p></div>
     </div>
+    ${facts.length?`<div class="detail-facts">${facts.map(f=>`<div class="detail-fact" style="flex-shrink:0;min-width:max-content"><div class="detail-fact-lbl">${esc(f.l)}</div><div class="detail-fact-val">${esc(String(f.v))}</div></div>`).join('')}</div>`:''}
     <div class="detail-body">
-      <div class="detail-facts">
-        ${p.BuildingSf?`<div class="detail-fact"><div class="detail-fact-lbl">Building SF</div><div class="detail-fact-val">${fmt(p.BuildingSf)} SF</div></div>`:''}
-        ${p.YearBuilt?`<div class="detail-fact"><div class="detail-fact-lbl">Year Built</div><div class="detail-fact-val">${p.YearBuilt}</div></div>`:''}
-        ${p.BuildingClass?`<div class="detail-fact"><div class="detail-fact-lbl">Class</div><div class="detail-fact-val">${p.BuildingClass}</div></div>`:''}
-        ${p.Stories?`<div class="detail-fact"><div class="detail-fact-lbl">Stories</div><div class="detail-fact-val">${p.Stories}</div></div>`:''}
-        ${p.SpaceAvailMin?`<div class="detail-fact"><div class="detail-fact-lbl">Avail SF</div><div class="detail-fact-val">${fmt(p.SpaceAvailMin)} SF</div></div>`:''}
+      <div class="detail-desc">
+        <h3>Property Description</h3>
+        <p>${esc(p.PropertyDescription||'Contact HCBRE for full property details.')}</p>
+        ${spaces.length?`<h3 style="margin-top:24px">Available Spaces</h3><table class="spaces-table"><thead><tr><th>Space</th><th>Avail SF</th><th>Ask Rate</th><th>Type</th></tr></thead><tbody>${spaces.map(s=>`<tr><td>${esc(s.SpaceName||s.SpaceId||'—')}</td><td>${s.AvailSF?fmt(s.AvailSF)+' SF':'—'}</td><td>${s.AskRateSF?'$'+s.AskRateSF+(s.AskRateType?' '+s.AskRateType:''):'Call'}</td><td>${esc(s.SpaceType||'—')}</td></tr>`).join('')}</tbody></table>`:''}
+        ${demographics?`<div class="detail-demo"><p style="font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px">Area Demographics · ${esc(p.Zip||'')}</p><div style="display:flex;gap:10px;flex-wrap:wrap">${demographics.population!=null?`<div class="detail-fact" style="flex-shrink:0"><div class="detail-fact-lbl">Population</div><div class="detail-fact-val">${fmt(demographics.population)}</div></div>`:''}${demographics.median_income!=null?`<div class="detail-fact" style="flex-shrink:0"><div class="detail-fact-lbl">Med. Income</div><div class="detail-fact-val">$${fmt(demographics.median_income)}</div></div>`:''}${demographics.median_home_value!=null?`<div class="detail-fact" style="flex-shrink:0"><div class="detail-fact-lbl">Med. Home Value</div><div class="detail-fact-val">$${fmt(demographics.median_home_value)}</div></div>`:''}</div></div>`:''}
       </div>
-      <div class="detail-desc"><h3>Property Description</h3><p>${esc(p.PropertyDescription||'Contact HCBRE for full property details.')}</p></div>
       <div class="detail-sidebar">
-        ${bname?`<div class="detail-broker"><div class="detail-broker-avatar">${init}</div><div class="detail-broker-name">${esc(bname)}</div><div class="detail-broker-contact">${b.Email?`<a href="mailto:${esc(b.Email)}">${esc(b.Email)}</a><br>`:''} ${b.Phone?`<a href="tel:${esc(b.Phone)}">${esc(b.Phone)}</a>`:''}</div></div>`:''}
+        ${bname?`<div class="detail-broker"><div class="detail-broker-avatar">${binit}</div><div class="detail-broker-name">${esc(bname)}</div><div class="detail-broker-contact">${b.Email?`<a href="mailto:${esc(b.Email)}">${esc(b.Email)}</a><br>`:''}${b.Phone?`<a href="tel:${esc(b.Phone)}">${esc(b.Phone)}</a>`:''}</div></div>`:''}
         <button class="detail-btn detail-btn-primary" onclick="closeModal('detailModal');openInquire('${escA(p.PropertyName||'')}')">Inquire About This Property</button>
         <a class="detail-btn detail-btn-gold" href="https://realnex.com/listings/client/1/${p.Id}/${p.Id}" target="_blank">View Deal Room →</a>
         ${p.BrochureUrl?`<a class="detail-btn detail-btn-outline" href="${esc(p.BrochureUrl)}" target="_blank">Download Brochure</a>`:''}
+        <button class="detail-btn detail-btn-outline" onclick="navigator.clipboard&&navigator.clipboard.writeText(location.href).then(()=>alert('Link copied!'))">Share Property</button>
       </div>
     </div>`;
 }

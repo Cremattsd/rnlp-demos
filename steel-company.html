@@ -124,8 +124,14 @@ footer a{color:var(--gold-light)}
 .detail-hero-text p{font-size:.875rem;opacity:.85}
 .detail-hero-badge{position:absolute;top:20px;left:28px;background:var(--navy);color:#fff;padding:5px 14px;border-radius:4px;font-size:.75rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase}
 .detail-hero-price{position:absolute;top:20px;right:28px;background:rgba(0,0,0,.65);color:var(--gold-light);padding:8px 16px;border-radius:8px;font-weight:700}
-.detail-body{padding:28px;display:grid;grid-template-columns:1fr 1fr;gap:28px;border-radius:0 0 16px 16px;overflow:hidden}
-.detail-facts{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:12px}
+.detail-body{padding:28px;display:grid;grid-template-columns:65fr 35fr;gap:28px;border-radius:0 0 16px 16px;overflow:hidden}
+.detail-facts{display:flex;flex-wrap:nowrap;overflow-x:auto;gap:12px;padding:16px 28px;border-bottom:1px solid var(--border);scrollbar-width:none;-ms-overflow-style:none}
+.detail-facts::-webkit-scrollbar{display:none}
+.spaces-table{width:100%;border-collapse:collapse;font-size:.8rem;margin-top:8px}
+.spaces-table th{text-align:left;padding:8px 10px;background:var(--gray);font-size:.67rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:700;border-bottom:2px solid var(--border)}
+.spaces-table td{padding:8px 10px;border-bottom:1px solid var(--border);color:var(--text)}
+.spaces-table tr:last-child td{border-bottom:none}
+.detail-demo{margin-top:24px;padding:14px 16px;background:var(--gray);border-radius:8px;border-top:2px solid var(--gold)}
 .detail-fact{background:var(--gray);padding:12px 16px;border-radius:8px;border-top:2px solid var(--navy)}
 .detail-fact-lbl{font-size:.68rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
 .detail-fact-val{font-size:.875rem;font-weight:700;color:var(--navy);margin-top:2px}
@@ -288,8 +294,9 @@ function renderGrid(){
   g.innerHTML=slice.map(p=>{
     const img=getImg(p);
     const sold=p.Status?.toUpperCase()==='SOLD';
-    const badge=sold?'SOLD':(p.ListingType||'');
-    const bcls=sold?'sold':(p.ListingType==='For Lease'?'lease':'');
+    const lt=(p.ListingType||'').toUpperCase();
+    const badge=lt==='FOR LEASE'?'For Lease':lt==='FOR SALE'?'For Sale':sold?'Sold':(p.ListingType||p.Status||'—');
+    const bcls=sold?'sold':lt==='FOR LEASE'?'lease':'';
     const pr=p.PriceDisclosed&&p.ListPrice?'$'+fmt(p.ListPrice):'';
     const bsf=p.BuildingSf?fmt(p.BuildingSf)+' SF':'';
     const asf=p.SpaceAvailMin?fmt(p.SpaceAvailMin)+' SF':(p.LandSize?p.LandSize+' '+(p.LandSizeType||'AC'):'');
@@ -337,7 +344,8 @@ function applyFilters(){
   const q=document.getElementById('searchInput').value.toLowerCase();
   filtered=all.filter(p=>{
     const mt=!q||[p.PropertyName,p.Street,p.City,p.State].filter(Boolean).join(' ').toLowerCase().includes(q);
-    const mf=filt==='all'||(filt==='SOLD'&&p.Status?.toUpperCase()==='SOLD')||(filt!=='SOLD'&&p.ListingType===filt&&p.Status?.toUpperCase()!=='SOLD');
+    const lt2=(p.ListingType||'').toUpperCase(),isSold2=p.Status?.toUpperCase()==='SOLD'||lt2==='SOLD'||lt2==='LEASED';
+    const mf=filt==='all'||(filt==='SOLD'&&isSold2)||(filt==='For Lease'&&lt2==='FOR LEASE'&&!isSold2)||(filt==='For Sale'&&lt2==='FOR SALE'&&!isSold2);
     return mt&&mf;
   });
   const s=document.getElementById('sortSelect').value;
@@ -354,33 +362,53 @@ document.getElementById('sortSelect').addEventListener('change',applyFilters);
 async function showDetail(id){
   document.getElementById('detailContent').innerHTML='<div class="loading" style="padding:80px"><div class="spinner"></div><p>Loading…</p></div>';
   openModal('detailModal');
-  try{const r=await fetch(PROXY+'/property',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({serial:SERIAL,property_id:id})});const _d=await r.json();renderDetail(_d.property||_d);}
+  try{const r=await fetch(PROXY+'/property',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({serial:SERIAL,property_id:id})});const _d=await r.json();renderDetail(_d.property||_d,_d.demographics||null);}
   catch(e){document.getElementById('detailContent').innerHTML='<p style="padding:40px;color:var(--muted)">Could not load details.</p>';}
 }
 
-function renderDetail(p){
-  const img=getImg(p),badge=p.Status?.toUpperCase()==='SOLD'?'SOLD':(p.ListingType||''),pr=p.PriceDisclosed&&p.ListPrice?'$'+fmt(p.ListPrice):'';
-  const users=p.UserList||(p.User?[p.User]:[]),b=users[0]||{},bname=((b.FirstName||'')+' '+(b.LastName||'')).trim(),init=((b.FirstName?.[0]||'B')+(b.LastName?.[0]||'R')).toUpperCase();
+function renderDetail(p, demographics){
+  const heroImg=(p.Attachments||[])[0]?.FileName?(p.Attachments[0].FileName+'?h=600&mode=max&autorotate=true'):'';
+  const lt=(p.ListingType||'').toUpperCase();
+  const isSold=p.Status?.toUpperCase()==='SOLD'||lt==='SOLD'||lt==='LEASED';
+  const badgeText=lt==='FOR LEASE'?'For Lease':lt==='FOR SALE'?'For Sale':isSold?'Sold':(p.ListingType||p.Status||'');
+  const badgeStyle=lt==='FOR LEASE'?'background:rgba(16,185,129,.9);color:#fff':lt==='FOR SALE'?'background:rgba(59,130,246,.9);color:#fff':isSold?'background:rgba(220,38,38,.9);color:#fff':'background:rgba(0,0,0,.65);color:#fff';
+  const pr=p.PriceDisclosed&&p.ListPrice?'$'+fmt(p.ListPrice)+(lt==='FOR LEASE'&&p.PriceUnits?' /SF':''):'';
+  const users=p.UserList||(p.User?[p.User]:[]),b=users[0]||{};
+  const bname=((b.FirstName||'')+' '+(b.LastName||'')).trim();
+  const binit=((b.FirstName?.[0]||'B')+(b.LastName?.[0]||'R')).toUpperCase();
+  const facts=[
+    p.BuildingSf&&{l:'Building SF',v:fmt(p.BuildingSf)+' SF'},
+    p.SpaceAvailMin&&{l:'Avail SF',v:fmt(p.SpaceAvailMin)+' SF'},
+    p.YearBuilt&&{l:'Year Built',v:p.YearBuilt},
+    p.BuildingClass&&{l:'Class',v:p.BuildingClass},
+    p.Stories&&{l:'Stories',v:p.Stories},
+    p.Units&&{l:'Units',v:p.Units},
+    p.LandSize&&{l:'Land',v:p.LandSize+' '+(p.LandSizeType||'AC')},
+    (p.PropertyTypes||[]).length&&{l:'Type',v:p.PropertyTypes.slice(0,2).join(', ')},
+    p.Zip&&{l:'ZIP',v:p.Zip},
+  ].filter(Boolean);
+  const spaces=(p.Spaces||[]).slice(0,10);
   document.getElementById('detailContent').innerHTML=`
-    <div class="detail-hero" style="${img?'background-image:url('+img+')':''}">
+    <div class="detail-hero" style="background-image:${heroImg?'url('+heroImg+')':'linear-gradient(135deg,var(--navy),var(--navy2))'}">
       <div class="detail-hero-overlay"></div>
-      <span class="detail-hero-badge">${badge}</span>
-      ${pr?`<span class="detail-hero-price">${pr}</span>`:''}
+      <span class="detail-hero-badge" style="${badgeStyle}">${esc(badgeText)}</span>
+      ${pr?`<span class="detail-hero-price">${esc(pr)}</span>`:''}
       <div class="detail-hero-text"><h2>${esc(ucw(p.PropertyName||''))}</h2><p>${esc([p.Street,p.City,p.State,p.Zip].filter(Boolean).join(', '))}</p></div>
     </div>
+    ${facts.length?`<div class="detail-facts">${facts.map(f=>`<div class="detail-fact" style="flex-shrink:0;min-width:max-content"><div class="detail-fact-lbl">${esc(f.l)}</div><div class="detail-fact-val">${esc(String(f.v))}</div></div>`).join('')}</div>`:''}
     <div class="detail-body">
-      <div class="detail-facts">
-        ${p.BuildingSf?`<div class="detail-fact"><div class="detail-fact-lbl">Building SF</div><div class="detail-fact-val">${fmt(p.BuildingSf)} SF</div></div>`:''}
-        ${p.YearBuilt?`<div class="detail-fact"><div class="detail-fact-lbl">Year Built</div><div class="detail-fact-val">${p.YearBuilt}</div></div>`:''}
-        ${p.BuildingClass?`<div class="detail-fact"><div class="detail-fact-lbl">Class</div><div class="detail-fact-val">${p.BuildingClass}</div></div>`:''}
-        ${p.SpaceAvailMin?`<div class="detail-fact"><div class="detail-fact-lbl">Avail SF</div><div class="detail-fact-val">${fmt(p.SpaceAvailMin)} SF</div></div>`:''}
+      <div class="detail-desc">
+        <h3>Description</h3>
+        <p>${esc(p.PropertyDescription||'Contact broker for details.')}</p>
+        ${spaces.length?`<h3 style="margin-top:24px">Available Spaces</h3><table class="spaces-table"><thead><tr><th>Space</th><th>Avail SF</th><th>Ask Rate</th><th>Type</th></tr></thead><tbody>${spaces.map(s=>`<tr><td>${esc(s.SpaceName||s.SpaceId||'—')}</td><td>${s.AvailSF?fmt(s.AvailSF)+' SF':'—'}</td><td>${s.AskRateSF?'$'+s.AskRateSF+(s.AskRateType?' '+s.AskRateType:''):'Call'}</td><td>${esc(s.SpaceType||'—')}</td></tr>`).join('')}</tbody></table>`:''}
+        ${demographics?`<div class="detail-demo"><p style="font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px">Area Demographics · ${esc(p.Zip||'')}</p><div style="display:flex;gap:12px;flex-wrap:wrap">${demographics.population!=null?`<div class="detail-fact" style="flex-shrink:0"><div class="detail-fact-lbl">Population</div><div class="detail-fact-val">${fmt(demographics.population)}</div></div>`:''}${demographics.median_income!=null?`<div class="detail-fact" style="flex-shrink:0"><div class="detail-fact-lbl">Med. Income</div><div class="detail-fact-val">$${fmt(demographics.median_income)}</div></div>`:''}${demographics.median_home_value!=null?`<div class="detail-fact" style="flex-shrink:0"><div class="detail-fact-lbl">Med. Home Value</div><div class="detail-fact-val">$${fmt(demographics.median_home_value)}</div></div>`:''}</div></div>`:''}
       </div>
-      <div class="detail-desc"><h3>Description</h3><p>${esc(p.PropertyDescription||'Contact broker for details.')}</p></div>
       <div class="detail-sidebar">
-        ${bname?`<div class="detail-broker"><div class="detail-broker-avatar">${init}</div><div class="detail-broker-name">${esc(bname)}</div><div class="detail-broker-contact">${b.Email?`<a href="mailto:${esc(b.Email)}">${esc(b.Email)}</a><br>`:''} ${b.Phone?`<a href="tel:${esc(b.Phone)}">${esc(b.Phone)}</a>`:''}</div></div>`:''}
+        ${bname?`<div class="detail-broker"><div class="detail-broker-avatar">${binit}</div><div class="detail-broker-name">${esc(bname)}</div><div class="detail-broker-contact">${b.Email?`<a href="mailto:${esc(b.Email)}">${esc(b.Email)}</a><br>`:''}${b.Phone?`<a href="tel:${esc(b.Phone)}">${esc(b.Phone)}</a>`:''}</div></div>`:''}
         <button class="detail-btn detail-btn-primary" onclick="closeModal('detailModal');openInquire('${escA(p.PropertyName||'')}')">Inquire About Property</button>
         <a class="detail-btn detail-btn-gold" href="https://realnex.com/listings/client/1/${p.Id}/${p.Id}" target="_blank">View Deal Room →</a>
         ${p.BrochureUrl?`<a class="detail-btn detail-btn-outline" href="${esc(p.BrochureUrl)}" target="_blank">Download Brochure</a>`:''}
+        <button class="detail-btn detail-btn-outline" onclick="navigator.clipboard&&navigator.clipboard.writeText(location.href).then(()=>alert('Link copied!'))">Share Property</button>
       </div>
     </div>`;
 }
