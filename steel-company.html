@@ -354,7 +354,7 @@ document.getElementById('sortSelect').addEventListener('change',applyFilters);
 async function showDetail(id){
   document.getElementById('detailContent').innerHTML='<div class="loading" style="padding:80px"><div class="spinner"></div><p>Loading…</p></div>';
   openModal('detailModal');
-  try{const r=await fetch(PROXY+'/property',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({serial:SERIAL,property_id:id})});renderDetail(await r.json());}
+  try{const r=await fetch(PROXY+'/property',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({serial:SERIAL,property_id:id})});const _d=await r.json();renderDetail(_d.property||_d);}
   catch(e){document.getElementById('detailContent').innerHTML='<p style="padding:40px;color:var(--muted)">Could not load details.</p>';}
 }
 

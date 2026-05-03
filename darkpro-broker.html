@@ -384,7 +384,7 @@ async function showDetail(id){
   openModal('detailModal');
   try{
     const r=await fetch(PROXY+'/property',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({serial:SERIAL,property_id:id})});
-    const p=await r.json();renderDetail(p);
+    const _d=await r.json();renderDetail(_d.property||_d);
   }catch(e){document.getElementById('detailContent').innerHTML='<p style="padding:40px;color:var(--muted)">Could not load details.</p>';}
 }
 
