@@ -437,7 +437,7 @@ function renderDetail(p, demographics, walkScore, neighborhood){
       <div class="detail-sidebar">
         ${bname?`<div class="detail-broker"><div class="detail-broker-avatar">${binit}</div><div class="detail-broker-name">${esc(bname)}</div><div class="detail-broker-contact">${b.Email?`<a href="mailto:${esc(b.Email)}">${esc(b.Email)}</a><br>`:''}${b.Phone?`<a href="tel:${esc(b.Phone)}">${esc(b.Phone)}</a>`:''}</div></div>`:''}
         <button class="detail-btn detail-btn-primary" onclick="closeModal('detailModal');openInquire('${escA(p.PropertyName||'')}','${p.Id||''}')">Inquire About Property</button>
-        <a class="detail-btn detail-btn-gold" href="https://realnex.com/listings/client/1/${p.Id}/${p.Id}" target="_blank">View Deal Room →</a>
+        ${p.Status === 'Active' ? `<a class="detail-btn detail-btn-gold" href="https://realnex.com/listings/client/1/${p.Id}/${p.Id}" target="_blank">View Deal Room →</a>` : ''}
         ${p.BrochureUrl?`<a class="detail-btn detail-btn-outline" href="${esc(p.BrochureUrl)}" target="_blank">Download Brochure</a>`:''}
         <button class="detail-btn detail-btn-outline" onclick="navigator.clipboard&&navigator.clipboard.writeText(location.href).then(()=>alert('Link copied!'))">Share Property</button>
       </div>
