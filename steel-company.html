@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meridian Commercial Group — Full-Service CRE · Las Vegas Metro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#1e2d4d;--navy2:#253663;--gold:#c8a84b;--gold-light:#e8c96a;--white:#fff;--gray:#f4f5f8;--border:#dde2ec;--text:#1e293b;--muted:#64748b;--surface:#fff}
+body{font-family:'Nunito Sans',sans-serif;color:var(--text);background:var(--white);line-height:1.6}
+a{color:inherit;text-decoration:none}
+/* NAV */
+nav{background:var(--navy);padding:0 48px;height:72px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(0,0,0,.2)}
+.nav-brand{display:flex;align-items:center;gap:14px}
+.nav-logo{width:44px;height:44px;background:var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;color:var(--navy);letter-spacing:.04em}
+.nav-name{font-family:'Playfair Display',serif;font-size:1.1rem;color:#fff;letter-spacing:.01em}
+.nav-links{display:flex;gap:32px;list-style:none}
+.nav-links a{font-size:.85rem;font-weight:600;color:rgba(255,255,255,.7);transition:color .15s;letter-spacing:.02em;text-transform:uppercase}
+.nav-links a:hover{color:var(--gold-light)}
+.nav-cta{background:var(--gold);color:var(--navy);padding:10px 22px;border-radius:6px;font-size:.85rem;font-weight:800;transition:all .15s;letter-spacing:.03em}
+.nav-cta:hover{background:var(--gold-light)}
+/* HERO */
+.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 100%);padding:100px 48px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23fff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");pointer-events:none}
+.hero-eyebrow{display:inline-block;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-light);margin-bottom:16px;border-bottom:2px solid var(--gold);padding-bottom:6px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3.4rem);color:#fff;line-height:1.2;margin-bottom:18px;letter-spacing:-.01em}
+.hero p{font-size:1rem;color:rgba(255,255,255,.7);max-width:560px;margin:0 auto 36px;line-height:1.75}
+.hero-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.btn-gold{background:var(--gold);color:var(--navy);padding:14px 30px;border-radius:7px;font-weight:800;font-size:.9rem;transition:all .15s;letter-spacing:.03em}
+.btn-gold:hover{background:var(--gold-light);transform:translateY(-1px)}
+.btn-ghost{border:2px solid rgba(255,255,255,.3);color:#fff;padding:13px 28px;border-radius:7px;font-weight:700;font-size:.9rem;transition:all .15s}
+.btn-ghost:hover{border-color:var(--gold-light);color:var(--gold-light)}
+/* STATS BAR */
+.stats-bar{background:#fff;border-bottom:1px solid var(--border);display:flex;justify-content:center;gap:0;flex-wrap:wrap}
+.stat-item{padding:24px 48px;text-align:center;border-right:1px solid var(--border)}
+.stat-item:last-child{border-right:none}
+.stat-val{font-family:'Playfair Display',serif;font-size:1.9rem;color:var(--navy);font-weight:700}
+.stat-lbl{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+/* FILTER BAR (Dark) */
+.filter-section{background:var(--navy);padding:28px 48px}
+.filter-inner{max-width:1280px;margin:0 auto;display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.filter-input{flex:1;min-width:220px;height:44px;padding:0 16px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;color:#fff;font-size:.875rem;font-family:inherit;outline:none;transition:border-color .15s}
+.filter-input::placeholder{color:rgba(255,255,255,.45)}
+.filter-input:focus{border-color:var(--gold)}
+.filter-chip{padding:8px 18px;border-radius:20px;border:1.5px solid rgba(255,255,255,.2);background:transparent;color:rgba(255,255,255,.7);font-size:.8rem;font-weight:700;cursor:pointer;transition:all .15s;font-family:inherit;letter-spacing:.03em;white-space:nowrap}
+.filter-chip.active{background:var(--gold);color:var(--navy);border-color:var(--gold)}
+.filter-chip:hover:not(.active){border-color:var(--gold-light);color:var(--gold-light)}
+.sort-select{height:44px;padding:0 14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;color:#fff;font-size:.85rem;font-family:inherit;outline:none;cursor:pointer}
+.sort-select option{background:var(--navy);color:#fff}
+/* SECTION */
+.section{max-width:1280px;margin:0 auto;padding:64px 48px}
+.section-header{margin-bottom:36px}
+.sec-eyebrow{font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.sec-title{font-family:'Playfair Display',serif;font-size:2rem;color:var(--navy);margin-bottom:8px}
+.sec-sub{color:var(--muted);font-size:.9rem}
+.results-bar{display:flex;align-items:center;margin-bottom:16px;font-size:.85rem;color:var(--muted)}
+/* GRID */
+.listing-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px}
+.card{background:var(--white);border:1px solid var(--border);border-top:3px solid transparent;border-radius:10px;overflow:hidden;cursor:pointer;transition:border-top-color .2s,box-shadow .2s,transform .2s}
+.card:hover{border-top-color:var(--navy);box-shadow:0 6px 24px rgba(30,45,77,.1);transform:translateY(-2px)}
+.card-img{height:200px;background:var(--gray) no-repeat center center/cover;position:relative}
+.card-badge{position:absolute;top:12px;left:12px;padding:4px 12px;border-radius:4px;font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;background:var(--navy);color:#fff}
+.card-badge.sold{background:#991b1b}
+.card-badge.lease{background:#065f46}
+.card-price{position:absolute;bottom:12px;right:12px;background:rgba(0,0,0,.65);color:var(--gold-light);padding:5px 12px;border-radius:6px;font-size:.8rem;font-weight:700}
+.card-body{padding:18px}
+.card-name{font-weight:700;font-size:.925rem;color:var(--navy);margin-bottom:4px;line-height:1.3}
+.card-addr{font-size:.8rem;color:var(--muted);margin-bottom:10px}
+.card-pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.card-pill{font-size:.7rem;font-weight:700;background:var(--gray);color:var(--navy);padding:3px 10px;border-radius:4px;letter-spacing:.03em}
+.card-stats{display:flex;gap:20px;padding-top:10px;border-top:1px solid var(--border)}
+.card-stat-lbl{font-size:.67rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.card-stat-val{font-size:.8rem;font-weight:700;color:var(--navy);margin-top:2px}
+/* PAGINATION */
+.pagination{display:flex;justify-content:center;gap:8px;margin-top:40px;flex-wrap:wrap}
+.page-btn{min-width:38px;height:38px;padding:0 10px;border-radius:6px;border:1.5px solid var(--border);background:#fff;color:var(--muted);font-size:.85rem;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s;display:inline-flex;align-items:center;justify-content:center}
+.page-btn:hover:not(:disabled),.page-btn.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+.page-btn:disabled{opacity:.35;cursor:not-allowed}
+/* TEAM */
+.team-section{background:var(--gray);padding:80px 0}
+.team-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px;max-width:1280px;margin:0 auto;padding:0 48px}
+.team-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:24px;text-align:center;transition:box-shadow .2s}
+.team-card:hover{box-shadow:0 4px 16px rgba(30,45,77,.1)}
+.team-avatar{width:56px;height:56px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.95rem;margin:0 auto 12px}
+.team-name{font-weight:700;font-size:.9rem;color:var(--navy);margin-bottom:4px}
+.team-email,.team-phone{font-size:.75rem;color:var(--muted);display:block}
+.team-email:hover,.team-phone:hover{color:var(--gold)}
+/* CONTACT */
+.contact-section{background:var(--navy);padding:80px 48px;text-align:center;color:#fff}
+.contact-section h2{font-family:'Playfair Display',serif;font-size:2.2rem;margin-bottom:12px;color:#fff}
+.contact-section p{color:rgba(255,255,255,.7);margin-bottom:32px;font-size:.95rem}
+.contact-form{max-width:500px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+.contact-input{height:48px;padding:0 16px;border-radius:8px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#fff;font-size:.9rem;font-family:inherit;outline:none}
+.contact-input:focus{border-color:var(--gold)}
+.contact-textarea{padding:14px 16px;border-radius:8px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#fff;font-size:.9rem;font-family:inherit;resize:vertical;min-height:100px;outline:none}
+.contact-textarea:focus{border-color:var(--gold)}
+.contact-btn{height:48px;background:var(--gold);color:var(--navy);border:none;border-radius:8px;font-weight:800;font-size:.9rem;cursor:pointer;font-family:inherit;transition:all .15s}
+.contact-btn:hover{background:var(--gold-light)}
+footer{background:#0f1a30;color:rgba(255,255,255,.45);text-align:center;padding:24px;font-size:.8rem}
+footer a{color:var(--gold-light)}
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200;align-items:flex-start;justify-content:center;padding:40px 20px;overflow-y:auto;backdrop-filter:blur(6px)}
+.modal-overlay.open{display:flex}
+.modal{background:#fff;border-radius:16px;max-width:640px;width:100%;padding:36px;position:relative;max-height:90vh;overflow-y:auto}
+.modal-close{position:absolute;top:16px;right:16px;background:var(--gray);border:none;border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;color:var(--muted)}
+.modal h2{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--navy);margin-bottom:6px}
+.modal-sub{color:var(--muted);font-size:.85rem;margin-bottom:24px}
+.modal-form{display:flex;flex-direction:column;gap:14px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-field label{display:block;font-size:.78rem;font-weight:700;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em}
+.form-field input,.form-field textarea{width:100%;height:44px;padding:0 14px;border:1.5px solid var(--border);border-radius:8px;font-size:.875rem;font-family:inherit;outline:none;transition:border-color .15s}
+.form-field input:focus,.form-field textarea:focus{border-color:var(--navy)}
+.form-field textarea{height:90px;padding:12px 14px;resize:none}
+.submit-btn{height:48px;background:var(--navy);color:#fff;border:none;border-radius:8px;font-weight:700;font-size:.9rem;cursor:pointer;font-family:inherit;transition:background .15s}
+.submit-btn:hover{background:var(--navy2)}
+/* DETAIL MODAL */
+.detail-modal .modal{max-width:900px;padding:0}
+.detail-hero{height:300px;background:var(--gray) no-repeat center center/cover;position:relative;border-radius:16px 16px 0 0;overflow:hidden}
+.detail-hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent,rgba(0,0,0,.7))}
+.detail-hero-text{position:absolute;bottom:24px;left:28px;color:#fff}
+.detail-hero-text h2{font-family:'Playfair Display',serif;font-size:1.7rem}
+.detail-hero-text p{font-size:.875rem;opacity:.85}
+.detail-hero-badge{position:absolute;top:20px;left:28px;background:var(--navy);color:#fff;padding:5px 14px;border-radius:4px;font-size:.75rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase}
+.detail-hero-price{position:absolute;top:20px;right:28px;background:rgba(0,0,0,.65);color:var(--gold-light);padding:8px 16px;border-radius:8px;font-weight:700}
+.detail-body{padding:28px;display:grid;grid-template-columns:1fr 1fr;gap:28px;border-radius:0 0 16px 16px;overflow:hidden}
+.detail-facts{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:12px}
+.detail-fact{background:var(--gray);padding:12px 16px;border-radius:8px;border-top:2px solid var(--navy)}
+.detail-fact-lbl{font-size:.68rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.detail-fact-val{font-size:.875rem;font-weight:700;color:var(--navy);margin-top:2px}
+.detail-desc{grid-column:1/2}
+.detail-desc h3{font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:10px}
+.detail-desc p{font-size:.875rem;line-height:1.75;color:var(--text)}
+.detail-sidebar{grid-column:2/3}
+.detail-broker{background:var(--gray);border-radius:10px;padding:18px;margin-bottom:14px}
+.detail-broker-avatar{width:46px;height:46px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;margin-bottom:10px}
+.detail-broker-name{font-weight:700;font-size:.875rem;color:var(--navy);margin-bottom:4px}
+.detail-broker-contact{font-size:.78rem;color:var(--muted)}
+.detail-broker-contact a{color:var(--navy)}
+.detail-btn{display:flex;align-items:center;justify-content:center;height:44px;border-radius:8px;font-weight:700;font-size:.85rem;cursor:pointer;font-family:inherit;text-decoration:none;border:none;transition:all .15s;width:100%;margin-bottom:10px}
+.detail-btn-primary{background:var(--navy);color:#fff}
+.detail-btn-primary:hover{background:var(--navy2)}
+.detail-btn-gold{background:var(--gold);color:var(--navy);font-weight:800}
+.detail-btn-gold:hover{background:var(--gold-light)}
+.detail-btn-outline{background:transparent;border:1.5px solid var(--border);color:var(--muted)}
+.detail-btn-outline:hover{border-color:var(--navy);color:var(--navy)}
+.loading{text-align:center;padding:80px;color:var(--muted)}
+.spinner{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--navy);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 16px}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(max-width:768px){
+  nav,footer{padding-left:20px;padding-right:20px}.hero,.contact-section{padding-left:20px;padding-right:20px}
+  .filter-section,.section{padding-left:20px;padding-right:20px}.team-grid{padding:0 20px}
+  .form-row{grid-template-columns:1fr}.detail-body{grid-template-columns:1fr}.detail-sidebar{grid-column:1/-1}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">
+    <div class="nav-logo">MCG</div>
+    <span class="nav-name">Meridian Commercial Group</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#listings">Listings</a></li>
+    <li><a href="#team">Team</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Contact Us</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-eyebrow">Full-Service CRE · Las Vegas Metro</div>
+  <h1>Your market partner<br>for every deal.</h1>
+  <p>Meridian Commercial Group delivers institutional-quality service to every client across the Las Vegas commercial market. Office, retail, industrial, investment — we close deals.</p>
+  <div class="hero-actions">
+    <a href="#listings" class="btn-gold">View Listings</a>
+    <a href="#contact" class="btn-ghost">Contact a Broker</a>
+  </div>
+</div>
+
+<div class="stats-bar">
+  <div class="stat-item"><div class="stat-val">350+</div><div class="stat-lbl">Active Listings</div></div>
+  <div class="stat-item"><div class="stat-val">$4.1B</div><div class="stat-lbl">Closed Volume</div></div>
+  <div class="stat-item"><div class="stat-val">12</div><div class="stat-lbl">Brokers</div></div>
+  <div class="stat-item"><div class="stat-val">25yr</div><div class="stat-lbl">In Business</div></div>
+</div>
+
+<div class="filter-section">
+  <div class="filter-inner">
+    <input class="filter-input" type="text" id="searchInput" placeholder="Search by name, address, city…">
+    <button class="filter-chip active" data-filter="all">All</button>
+    <button class="filter-chip" data-filter="For Lease">For Lease</button>
+    <button class="filter-chip" data-filter="For Sale">For Sale</button>
+    <button class="filter-chip" data-filter="SOLD">Sold</button>
+    <select class="sort-select" id="sortSelect">
+      <option value="default">Sort: Default</option>
+      <option value="price-desc">Price: High</option>
+      <option value="price-asc">Price: Low</option>
+      <option value="size-desc">Largest First</option>
+    </select>
+  </div>
+</div>
+
+<div class="section" id="listings">
+  <div class="section-header">
+    <div class="sec-eyebrow">Available Properties</div>
+    <h2 class="sec-title">Active Listings</h2>
+    <p class="sec-sub">Commercial properties across the Las Vegas metro — click any card for full details.</p>
+  </div>
+  <div class="results-bar"><span id="resultsCount">Loading…</span></div>
+  <div id="listingsGrid" class="listing-grid"><div class="loading"><div class="spinner"></div><p>Loading listings…</p></div></div>
+  <div class="pagination" id="pagination"></div>
+</div>
+
+<div class="team-section" id="team">
+  <div style="max-width:1280px;margin:0 auto;padding:0 48px 32px">
+    <div class="sec-eyebrow">Our People</div>
+    <h2 class="sec-title" style="font-family:'Playfair Display',serif;color:var(--navy)">Broker Roster</h2>
+    <p class="sec-sub">Expert advisors across all property types.</p>
+  </div>
+  <div class="team-grid" id="teamGrid"><p style="color:var(--muted)">Loading…</p></div>
+</div>
+
+<div class="contact-section" id="contact">
+  <h2>Get in Touch</h2>
+  <p>Ready to discuss your commercial real estate needs? Our team is standing by.</p>
+  <form class="contact-form" onsubmit="handleContact(event)">
+    <input class="contact-input" type="text" placeholder="Your name" required>
+    <input class="contact-input" type="email" placeholder="Email address" required>
+    <input class="contact-input" type="tel" placeholder="Phone number">
+    <textarea class="contact-textarea" placeholder="How can we help?"></textarea>
+    <button class="contact-btn" type="submit">Send Message</button>
+  </form>
+</div>
+
+<footer>
+  <p>© 2026 Meridian Commercial Group · Full-Service CRE · Las Vegas Metro</p>
+  <p style="margin-top:6px">Powered by <a href="https://www.initial3development.com" target="_blank">RealNex Listings Pro</a> — Initial3 Development</p>
+</footer>
+
+<!-- INQUIRE MODAL -->
+<div class="modal-overlay" id="inquireModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('inquireModal')">✕</button>
+    <h2>Inquire About Property</h2>
+    <p class="modal-sub" id="inquirePropertyName"></p>
+    <form class="modal-form" onsubmit="handleInquire(event)">
+      <div class="form-row">
+        <div class="form-field"><label>First Name</label><input type="text" required></div>
+        <div class="form-field"><label>Last Name</label><input type="text" required></div>
+      </div>
+      <div class="form-field"><label>Email</label><input type="email" required></div>
+      <div class="form-field"><label>Phone</label><input type="tel"></div>
+      <div class="form-field"><label>Message</label><textarea placeholder="Tell us about your needs…"></textarea></div>
+      <button class="submit-btn">Send Inquiry</button>
+    </form>
+  </div>
+</div>
+
+<!-- DETAIL MODAL -->
+<div class="modal-overlay detail-modal" id="detailModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('detailModal')" style="z-index:10;position:absolute;top:16px;right:16px">✕</button>
+    <div id="detailContent"><div class="loading" style="padding:80px"><div class="spinner"></div><p>Loading…</p></div></div>
+  </div>
+</div>
+
+<script>
+const PROXY='https://rnlp-proxy.onrender.com',SERIAL='RNLP-MDL-001',PER_PAGE=9;
+let all=[],filtered=[],page=1,filt='all';
+
+async function load(){
+  try{
+    const r=await fetch(PROXY+'/listings',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({serial:SERIAL,filters:{startIndex:0,NoOfRecords:500,SortBy:'updated',SortHow:'desc',SearchType:''}})});
+    const d=await r.json();
+    all=Array.isArray(d)?(Array.isArray(d[0])?d[0]:d):[];
+    filtered=[...all];renderGrid();renderTeam();
+  }catch(e){document.getElementById('listingsGrid').innerHTML='<p style="color:var(--muted);text-align:center;padding:60px">Unable to load listings.</p>';}
+}
+
+function renderGrid(){
+  const g=document.getElementById('listingsGrid');
+  const s=(page-1)*PER_PAGE,e=s+PER_PAGE,slice=filtered.slice(s,e);
+  document.getElementById('resultsCount').textContent=filtered.length+' listings';
+  if(!slice.length){g.innerHTML='<p style="color:var(--muted);text-align:center;padding:60px">No listings match.</p>';buildPag();return;}
+  g.innerHTML=slice.map(p=>{
+    const img=getImg(p);
+    const sold=p.Status?.toUpperCase()==='SOLD';
+    const badge=sold?'SOLD':(p.ListingType||'');
+    const bcls=sold?'sold':(p.ListingType==='For Lease'?'lease':'');
+    const pr=p.PriceDisclosed&&p.ListPrice?'$'+fmt(p.ListPrice):'';
+    const bsf=p.BuildingSf?fmt(p.BuildingSf)+' SF':'';
+    const asf=p.SpaceAvailMin?fmt(p.SpaceAvailMin)+' SF':(p.LandSize?p.LandSize+' '+(p.LandSizeType||'AC'):'');
+    const types=(p.PropertyTypes||[]).slice(0,2);
+    return `<div class="card" onclick="showDetail('${p.Id}')">
+      <div class="card-img" style="${img?'background-image:url('+img+')':''}">
+        <span class="card-badge ${bcls}">${badge}</span>
+        ${pr?`<span class="card-price">${pr}</span>`:''}
+      </div>
+      <div class="card-body">
+        <div class="card-name">${esc(ucw(p.PropertyName||''))}</div>
+        <div class="card-addr">${esc([p.Street,p.City,p.State].filter(Boolean).join(', '))}</div>
+        ${types.length?`<div class="card-pills">${types.map(t=>`<span class="card-pill">${esc(t)}</span>`).join('')}</div>`:''}
+        ${(bsf||asf)?`<div class="card-stats">${bsf?`<div class="card-stat"><div class="card-stat-lbl">Building</div><div class="card-stat-val">${bsf}</div></div>`:''} ${asf?`<div class="card-stat"><div class="card-stat-lbl">Available</div><div class="card-stat-val">${asf}</div></div>`:''}</div>`:''}
+      </div></div>`;
+  }).join('');buildPag();
+}
+
+function renderTeam(){
+  const seen=new Set(),brokers=[];
+  all.forEach(p=>{(p.UserList||(p.User?[p.User]:[])).forEach(u=>{const em=(u.Email||'').toLowerCase();if(em&&!seen.has(em)){seen.add(em);brokers.push(u);}});});
+  const tg=document.getElementById('teamGrid');
+  if(!brokers.length){tg.innerHTML='<p style="color:var(--muted)">No broker data available.</p>';return;}
+  tg.innerHTML=brokers.slice(0,8).map(u=>{
+    const nm=((u.FirstName||'')+' '+(u.LastName||'')).trim();
+    const in2=((u.FirstName?.[0]||'')+(u.LastName?.[0]||'')).toUpperCase()||'BR';
+    return `<div class="team-card"><div class="team-avatar">${in2}</div><div class="team-name">${esc(nm)}</div>${u.Email?`<a class="team-email" href="mailto:${esc(u.Email)}">${esc(u.Email)}</a>`:''} ${u.Phone?`<a class="team-phone" href="tel:${esc(u.Phone)}">${esc(u.Phone)}</a>`:''}</div>`;
+  }).join('');
+}
+
+function buildPag(){
+  const tot=Math.ceil(filtered.length/PER_PAGE),el=document.getElementById('pagination');
+  if(tot<=1){el.innerHTML='';return;}
+  let h=`<button class="page-btn" ${page===1?'disabled':''} onclick="gp(${page-1})">‹</button>`;
+  for(let i=1;i<=tot;i++){
+    if(i===1||i===tot||Math.abs(i-page)<=1) h+=`<button class="page-btn ${i===page?'active':''}" onclick="gp(${i})">${i}</button>`;
+    else if(Math.abs(i-page)===2) h+=`<span class="page-btn" style="pointer-events:none;opacity:.3">…</span>`;
+  }
+  h+=`<button class="page-btn" ${page===tot?'disabled':''} onclick="gp(${page+1})">›</button>`;
+  el.innerHTML=h;
+}
+function gp(n){page=n;renderGrid();document.getElementById('listings').scrollIntoView({behavior:'smooth',block:'start'});}
+
+function applyFilters(){
+  const q=document.getElementById('searchInput').value.toLowerCase();
+  filtered=all.filter(p=>{
+    const mt=!q||[p.PropertyName,p.Street,p.City,p.State].filter(Boolean).join(' ').toLowerCase().includes(q);
+    const mf=filt==='all'||(filt==='SOLD'&&p.Status?.toUpperCase()==='SOLD')||(filt!=='SOLD'&&p.ListingType===filt&&p.Status?.toUpperCase()!=='SOLD');
+    return mt&&mf;
+  });
+  const s=document.getElementById('sortSelect').value;
+  if(s==='price-desc')filtered.sort((a,b)=>(b.ListPrice||0)-(a.ListPrice||0));
+  if(s==='price-asc') filtered.sort((a,b)=>(a.ListPrice||0)-(b.ListPrice||0));
+  if(s==='size-desc') filtered.sort((a,b)=>(b.BuildingSf||0)-(a.BuildingSf||0));
+  page=1;renderGrid();
+}
+
+document.querySelectorAll('.filter-chip').forEach(c=>c.addEventListener('click',()=>{document.querySelectorAll('.filter-chip').forEach(x=>x.classList.remove('active'));c.classList.add('active');filt=c.dataset.filter;applyFilters();}));
+document.getElementById('searchInput').addEventListener('input',applyFilters);
+document.getElementById('sortSelect').addEventListener('change',applyFilters);
+
+async function showDetail(id){
+  document.getElementById('detailContent').innerHTML='<div class="loading" style="padding:80px"><div class="spinner"></div><p>Loading…</p></div>';
+  openModal('detailModal');
+  try{const r=await fetch(PROXY+'/property',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({serial:SERIAL,property_id:id})});renderDetail(await r.json());}
+  catch(e){document.getElementById('detailContent').innerHTML='<p style="padding:40px;color:var(--muted)">Could not load details.</p>';}
+}
+
+function renderDetail(p){
+  const img=getImg(p),badge=p.Status?.toUpperCase()==='SOLD'?'SOLD':(p.ListingType||''),pr=p.PriceDisclosed&&p.ListPrice?'$'+fmt(p.ListPrice):'';
+  const users=p.UserList||(p.User?[p.User]:[]),b=users[0]||{},bname=((b.FirstName||'')+' '+(b.LastName||'')).trim(),init=((b.FirstName?.[0]||'B')+(b.LastName?.[0]||'R')).toUpperCase();
+  document.getElementById('detailContent').innerHTML=`
+    <div class="detail-hero" style="${img?'background-image:url('+img+')':''}">
+      <div class="detail-hero-overlay"></div>
+      <span class="detail-hero-badge">${badge}</span>
+      ${pr?`<span class="detail-hero-price">${pr}</span>`:''}
+      <div class="detail-hero-text"><h2>${esc(ucw(p.PropertyName||''))}</h2><p>${esc([p.Street,p.City,p.State,p.Zip].filter(Boolean).join(', '))}</p></div>
+    </div>
+    <div class="detail-body">
+      <div class="detail-facts">
+        ${p.BuildingSf?`<div class="detail-fact"><div class="detail-fact-lbl">Building SF</div><div class="detail-fact-val">${fmt(p.BuildingSf)} SF</div></div>`:''}
+        ${p.YearBuilt?`<div class="detail-fact"><div class="detail-fact-lbl">Year Built</div><div class="detail-fact-val">${p.YearBuilt}</div></div>`:''}
+        ${p.BuildingClass?`<div class="detail-fact"><div class="detail-fact-lbl">Class</div><div class="detail-fact-val">${p.BuildingClass}</div></div>`:''}
+        ${p.SpaceAvailMin?`<div class="detail-fact"><div class="detail-fact-lbl">Avail SF</div><div class="detail-fact-val">${fmt(p.SpaceAvailMin)} SF</div></div>`:''}
+      </div>
+      <div class="detail-desc"><h3>Description</h3><p>${esc(p.PropertyDescription||'Contact broker for details.')}</p></div>
+      <div class="detail-sidebar">
+        ${bname?`<div class="detail-broker"><div class="detail-broker-avatar">${init}</div><div class="detail-broker-name">${esc(bname)}</div><div class="detail-broker-contact">${b.Email?`<a href="mailto:${esc(b.Email)}">${esc(b.Email)}</a><br>`:''} ${b.Phone?`<a href="tel:${esc(b.Phone)}">${esc(b.Phone)}</a>`:''}</div></div>`:''}
+        <button class="detail-btn detail-btn-primary" onclick="closeModal('detailModal');openInquire('${escA(p.PropertyName||'')}')">Inquire About Property</button>
+        <a class="detail-btn detail-btn-gold" href="https://realnex.com/listings/client/1/${p.Id}/${p.Id}" target="_blank">View Deal Room →</a>
+        ${p.BrochureUrl?`<a class="detail-btn detail-btn-outline" href="${esc(p.BrochureUrl)}" target="_blank">Download Brochure</a>`:''}
+      </div>
+    </div>`;
+}
+
+function openModal(id){document.getElementById(id).classList.add('open');document.body.style.overflow='hidden'}
+function closeModal(id){document.getElementById(id).classList.remove('open');document.body.style.overflow=''}
+function openInquire(name){document.getElementById('inquirePropertyName').textContent=name;openModal('inquireModal')}
+function handleInquire(e){e.preventDefault();alert('Your inquiry has been received!');closeModal('inquireModal')}
+function handleContact(e){e.preventDefault();alert('Message sent! A broker will contact you soon.');e.target.reset()}
+function getImg(p){const a=(p.Attachments||[]).find(x=>(x.AttachmentType||x.attachment_type)==='photo');return a?a.FileName+'?h=500&mode=max&autorotate=true':'';}
+function fmt(n){return Number(n).toLocaleString('en-US',{maximumFractionDigits:0})}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function escA(s){return String(s||'').replace(/'/g,"\\'")}
+function ucw(s){return s.toLowerCase().replace(/\b\w/g,c=>c.toUpperCase())}
+load();
+</script>
+</body>
+</html>

@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marcus Chen, SIOR — Industrial & Logistics · Dallas-Fort Worth</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0d1117;--surface:#161b22;--surface2:#1c2331;--blue:#3b82f6;--blue-dark:#2563eb;--border:rgba(255,255,255,.08);--text:#e6edf3;--muted:#8b949e;--glow:rgba(59,130,246,.2)}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+a{color:inherit;text-decoration:none}
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(13,17,23,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 48px;height:68px;display:flex;align-items:center;justify-content:space-between}
+.nav-brand{display:flex;align-items:center;gap:12px}
+.nav-logo{width:38px;height:38px;background:var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:.9rem}
+.nav-name{font-size:1rem;font-weight:700;background:linear-gradient(90deg,#e6edf3,var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-links{display:flex;gap:28px;list-style:none}
+.nav-links a{font-size:.85rem;font-weight:500;color:var(--muted);transition:color .15s}
+.nav-links a:hover{color:var(--text)}
+.nav-cta{background:var(--blue);color:#fff;padding:9px 20px;border-radius:7px;font-size:.85rem;font-weight:600;transition:background .15s}
+.nav-cta:hover{background:var(--blue-dark)}
+/* HERO */
+.hero{position:relative;min-height:92vh;display:flex;align-items:center;overflow:hidden;background:linear-gradient(135deg,#0d1117 0%,#0f1923 60%,#0d1117 100%)}
+.hero-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1600&q=80') center/cover no-repeat;opacity:.18}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(59,130,246,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(59,130,246,.03) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
+.hero-content{position:relative;z-index:1;max-width:1280px;margin:0 auto;padding:0 48px}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:24px;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.2);padding:6px 16px;border-radius:20px}
+.hero-title{font-size:clamp(2.2rem,5vw,4rem);font-weight:800;line-height:1.1;margin-bottom:20px;letter-spacing:-.02em}
+.hero-title span{color:var(--blue)}
+.hero-sub{font-size:1.05rem;color:var(--muted);max-width:480px;line-height:1.75;margin-bottom:40px}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap}
+.btn-primary{background:var(--blue);color:#fff;padding:14px 28px;border-radius:8px;font-weight:700;font-size:.9rem;border:none;cursor:pointer;font-family:inherit;transition:all .15s}
+.btn-primary:hover{background:var(--blue-dark);box-shadow:0 0 24px var(--glow)}
+.btn-outline{border:1.5px solid var(--border);color:var(--text);padding:13px 26px;border-radius:8px;font-weight:600;font-size:.9rem;transition:all .15s;background:transparent}
+.btn-outline:hover{border-color:var(--blue);color:var(--blue)}
+.hero-stats{display:flex;gap:48px;margin-top:64px;padding-top:40px;border-top:1px solid var(--border)}
+.hero-stat-val{font-size:1.8rem;font-weight:800;color:var(--blue)}
+.hero-stat-lbl{font-size:.75rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+/* SECTION */
+.section{max-width:1280px;margin:0 auto;padding:80px 48px}
+.section-header{margin-bottom:40px}
+.section-eyebrow{font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:10px}
+.section-title{font-size:1.8rem;font-weight:800;letter-spacing:-.01em}
+.section-sub{color:var(--muted);font-size:.9rem;margin-top:8px}
+/* FILTER */
+.filter-bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:28px;align-items:center}
+.filter-input{flex:1;min-width:220px;height:44px;padding:0 16px;background:var(--surface);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:.875rem;font-family:inherit;outline:none;transition:border-color .15s}
+.filter-input:focus{border-color:var(--blue)}
+.filter-input::placeholder{color:var(--muted)}
+.filter-chip{padding:8px 18px;border-radius:20px;border:1px solid var(--border);background:var(--surface);color:var(--muted);font-size:.8rem;font-weight:600;cursor:pointer;transition:all .15s;white-space:nowrap;font-family:inherit}
+.filter-chip.active{background:var(--blue);color:#fff;border-color:var(--blue);box-shadow:0 0 14px rgba(59,130,246,.3)}
+.filter-chip:hover:not(.active){border-color:var(--blue);color:var(--blue)}
+.sort-select{height:44px;padding:0 14px;background:var(--surface);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:.85rem;font-family:inherit;outline:none;cursor:pointer}
+.results-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;font-size:.85rem;color:var(--muted)}
+/* GRID */
+.listing-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer;transition:border-color .2s,box-shadow .2s,transform .2s}
+.card:hover{border-color:rgba(59,130,246,.5);box-shadow:0 0 24px rgba(59,130,246,.12),0 4px 20px rgba(0,0,0,.3);transform:translateY(-3px)}
+.card-img{height:200px;background:var(--surface2) no-repeat center center/cover;position:relative}
+.card-badge{position:absolute;top:12px;left:12px;padding:4px 12px;border-radius:14px;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:rgba(59,130,246,.85);color:#fff;backdrop-filter:blur(4px)}
+.card-badge.sold{background:rgba(239,68,68,.85)}
+.card-badge.lease{background:rgba(34,197,94,.8)}
+.card-price{position:absolute;bottom:12px;right:12px;background:rgba(0,0,0,.75);color:#fff;padding:5px 12px;border-radius:6px;font-size:.8rem;font-weight:700;border:1px solid rgba(255,255,255,.1)}
+.card-body{padding:18px}
+.card-name{font-weight:700;font-size:.9rem;color:var(--text);margin-bottom:4px;line-height:1.3}
+.card-addr{font-size:.78rem;color:var(--muted);margin-bottom:10px}
+.card-pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.card-pill{font-size:.68rem;font-weight:600;background:rgba(59,130,246,.1);color:var(--blue);padding:3px 10px;border-radius:10px;border:1px solid rgba(59,130,246,.2)}
+.card-stats{display:flex;gap:16px;padding-top:10px;border-top:1px solid var(--border)}
+.card-stat-lbl{font-size:.65rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.card-stat-val{font-size:.8rem;font-weight:700;color:var(--text);margin-top:2px}
+/* PAGINATION */
+.pagination{display:flex;justify-content:center;gap:8px;margin-top:40px;flex-wrap:wrap}
+.page-btn{min-width:38px;height:38px;padding:0 10px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--muted);font-size:.85rem;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s;display:inline-flex;align-items:center;justify-content:center}
+.page-btn:hover:not(:disabled),.page-btn.active{background:var(--blue);color:#fff;border-color:var(--blue);box-shadow:0 0 14px rgba(59,130,246,.3)}
+.page-btn:disabled{opacity:.3;cursor:not-allowed}
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;align-items:flex-start;justify-content:center;padding:40px 20px;overflow-y:auto;backdrop-filter:blur(6px)}
+.modal-overlay.open{display:flex}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:16px;max-width:640px;width:100%;padding:36px;position:relative;max-height:90vh;overflow-y:auto}
+.modal-close{position:absolute;top:16px;right:16px;background:var(--surface2);border:1px solid var(--border);border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:1rem;color:var(--muted);display:flex;align-items:center;justify-content:center;transition:color .15s}
+.modal-close:hover{color:var(--text)}
+.modal h2{font-size:1.3rem;font-weight:800;margin-bottom:6px}
+.modal-sub{color:var(--muted);font-size:.85rem;margin-bottom:24px}
+.modal-form{display:flex;flex-direction:column;gap:14px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-field label{display:block;font-size:.78rem;font-weight:600;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em}
+.form-field input,.form-field textarea{width:100%;height:44px;padding:0 14px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:.875rem;font-family:inherit;outline:none;transition:border-color .15s}
+.form-field input:focus,.form-field textarea:focus{border-color:var(--blue)}
+.form-field textarea{height:90px;padding:12px 14px;resize:none}
+.submit-btn{height:48px;background:var(--blue);color:#fff;border:none;border-radius:8px;font-weight:700;font-size:.9rem;cursor:pointer;font-family:inherit;transition:all .15s}
+.submit-btn:hover{background:var(--blue-dark);box-shadow:0 0 20px var(--glow)}
+/* DETAIL MODAL */
+.detail-modal .modal{max-width:900px;padding:0;overflow:hidden}
+.detail-hero{height:320px;background:var(--surface2) no-repeat center center/cover;position:relative}
+.detail-hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent,rgba(0,0,0,.8))}
+.detail-hero-text{position:absolute;bottom:24px;left:28px;color:#fff}
+.detail-hero-text h2{font-size:1.8rem;font-weight:800}
+.detail-hero-text p{font-size:.875rem;color:rgba(255,255,255,.75)}
+.detail-hero-badge{position:absolute;top:20px;left:28px;background:rgba(59,130,246,.85);color:#fff;padding:5px 14px;border-radius:14px;font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;backdrop-filter:blur(4px)}
+.detail-hero-price{position:absolute;top:20px;right:28px;background:rgba(0,0,0,.65);color:#fff;padding:8px 16px;border-radius:8px;font-weight:700;font-size:.9rem;border:1px solid rgba(255,255,255,.1)}
+.detail-body{padding:32px;display:grid;grid-template-columns:1fr 1fr;gap:28px;background:var(--surface)}
+.detail-facts{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:0;grid-column:1/-1}
+.detail-fact{background:var(--surface2);padding:12px 18px;border-radius:8px;border-left:3px solid var(--blue)}
+.detail-fact-lbl{font-size:.68rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.detail-fact-val{font-size:.875rem;font-weight:700;color:var(--blue)}
+.detail-desc{grid-column:1/2}
+.detail-desc h3{font-size:.875rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px}
+.detail-desc p{font-size:.875rem;color:var(--text);line-height:1.75}
+.detail-sidebar{grid-column:2/3}
+.detail-broker{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:20px;margin-bottom:14px}
+.detail-broker-avatar{width:48px;height:48px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;margin-bottom:10px;font-size:.9rem}
+.detail-broker-name{font-weight:700;font-size:.9rem;margin-bottom:4px}
+.detail-broker-contact{font-size:.78rem;color:var(--muted)}
+.detail-broker-contact a{color:var(--blue)}
+.detail-btn{display:flex;align-items:center;justify-content:center;height:44px;border-radius:8px;font-weight:700;font-size:.85rem;cursor:pointer;font-family:inherit;text-decoration:none;border:none;transition:all .15s;width:100%;margin-bottom:10px;letter-spacing:.03em}
+.detail-btn-primary{background:var(--blue);color:#fff}
+.detail-btn-primary:hover{background:var(--blue-dark);box-shadow:0 0 20px var(--glow)}
+.detail-btn-gold{background:linear-gradient(135deg,#d4af37,#b8960c);color:#fff}
+.detail-btn-outline{background:transparent;border:1px solid var(--border);color:var(--muted)}
+.detail-btn-outline:hover{border-color:var(--blue);color:var(--blue)}
+/* TEAM */
+.team-section{background:var(--surface);padding:80px 0}
+.team-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;max-width:1280px;margin:0 auto;padding:0 48px}
+.team-card{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:24px;text-align:center;transition:border-color .2s}
+.team-card:hover{border-color:rgba(59,130,246,.3)}
+.team-avatar{width:60px;height:60px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem;margin:0 auto 12px}
+.team-name{font-weight:700;font-size:.9rem;margin-bottom:4px}
+.team-email,.team-phone{font-size:.75rem;color:var(--muted);display:block}
+.team-email:hover,.team-phone:hover{color:var(--blue)}
+/* CONTACT */
+.contact-section{background:linear-gradient(135deg,var(--surface) 0%,#0f1923 100%);padding:80px 48px;text-align:center}
+.contact-section h2{font-size:2rem;font-weight:800;margin-bottom:12px}
+.contact-section p{color:var(--muted);margin-bottom:32px}
+.contact-form{max-width:480px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+.contact-input{height:48px;padding:0 16px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:.9rem;font-family:inherit;outline:none}
+.contact-input:focus{border-color:var(--blue)}
+.contact-textarea{padding:14px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:.9rem;font-family:inherit;resize:vertical;min-height:100px;outline:none}
+.contact-textarea:focus{border-color:var(--blue)}
+.contact-btn{height:48px;background:var(--blue);color:#fff;border:none;border-radius:8px;font-weight:700;font-size:.9rem;cursor:pointer;font-family:inherit;transition:all .15s}
+.contact-btn:hover{background:var(--blue-dark);box-shadow:0 0 20px var(--glow)}
+/* FOOTER */
+footer{background:#010409;border-top:1px solid var(--border);color:var(--muted);text-align:center;padding:24px;font-size:.8rem}
+footer a{color:var(--blue)}
+/* LOADING */
+.loading{text-align:center;padding:80px;color:var(--muted)}
+.spinner{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 16px}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(max-width:768px){
+  nav{padding:0 20px}.hero-content{padding:0 20px}.section{padding:48px 20px}
+  .form-row{grid-template-columns:1fr}.detail-body{grid-template-columns:1fr}.detail-sidebar{grid-column:1/-1}
+  .team-grid{padding:0 20px}.contact-section{padding:60px 20px}.hero-stats{gap:28px;flex-wrap:wrap}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">
+    <div class="nav-logo">MC</div>
+    <span class="nav-name">Marcus Chen, SIOR</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#listings">Listings</a></li>
+    <li><a href="#team">Team</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Connect</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">⚡ Industrial & Logistics · Dallas-Fort Worth</div>
+    <h1 class="hero-title">The future of<br>industrial real estate<br>is <span>data-driven.</span></h1>
+    <p class="hero-sub">Marcus Chen SIOR combines deep market intelligence with cutting-edge analytics to deliver superior outcomes for industrial and logistics clients across the DFW metroplex.</p>
+    <div class="hero-actions">
+      <a href="#listings" class="btn-primary">View Listings</a>
+      <a href="#contact" class="btn-outline">Schedule a Call</a>
+    </div>
+    <div class="hero-stats">
+      <div><div class="hero-stat-val">$1.8B</div><div class="hero-stat-lbl">Transactions</div></div>
+      <div><div class="hero-stat-val">15+</div><div class="hero-stat-lbl">Years Experience</div></div>
+      <div><div class="hero-stat-val">SIOR</div><div class="hero-stat-lbl">Designation</div></div>
+      <div><div class="hero-stat-val">DFW</div><div class="hero-stat-lbl">Market Focus</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- LISTINGS -->
+<section class="section" id="listings">
+  <div class="section-header">
+    <div class="section-eyebrow">Available Properties</div>
+    <h2 class="section-title">Active Listings</h2>
+    <p class="section-sub">Industrial, logistics, and flex properties across Dallas-Fort Worth — click any card for full details.</p>
+  </div>
+  <div class="filter-bar">
+    <input class="filter-input" type="text" id="searchInput" placeholder="Search properties…">
+    <button class="filter-chip active" data-filter="all">All</button>
+    <button class="filter-chip" data-filter="For Lease">For Lease</button>
+    <button class="filter-chip" data-filter="For Sale">For Sale</button>
+    <button class="filter-chip" data-filter="SOLD">Sold</button>
+    <select class="sort-select" id="sortSelect">
+      <option value="default">Default</option>
+      <option value="price-desc">Price ↓</option>
+      <option value="price-asc">Price ↑</option>
+      <option value="size-desc">Largest</option>
+    </select>
+  </div>
+  <div class="results-bar"><span id="resultsCount" style="color:var(--muted)">Loading…</span></div>
+  <div id="listingsGrid" class="listing-grid"><div class="loading"><div class="spinner"></div><p>Loading listings…</p></div></div>
+  <div class="pagination" id="pagination"></div>
+</section>
+
+<!-- TEAM -->
+<div class="team-section" id="team">
+  <div class="section" style="padding-top:0;padding-bottom:0">
+    <div class="section-header" style="max-width:1280px;margin:0 auto;padding:0 48px 32px">
+      <div class="section-eyebrow">The Team</div>
+      <h2 class="section-title">Broker Roster</h2>
+    </div>
+  </div>
+  <div class="team-grid" id="teamGrid"><p style="color:var(--muted);font-size:.875rem">Loading team…</p></div>
+</div>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="section-eyebrow" style="text-align:center">Get Started</div>
+  <h2>Ready to Move?</h2>
+  <p>DFW industrial market insights delivered directly to you. Let's talk.</p>
+  <form class="contact-form" onsubmit="handleContact(event)">
+    <input class="contact-input" type="text" placeholder="Your name" required>
+    <input class="contact-input" type="email" placeholder="Email address" required>
+    <input class="contact-input" type="tel" placeholder="Phone">
+    <textarea class="contact-textarea" placeholder="How can Marcus help you?"></textarea>
+    <button class="contact-btn" type="submit">Send Message</button>
+  </form>
+</section>
+
+<footer>
+  <p>© 2026 Marcus Chen, SIOR · Industrial & Logistics · Dallas-Fort Worth</p>
+  <p style="margin-top:6px">Powered by <a href="https://www.initial3development.com" target="_blank">RealNex Listings Pro</a> — Initial3 Development</p>
+</footer>
+
+<!-- INQUIRE MODAL -->
+<div class="modal-overlay" id="inquireModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('inquireModal')">✕</button>
+    <h2>Inquire About Property</h2>
+    <p class="modal-sub" id="inquirePropertyName" style="color:var(--blue)"></p>
+    <form class="modal-form" onsubmit="handleInquire(event)">
+      <div class="form-row">
+        <div class="form-field"><label>First Name</label><input type="text" required></div>
+        <div class="form-field"><label>Last Name</label><input type="text" required></div>
+      </div>
+      <div class="form-field"><label>Email</label><input type="email" required></div>
+      <div class="form-field"><label>Phone</label><input type="tel"></div>
+      <div class="form-field"><label>Message</label><textarea placeholder="Tell Marcus about your requirements…"></textarea></div>
+      <button class="submit-btn" type="submit">Send Inquiry</button>
+    </form>
+  </div>
+</div>
+
+<!-- DETAIL MODAL -->
+<div class="modal-overlay detail-modal" id="detailModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('detailModal')" style="z-index:10;position:absolute;top:16px;right:16px">✕</button>
+    <div id="detailContent"><div class="loading" style="padding:80px"><div class="spinner"></div><p>Loading…</p></div></div>
+  </div>
+</div>
+
+<script>
+const PROXY='https://rnlp-proxy.onrender.com', SERIAL='RNLP-TEST-001', PER_PAGE=9;
+let allListings=[],filtered=[],currentPage=1,activeFilter='all';
+
+async function loadListings(){
+  try{
+    const r=await fetch(PROXY+'/listings',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({serial:SERIAL,filters:{startIndex:0,NoOfRecords:500,SortBy:'updated',SortHow:'desc',SearchType:''}})});
+    const d=await r.json();
+    allListings=Array.isArray(d)?(Array.isArray(d[0])?d[0]:d):[];
+    filtered=[...allListings];
+    renderGrid();
+    renderTeam();
+  }catch(e){document.getElementById('listingsGrid').innerHTML='<p style="color:var(--muted);text-align:center;padding:60px">Unable to load listings.</p>';}
+}
+
+function renderGrid(){
+  const grid=document.getElementById('listingsGrid');
+  const start=(currentPage-1)*PER_PAGE,end=start+PER_PAGE;
+  const page=filtered.slice(start,end);
+  document.getElementById('resultsCount').textContent=filtered.length+' listing'+(filtered.length!==1?'s':'');
+  if(!page.length){grid.innerHTML='<p style="color:var(--muted);text-align:center;padding:60px">No listings found.</p>';buildPag();return;}
+  grid.innerHTML=page.map(p=>{
+    const img=getImg(p);
+    const sold=p.Status?.toUpperCase()==='SOLD';
+    const badge=sold?'SOLD':(p.ListingType||'');
+    const bl=badge.toLowerCase().replace(/\s/,'-');
+    const price=p.PriceDisclosed&&p.ListPrice?'$'+fmt(p.ListPrice)+(p.ListingType==='For Lease'&&p.PriceUnits?' /SF':''): '';
+    const bsf=p.BuildingSf?fmt(p.BuildingSf)+' SF':'';
+    const asf=p.SpaceAvailMin?fmt(p.SpaceAvailMin)+' SF':(p.LandSize?p.LandSize+' '+(p.LandSizeType||'AC'):'');
+    const types=(p.PropertyTypes||[]).slice(0,2);
+    return `<div class="card" onclick="showDetail('${p.Id}')">
+      <div class="card-img" style="${img?'background-image:url('+img+')':''}">
+        <span class="card-badge ${bl==='for-lease'?'lease':bl==='sold'?'sold':''}">${badge}</span>
+        ${price?`<span class="card-price">${price}</span>`:''}
+      </div>
+      <div class="card-body">
+        <div class="card-name">${esc(ucw(p.PropertyName||''))}</div>
+        <div class="card-addr">${esc([p.Street,p.City,p.State].filter(Boolean).join(', '))}</div>
+        ${types.length?`<div class="card-pills">${types.map(t=>`<span class="card-pill">${esc(t)}</span>`).join('')}</div>`:''}
+        ${(bsf||asf)?`<div class="card-stats">${bsf?`<div class="card-stat"><div class="card-stat-lbl">Building</div><div class="card-stat-val">${bsf}</div></div>`:''} ${asf?`<div class="card-stat"><div class="card-stat-lbl">Available</div><div class="card-stat-val">${asf}</div></div>`:''}</div>`:''}
+      </div></div>`;
+  }).join('');
+  buildPag();
+}
+
+function renderTeam(){
+  const seen=new Set();
+  const brokers=[];
+  allListings.forEach(p=>{
+    const users=p.UserList||(p.User?[p.User]:[]);
+    users.forEach(u=>{
+      const email=(u.Email||'').toLowerCase();
+      if(email&&!seen.has(email)){seen.add(email);brokers.push(u);}
+    });
+  });
+  const tg=document.getElementById('teamGrid');
+  if(!brokers.length){tg.innerHTML='<p style="color:var(--muted)">No broker data.</p>';return;}
+  tg.innerHTML=brokers.slice(0,6).map(u=>{
+    const name=((u.FirstName||'')+' '+(u.LastName||'')).trim();
+    const init=((u.FirstName?.[0]||'')+(u.LastName?.[0]||'')).toUpperCase()||'BR';
+    return `<div class="team-card">
+      <div class="team-avatar">${init}</div>
+      <div class="team-name">${esc(name)}</div>
+      ${u.Email?`<a class="team-email" href="mailto:${esc(u.Email)}">${esc(u.Email)}</a>`:''}
+      ${u.Phone?`<a class="team-phone" href="tel:${esc(u.Phone)}">${esc(u.Phone)}</a>`:''}
+    </div>`;
+  }).join('');
+}
+
+function buildPag(){
+  const total=Math.ceil(filtered.length/PER_PAGE);
+  const p=document.getElementById('pagination');
+  if(total<=1){p.innerHTML='';return;}
+  let h=`<button class="page-btn" ${currentPage===1?'disabled':''} onclick="goPage(${currentPage-1})">‹</button>`;
+  for(let i=1;i<=total;i++){
+    if(i===1||i===total||Math.abs(i-currentPage)<=1) h+=`<button class="page-btn ${i===currentPage?'active':''}" onclick="goPage(${i})">${i}</button>`;
+    else if(Math.abs(i-currentPage)===2) h+=`<span class="page-btn" style="pointer-events:none;opacity:.3">…</span>`;
+  }
+  h+=`<button class="page-btn" ${currentPage===total?'disabled':''} onclick="goPage(${currentPage+1})">›</button>`;
+  p.innerHTML=h;
+}
+
+function goPage(n){currentPage=n;renderGrid();document.getElementById('listings').scrollIntoView({behavior:'smooth',block:'start'});}
+
+function applyFilters(){
+  const q=document.getElementById('searchInput').value.toLowerCase();
+  filtered=allListings.filter(p=>{
+    const mt=!q||[p.PropertyName,p.Street,p.City,p.State].filter(Boolean).join(' ').toLowerCase().includes(q);
+    const mf=activeFilter==='all'||(activeFilter==='SOLD'&&p.Status?.toUpperCase()==='SOLD')||(activeFilter!=='SOLD'&&p.ListingType===activeFilter&&p.Status?.toUpperCase()!=='SOLD');
+    return mt&&mf;
+  });
+  const s=document.getElementById('sortSelect').value;
+  if(s==='price-desc') filtered.sort((a,b)=>(b.ListPrice||0)-(a.ListPrice||0));
+  if(s==='price-asc')  filtered.sort((a,b)=>(a.ListPrice||0)-(b.ListPrice||0));
+  if(s==='size-desc')  filtered.sort((a,b)=>(b.BuildingSf||0)-(a.BuildingSf||0));
+  currentPage=1;renderGrid();
+}
+
+document.querySelectorAll('.filter-chip').forEach(c=>c.addEventListener('click',()=>{
+  document.querySelectorAll('.filter-chip').forEach(x=>x.classList.remove('active'));
+  c.classList.add('active');activeFilter=c.dataset.filter;applyFilters();
+}));
+document.getElementById('searchInput').addEventListener('input',applyFilters);
+document.getElementById('sortSelect').addEventListener('change',applyFilters);
+
+async function showDetail(id){
+  document.getElementById('detailContent').innerHTML='<div class="loading" style="padding:80px"><div class="spinner"></div><p>Loading…</p></div>';
+  openModal('detailModal');
+  try{
+    const r=await fetch(PROXY+'/property',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({serial:SERIAL,property_id:id})});
+    const p=await r.json();renderDetail(p);
+  }catch(e){document.getElementById('detailContent').innerHTML='<p style="padding:40px;color:var(--muted)">Could not load details.</p>';}
+}
+
+function renderDetail(p){
+  const img=getImg(p);
+  const badge=p.Status?.toUpperCase()==='SOLD'?'SOLD':(p.ListingType||'');
+  const price=p.PriceDisclosed&&p.ListPrice?'$'+fmt(p.ListPrice):'';
+  const users=p.UserList||(p.User?[p.User]:[]);
+  const b=users[0]||{};
+  const bname=((b.FirstName||'')+' '+(b.LastName||'')).trim();
+  const init=((b.FirstName?.[0]||'B')+(b.LastName?.[0]||'R')).toUpperCase();
+  document.getElementById('detailContent').innerHTML=`
+    <div class="detail-hero" style="${img?'background-image:url('+img+')':''}">
+      <div class="detail-hero-overlay"></div>
+      <span class="detail-hero-badge">${badge}</span>
+      ${price?`<span class="detail-hero-price">${price}</span>`:''}
+      <div class="detail-hero-text"><h2>${esc(ucw(p.PropertyName||''))}</h2><p>${esc([p.Street,p.City,p.State,p.Zip].filter(Boolean).join(', '))}</p></div>
+    </div>
+    <div class="detail-body">
+      <div class="detail-facts">
+        ${p.BuildingSf?`<div class="detail-fact"><div class="detail-fact-lbl">Building SF</div><div class="detail-fact-val">${fmt(p.BuildingSf)} SF</div></div>`:''}
+        ${p.YearBuilt?`<div class="detail-fact"><div class="detail-fact-lbl">Year Built</div><div class="detail-fact-val">${p.YearBuilt}</div></div>`:''}
+        ${p.BuildingClass?`<div class="detail-fact"><div class="detail-fact-lbl">Class</div><div class="detail-fact-val">${p.BuildingClass}</div></div>`:''}
+        ${p.SpaceAvailMin?`<div class="detail-fact"><div class="detail-fact-lbl">Avail SF</div><div class="detail-fact-val">${fmt(p.SpaceAvailMin)} SF</div></div>`:''}
+        ${p.Stories?`<div class="detail-fact"><div class="detail-fact-lbl">Stories</div><div class="detail-fact-val">${p.Stories}</div></div>`:''}
+      </div>
+      <div class="detail-desc"><h3>Description</h3><p>${esc(p.PropertyDescription||'Contact broker for full details.')}</p></div>
+      <div class="detail-sidebar">
+        ${bname?`<div class="detail-broker"><div class="detail-broker-avatar">${init}</div><div class="detail-broker-name">${esc(bname)}</div><div class="detail-broker-contact">${b.Email?`<a href="mailto:${esc(b.Email)}">${esc(b.Email)}</a><br>`:''} ${b.Phone?`<a href="tel:${esc(b.Phone)}">${esc(b.Phone)}</a>`:''}</div></div>`:''}
+        <button class="detail-btn detail-btn-primary" onclick="closeModal('detailModal');openInquire('${escA(p.PropertyName||'')}','${p.Id||''}')">Inquire About Property</button>
+        <a class="detail-btn detail-btn-gold" href="https://realnex.com/listings/client/1/${p.Id}/${p.Id}" target="_blank">View Deal Room →</a>
+        ${p.BrochureUrl?`<a class="detail-btn detail-btn-outline" href="${esc(p.BrochureUrl)}" target="_blank">Download Brochure</a>`:''}
+      </div>
+    </div>`;
+}
+
+function openModal(id){document.getElementById(id).classList.add('open');document.body.style.overflow='hidden'}
+function closeModal(id){document.getElementById(id).classList.remove('open');document.body.style.overflow=''}
+function openInquire(name){document.getElementById('inquirePropertyName').textContent=name;openModal('inquireModal')}
+function handleInquire(e){e.preventDefault();alert('Inquiry sent! Marcus will respond shortly.');closeModal('inquireModal')}
+function handleContact(e){e.preventDefault();alert('Message received!');e.target.reset()}
+function getImg(p){const a=(p.Attachments||[]).find(x=>(x.AttachmentType||x.attachment_type)==='photo');return a?a.FileName+'?h=500&mode=max&autorotate=true':'';}
+function fmt(n){return Number(n).toLocaleString('en-US',{maximumFractionDigits:0})}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function escA(s){return String(s||'').replace(/'/g,"\\'")}
+function ucw(s){return s.toLowerCase().replace(/\b\w/g,c=>c.toUpperCase())}
+
+loadListings();
+</script>
+</body>
+</html>

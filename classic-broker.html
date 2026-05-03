@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dana Whitmore, CCIM — Commercial Real Estate · Northeast Ohio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#013161;--navy-light:#01438a;--gold:#c9a227;--gray:#f5f6f8;--border:#e2e8f0;--text:#1e293b;--muted:#64748b}
+body{font-family:'DM Sans',sans-serif;color:var(--text);background:#fff;line-height:1.6}
+a{color:inherit;text-decoration:none}
+img{max-width:100%}
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid var(--border);padding:0 40px;height:68px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 6px rgba(0,0,0,.06)}
+.nav-brand{display:flex;align-items:center;gap:12px}
+.nav-logo{width:40px;height:40px;background:var(--navy);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:1rem;letter-spacing:-.02em}
+.nav-name{font-family:'DM Serif Display',serif;font-size:1.1rem;color:var(--navy)}
+.nav-links{display:flex;gap:32px;list-style:none}
+.nav-links a{font-size:.875rem;font-weight:500;color:var(--muted);transition:color .15s}
+.nav-links a:hover{color:var(--navy)}
+.nav-cta{background:var(--navy);color:#fff;padding:10px 22px;border-radius:6px;font-size:.85rem;font-weight:600;transition:background .15s}
+.nav-cta:hover{background:var(--navy-light)}
+/* HERO */
+.hero{background:linear-gradient(135deg,#f8fafc 0%,#eef2ff 100%);padding:80px 40px;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;max-width:1280px;margin:0 auto}
+.hero-eyebrow{font-size:.8rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+.hero-title{font-family:'DM Serif Display',serif;font-size:clamp(2rem,4vw,3.2rem);color:var(--navy);line-height:1.15;margin-bottom:16px}
+.hero-sub{font-size:1rem;color:var(--muted);line-height:1.7;margin-bottom:32px;max-width:440px}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap}
+.btn-primary{background:var(--navy);color:#fff;padding:14px 28px;border-radius:7px;font-weight:600;font-size:.9rem;transition:background .15s}
+.btn-primary:hover{background:var(--navy-light)}
+.btn-outline{border:2px solid var(--navy);color:var(--navy);padding:12px 26px;border-radius:7px;font-weight:600;font-size:.9rem;transition:all .15s}
+.btn-outline:hover{background:var(--navy);color:#fff}
+.hero-photo{background:var(--border);border-radius:16px;overflow:hidden;aspect-ratio:4/5;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#dbeafe,#e0e7ff)}
+.hero-photo-placeholder{text-align:center;color:var(--navy);opacity:.4}
+.hero-photo-placeholder .initials{font-family:'DM Serif Display',serif;font-size:4rem;font-weight:400}
+.hero-photo-placeholder p{font-size:.8rem;margin-top:4px}
+/* STATS */
+.stats{background:var(--navy);padding:32px 40px;display:flex;justify-content:center;gap:60px;flex-wrap:wrap}
+.stat{text-align:center;color:#fff}
+.stat-val{font-family:'DM Serif Display',serif;font-size:2rem;color:#fff}
+.stat-lbl{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-top:4px}
+/* FILTER */
+.section{max-width:1280px;margin:0 auto;padding:60px 40px}
+.section-title{font-family:'DM Serif Display',serif;font-size:1.8rem;color:var(--navy);margin-bottom:8px}
+.section-sub{color:var(--muted);font-size:.9rem;margin-bottom:32px}
+.filter-bar{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:32px;align-items:center}
+.filter-input{flex:1;min-width:220px;height:44px;padding:0 16px;border:1.5px solid var(--border);border-radius:8px;font-size:.9rem;font-family:inherit;outline:none;transition:border-color .15s}
+.filter-input:focus{border-color:var(--navy)}
+.filter-chip{padding:8px 18px;border-radius:20px;border:1.5px solid var(--border);background:#fff;font-size:.8rem;font-weight:600;cursor:pointer;transition:all .15s;white-space:nowrap}
+.filter-chip.active,.filter-chip:hover{background:var(--navy);color:#fff;border-color:var(--navy)}
+.sort-select{height:44px;padding:0 14px;border:1.5px solid var(--border);border-radius:8px;font-size:.85rem;font-family:inherit;outline:none;cursor:pointer}
+.results-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;font-size:.85rem;color:var(--muted)}
+/* GRID */
+.listing-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px}
+.card{background:#fff;border:1px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer;transition:box-shadow .2s,border-color .2s,transform .2s}
+.card:hover{box-shadow:0 8px 28px rgba(1,49,97,.12);border-bottom-color:var(--navy);transform:translateY(-3px)}
+.card-img{height:200px;background:#e8edf5 no-repeat center center/cover;position:relative}
+.card-badge{position:absolute;top:12px;left:12px;padding:4px 12px;border-radius:14px;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:rgba(1,49,97,.85);color:#fff;backdrop-filter:blur(4px)}
+.card-badge.sold{background:rgba(185,28,28,.85)}
+.card-price{position:absolute;bottom:12px;right:12px;background:rgba(0,0,0,.65);color:#fff;padding:5px 12px;border-radius:6px;font-size:.8rem;font-weight:700}
+.card-body{padding:18px}
+.card-name{font-weight:700;font-size:.95rem;color:var(--text);margin-bottom:4px;line-height:1.3}
+.card-addr{font-size:.8rem;color:var(--muted);margin-bottom:10px}
+.card-pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.card-pill{font-size:.7rem;font-weight:600;background:var(--gray);color:var(--navy);padding:3px 10px;border-radius:10px}
+.card-stats{display:flex;gap:16px;padding-top:10px;border-top:1px solid var(--border)}
+.card-stat{display:flex;flex-direction:column;gap:2px}
+.card-stat-lbl{font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.card-stat-val{font-size:.8rem;font-weight:700;color:var(--text)}
+/* PAGINATION */
+.pagination{display:flex;justify-content:center;gap:8px;margin-top:40px;flex-wrap:wrap}
+.page-btn{width:38px;height:38px;border-radius:7px;border:1.5px solid var(--border);background:#fff;font-size:.85rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;font-family:inherit}
+.page-btn:hover,.page-btn.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+.page-btn:disabled{opacity:.4;cursor:not-allowed}
+.page-btn.active{pointer-events:none}
+/* TEAM */
+.team-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px}
+.team-card{background:var(--gray);border-radius:12px;padding:24px;text-align:center;border:1px solid var(--border)}
+.team-avatar{width:64px;height:64px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem;margin:0 auto 12px}
+.team-name{font-weight:700;font-size:.9rem;margin-bottom:4px}
+.team-email,.team-phone{font-size:.75rem;color:var(--muted);display:block}
+/* CONTACT */
+.contact-section{background:var(--navy);padding:80px 40px;text-align:center;color:#fff}
+.contact-section h2{font-family:'DM Serif Display',serif;font-size:2rem;margin-bottom:12px}
+.contact-section p{color:rgba(255,255,255,.7);margin-bottom:32px;font-size:.95rem}
+.contact-form{max-width:500px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+.contact-input{height:48px;padding:0 16px;border-radius:8px;border:none;font-size:.9rem;font-family:inherit;outline:none}
+.contact-textarea{padding:14px 16px;border-radius:8px;border:none;font-size:.9rem;font-family:inherit;resize:vertical;min-height:100px;outline:none}
+.contact-btn{height:48px;background:#fff;color:var(--navy);border:none;border-radius:8px;font-weight:700;font-size:.9rem;cursor:pointer;font-family:inherit;transition:opacity .15s}
+.contact-btn:hover{opacity:.9}
+/* FOOTER */
+footer{background:#0a1628;color:rgba(255,255,255,.5);text-align:center;padding:24px;font-size:.8rem}
+footer a{color:rgba(255,255,255,.7)}
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200;align-items:flex-start;justify-content:center;padding:40px 20px;overflow-y:auto;backdrop-filter:blur(4px)}
+.modal-overlay.open{display:flex}
+.modal{background:#fff;border-radius:16px;max-width:640px;width:100%;padding:36px;position:relative;max-height:90vh;overflow-y:auto}
+.modal-close{position:absolute;top:16px;right:16px;background:var(--gray);border:none;border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center}
+.modal h2{font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--navy);margin-bottom:6px}
+.modal-sub{color:var(--muted);font-size:.85rem;margin-bottom:24px}
+.modal-form{display:flex;flex-direction:column;gap:14px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-field label{display:block;font-size:.8rem;font-weight:600;color:var(--text);margin-bottom:6px}
+.form-field input,.form-field textarea{width:100%;height:44px;padding:0 14px;border:1.5px solid var(--border);border-radius:8px;font-size:.875rem;font-family:inherit;outline:none;transition:border-color .15s}
+.form-field input:focus,.form-field textarea:focus{border-color:var(--navy)}
+.form-field textarea{height:90px;padding:12px 14px;resize:none}
+.submit-btn{height:48px;background:var(--navy);color:#fff;border:none;border-radius:8px;font-weight:700;font-size:.9rem;cursor:pointer;font-family:inherit;transition:background .15s}
+.submit-btn:hover{background:var(--navy-light)}
+/* DETAIL MODAL */
+.detail-modal .modal{max-width:900px;padding:0;overflow:hidden}
+.detail-hero{height:320px;background:#e8edf5 no-repeat center center/cover;position:relative}
+.detail-hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent,rgba(0,0,0,.7))}
+.detail-hero-text{position:absolute;bottom:24px;left:28px;color:#fff}
+.detail-hero-text h2{font-family:'DM Serif Display',serif;font-size:1.8rem}
+.detail-hero-text p{font-size:.9rem;opacity:.85}
+.detail-hero-badge{position:absolute;top:20px;left:28px;background:rgba(1,49,97,.85);color:#fff;padding:5px 14px;border-radius:14px;font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.detail-hero-price{position:absolute;top:20px;right:28px;background:rgba(0,0,0,.65);color:#fff;padding:8px 16px;border-radius:8px;font-weight:700}
+.detail-body{padding:32px;display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.detail-facts{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:24px;grid-column:1/-1}
+.detail-fact{background:var(--gray);padding:12px 18px;border-radius:8px;border-left:3px solid var(--navy)}
+.detail-fact-lbl{font-size:.7rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.detail-fact-val{font-size:.9rem;font-weight:700;color:var(--navy)}
+.detail-desc{grid-column:1/2;font-size:.875rem;line-height:1.7;color:var(--text)}
+.detail-desc h3{font-weight:700;margin-bottom:8px;color:var(--navy)}
+.detail-sidebar{grid-column:2/3}
+.detail-broker{background:var(--gray);border-radius:10px;padding:20px;margin-bottom:16px}
+.detail-broker-avatar{width:48px;height:48px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;margin-bottom:10px}
+.detail-broker-name{font-weight:700;font-size:.9rem;margin-bottom:4px}
+.detail-broker-contact{font-size:.8rem;color:var(--muted)}
+.detail-btn{display:flex;align-items:center;justify-content:center;height:44px;border-radius:8px;font-weight:700;font-size:.85rem;cursor:pointer;font-family:inherit;text-decoration:none;border:none;transition:all .15s;width:100%;margin-bottom:10px}
+.detail-btn-primary{background:var(--navy);color:#fff}
+.detail-btn-primary:hover{background:var(--navy-light)}
+.detail-btn-gold{background:#c9a227;color:#fff}
+.detail-btn-gold:hover{opacity:.9}
+.detail-btn-outline{background:transparent;border:1.5px solid var(--border);color:var(--text)}
+.detail-btn-outline:hover{border-color:var(--navy);color:var(--navy)}
+/* LOADING */
+.loading{text-align:center;padding:80px;color:var(--muted)}
+.spinner{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--navy);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 16px}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* RESPONSIVE */
+@media(max-width:768px){
+  nav{padding:0 20px}.hero{grid-template-columns:1fr;padding:40px 20px}.hero-photo{display:none}
+  .section{padding:40px 20px}.stats{gap:32px}
+  .form-row{grid-template-columns:1fr}.detail-body{grid-template-columns:1fr}.detail-sidebar{grid-column:1/-1}
+  .filter-bar{gap:8px}.contact-section{padding:60px 20px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">
+    <div class="nav-logo">DW</div>
+    <span class="nav-name">Dana Whitmore, CCIM</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#listings">Listings</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Get In Touch</a>
+</nav>
+
+<!-- HERO -->
+<div style="background:linear-gradient(135deg,#f8fafc 0%,#eef2ff 100%)">
+<div class="hero">
+  <div>
+    <div class="hero-eyebrow">Commercial Real Estate · Northeast Ohio</div>
+    <h1 class="hero-title">Trusted guidance for<br>every transaction.</h1>
+    <p class="hero-sub">With over 20 years of experience in Northeast Ohio's commercial market, Dana Whitmore CCIM delivers results for buyers, sellers, and tenants navigating complex real estate decisions.</p>
+    <div class="hero-actions">
+      <a href="#listings" class="btn-primary">View Listings</a>
+      <a href="#contact" class="btn-outline">Schedule a Call</a>
+    </div>
+  </div>
+  <div class="hero-photo">
+    <div class="hero-photo-placeholder">
+      <div class="initials">DW</div>
+      <p>Dana Whitmore, CCIM</p>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat"><div class="stat-val">$2.4B+</div><div class="stat-lbl">Total Transactions</div></div>
+  <div class="stat"><div class="stat-val">20+</div><div class="stat-lbl">Years Experience</div></div>
+  <div class="stat"><div class="stat-val">840+</div><div class="stat-lbl">Properties Closed</div></div>
+  <div class="stat"><div class="stat-val">CCIM</div><div class="stat-lbl">Designation</div></div>
+</div>
+
+<!-- LISTINGS -->
+<div class="section" id="listings">
+  <h2 class="section-title">Active Listings</h2>
+  <p class="section-sub">Commercial properties available in Northeast Ohio — click any listing for full details.</p>
+  <div class="filter-bar" id="filterBar">
+    <input class="filter-input" type="text" id="searchInput" placeholder="Search by name, address, city…">
+    <span class="filter-chip active" data-filter="all">All</span>
+    <span class="filter-chip" data-filter="For Lease">For Lease</span>
+    <span class="filter-chip" data-filter="For Sale">For Sale</span>
+    <span class="filter-chip" data-filter="SOLD">Sold</span>
+    <select class="sort-select" id="sortSelect">
+      <option value="default">Sort: Default</option>
+      <option value="price-desc">Price: High</option>
+      <option value="price-asc">Price: Low</option>
+      <option value="size-desc">Largest First</option>
+    </select>
+  </div>
+  <div class="results-bar"><span id="resultsCount">Loading…</span></div>
+  <div id="listingsGrid" class="listing-grid"><div class="loading"><div class="spinner"></div><p>Loading listings…</p></div></div>
+  <div class="pagination" id="pagination"></div>
+</div>
+
+<!-- ABOUT -->
+<div style="background:var(--gray)" id="about">
+<div class="section">
+  <h2 class="section-title">About Dana</h2>
+  <p class="section-sub">CCIM · Northeast Ohio Commercial Real Estate</p>
+  <p style="max-width:660px;color:var(--muted);line-height:1.8;font-size:.95rem">Dana Whitmore has been a cornerstone of Northeast Ohio's commercial real estate market since 2004. Holding the prestigious CCIM designation, Dana specializes in office, industrial, and retail transactions throughout Cuyahoga, Summit, and Stark counties. Her analytical approach and deep market knowledge consistently deliver above-market outcomes for clients.</p>
+</div>
+</div>
+
+<!-- CONTACT -->
+<div class="contact-section" id="contact">
+  <h2>Let's Work Together</h2>
+  <p>Ready to buy, sell, or lease? Reach out for a no-obligation consultation.</p>
+  <form class="contact-form" onsubmit="handleContactSubmit(event)">
+    <input class="contact-input" type="text" placeholder="Your name" required>
+    <input class="contact-input" type="email" placeholder="Email address" required>
+    <input class="contact-input" type="tel" placeholder="Phone number">
+    <textarea class="contact-textarea" placeholder="Tell me about your needs…"></textarea>
+    <button class="contact-btn" type="submit">Send Message</button>
+  </form>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 Dana Whitmore, CCIM · Commercial Real Estate · Northeast Ohio</p>
+  <p style="margin-top:6px">Powered by <a href="https://www.initial3development.com" target="_blank">RealNex Listings Pro</a> — Initial3 Development</p>
+</footer>
+
+<!-- INQUIRE MODAL -->
+<div class="modal-overlay" id="inquireModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('inquireModal')">✕</button>
+    <h2>Inquire About Property</h2>
+    <p class="modal-sub" id="inquirePropertyName"></p>
+    <form class="modal-form" onsubmit="handleInquireSubmit(event)">
+      <div class="form-row">
+        <div class="form-field"><label>First Name</label><input type="text" required></div>
+        <div class="form-field"><label>Last Name</label><input type="text" required></div>
+      </div>
+      <div class="form-field"><label>Email</label><input type="email" required></div>
+      <div class="form-field"><label>Phone</label><input type="tel"></div>
+      <div class="form-field"><label>Message</label><textarea placeholder="Tell us about your needs…"></textarea></div>
+      <button class="submit-btn" type="submit">Send Inquiry</button>
+    </form>
+  </div>
+</div>
+
+<!-- DETAIL MODAL -->
+<div class="modal-overlay detail-modal" id="detailModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('detailModal')" style="z-index:10;position:absolute;top:16px;right:16px">✕</button>
+    <div id="detailContent"><div class="loading" style="padding:80px"><div class="spinner"></div><p>Loading property…</p></div></div>
+  </div>
+</div>
+
+<script>
+const PROXY = 'https://rnlp-proxy.onrender.com';
+const SERIAL = 'RNLP-TEST-001';
+const PER_PAGE = 9;
+
+let allListings = [];
+let filtered = [];
+let currentPage = 1;
+let activeFilter = 'all';
+
+async function loadListings() {
+  try {
+    const r = await fetch(PROXY + '/listings', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({serial: SERIAL, filters: {startIndex:0, NoOfRecords:500, SortBy:'updated', SortHow:'desc', SearchType:''}})
+    });
+    const data = await r.json();
+    allListings = Array.isArray(data) ? (Array.isArray(data[0]) ? data[0] : data) : [];
+    filtered = [...allListings];
+    renderGrid();
+  } catch(e) {
+    document.getElementById('listingsGrid').innerHTML = '<p style="color:#94a3b8;text-align:center;padding:60px">Could not load listings. Check connection.</p>';
+  }
+}
+
+function renderGrid() {
+  const grid = document.getElementById('listingsGrid');
+  const start = (currentPage-1)*PER_PAGE, end = start+PER_PAGE;
+  const page = filtered.slice(start, end);
+  document.getElementById('resultsCount').textContent = filtered.length + ' listing' + (filtered.length!==1?'s':'');
+
+  if (!page.length) { grid.innerHTML = '<p style="color:#94a3b8;text-align:center;padding:60px">No listings match your search.</p>'; buildPagination(); return; }
+
+  grid.innerHTML = page.map(p => {
+    const img = getImg(p);
+    const badge = p.Status?.toUpperCase() === 'SOLD' ? 'SOLD' : (p.ListingType||'');
+    const price = p.PriceDisclosed && p.ListPrice ? '$'+fmt(p.ListPrice)+(p.ListingType==='For Lease'&&p.PriceUnits?' /SF '+p.PriceUnits.toUpperCase():'') : '';
+    const bsf = p.BuildingSf ? fmt(p.BuildingSf)+' SF' : '';
+    const asf = p.SpaceAvailMin ? fmt(p.SpaceAvailMin)+' SF' : (p.LandSize ? p.LandSize+' '+(p.LandSizeType||'AC') : '');
+    const types = (p.PropertyTypes||[]).slice(0,2).join(', ');
+    return `<div class="card" onclick="showDetail('${p.Id}','${escAttr(p.PropertyName)}')">
+      <div class="card-img" style="${img?'background-image:url('+img+')':''}">
+        <span class="card-badge${badge==='SOLD'?' sold':''}">${badge}</span>
+        ${price?`<span class="card-price">${price}</span>`:''}
+      </div>
+      <div class="card-body">
+        <div class="card-name">${esc(ucw(p.PropertyName||''))}</div>
+        <div class="card-addr">${esc((p.Street||'')+', '+(p.City||'')+', '+(p.State||''))}</div>
+        ${types?`<div class="card-pills"><span class="card-pill">${esc(types)}</span></div>`:''}
+        ${(bsf||asf)?`<div class="card-stats">${bsf?`<div class="card-stat"><span class="card-stat-lbl">Building</span><span class="card-stat-val">${bsf}</span></div>`:''} ${asf?`<div class="card-stat"><span class="card-stat-lbl">Available</span><span class="card-stat-val">${asf}</span></div>`:''}</div>`:''}
+      </div>
+    </div>`;
+  }).join('');
+  buildPagination();
+}
+
+function buildPagination() {
+  const total = Math.ceil(filtered.length/PER_PAGE);
+  const p = document.getElementById('pagination');
+  if (total<=1){p.innerHTML='';return;}
+  let html = `<button class="page-btn" ${currentPage===1?'disabled':''} onclick="goPage(${currentPage-1})">‹</button>`;
+  for(let i=1;i<=total;i++){
+    if(i===1||i===total||Math.abs(i-currentPage)<=1) html+=`<button class="page-btn ${i===currentPage?'active':''}" onclick="goPage(${i})">${i}</button>`;
+    else if(Math.abs(i-currentPage)===2) html+=`<span class="page-btn" style="pointer-events:none;opacity:.4">…</span>`;
+  }
+  html+=`<button class="page-btn" ${currentPage===total?'disabled':''} onclick="goPage(${currentPage+1})">›</button>`;
+  p.innerHTML=html;
+}
+
+function goPage(n){currentPage=n;renderGrid();document.getElementById('listings').scrollIntoView({behavior:'smooth',block:'start'});}
+
+function applyFilters() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  filtered = allListings.filter(p => {
+    const matchText = !q || [p.PropertyName,p.Street,p.City,p.State].filter(Boolean).join(' ').toLowerCase().includes(q);
+    const matchFilter = activeFilter==='all' || (activeFilter==='SOLD'&&p.Status?.toUpperCase()==='SOLD') || (activeFilter!=='SOLD'&&p.ListingType===activeFilter&&p.Status?.toUpperCase()!=='SOLD');
+    return matchText && matchFilter;
+  });
+  const s = document.getElementById('sortSelect').value;
+  if(s==='price-desc') filtered.sort((a,b)=>(b.ListPrice||0)-(a.ListPrice||0));
+  if(s==='price-asc')  filtered.sort((a,b)=>(a.ListPrice||0)-(b.ListPrice||0));
+  if(s==='size-desc')  filtered.sort((a,b)=>(b.BuildingSf||0)-(a.BuildingSf||0));
+  currentPage=1;renderGrid();
+}
+
+document.querySelectorAll('.filter-chip').forEach(c=>c.addEventListener('click',()=>{
+  document.querySelectorAll('.filter-chip').forEach(x=>x.classList.remove('active'));
+  c.classList.add('active'); activeFilter=c.dataset.filter; applyFilters();
+}));
+document.getElementById('searchInput').addEventListener('input',applyFilters);
+document.getElementById('sortSelect').addEventListener('change',applyFilters);
+
+async function showDetail(id, name) {
+  document.getElementById('detailContent').innerHTML = '<div class="loading" style="padding:80px"><div class="spinner"></div><p>Loading…</p></div>';
+  openModal('detailModal');
+  try {
+    const r = await fetch(PROXY+'/property',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({serial:SERIAL,property_id:id})});
+    const p = await r.json();
+    renderDetail(p);
+  } catch(e) {
+    document.getElementById('detailContent').innerHTML='<p style="padding:40px;color:#94a3b8">Could not load property details.</p>';
+  }
+}
+
+function renderDetail(p) {
+  const img = getImg(p);
+  const badge = p.Status?.toUpperCase()==='SOLD'?'SOLD':(p.ListingType||'');
+  const price = p.PriceDisclosed&&p.ListPrice?'$'+fmt(p.ListPrice):'';
+  const users = p.UserList||(p.User?[p.User]:[]);
+  const broker = users[0]||{};
+  const bname = ((broker.FirstName||'')+ ' '+(broker.LastName||'')).trim();
+  const initials = (broker.FirstName?.[0]||'B')+(broker.LastName?.[0]||'R');
+  document.getElementById('detailContent').innerHTML = `
+    <div class="detail-hero" style="${img?'background-image:url('+img+')':'background:#dbeafe'}">
+      <div class="detail-hero-overlay"></div>
+      <span class="detail-hero-badge">${badge}</span>
+      ${price?`<span class="detail-hero-price">${price}</span>`:''}
+      <div class="detail-hero-text">
+        <h2>${esc(ucw(p.PropertyName||''))}</h2>
+        <p>${esc([p.Street,p.City,p.State,p.Zip].filter(Boolean).join(', '))}</p>
+      </div>
+    </div>
+    <div class="detail-body">
+      <div class="detail-facts">
+        ${p.BuildingSf?`<div class="detail-fact"><div class="detail-fact-lbl">Building SF</div><div class="detail-fact-val">${fmt(p.BuildingSf)} SF</div></div>`:''}
+        ${p.YearBuilt?`<div class="detail-fact"><div class="detail-fact-lbl">Year Built</div><div class="detail-fact-val">${p.YearBuilt}</div></div>`:''}
+        ${p.BuildingClass?`<div class="detail-fact"><div class="detail-fact-lbl">Class</div><div class="detail-fact-val">${p.BuildingClass}</div></div>`:''}
+        ${p.Stories?`<div class="detail-fact"><div class="detail-fact-lbl">Stories</div><div class="detail-fact-val">${p.Stories}</div></div>`:''}
+        ${p.SpaceAvailMin?`<div class="detail-fact"><div class="detail-fact-lbl">Available SF</div><div class="detail-fact-val">${fmt(p.SpaceAvailMin)} SF</div></div>`:''}
+      </div>
+      <div class="detail-desc">
+        ${p.PropertyDescription?`<h3>Description</h3><p>${esc(p.PropertyDescription)}</p>`:'<p style="color:#94a3b8">No description available.</p>'}
+      </div>
+      <div class="detail-sidebar">
+        ${bname?`<div class="detail-broker">
+          <div class="detail-broker-avatar">${esc(initials.toUpperCase())}</div>
+          <div class="detail-broker-name">${esc(bname)}</div>
+          <div class="detail-broker-contact">${broker.Email?`<a href="mailto:${esc(broker.Email)}">${esc(broker.Email)}</a><br>`:''}${broker.Phone?`<a href="tel:${esc(broker.Phone)}">${esc(broker.Phone)}</a>`:''}</div>
+        </div>`:''}
+        <button class="detail-btn detail-btn-primary" onclick="closeModal('detailModal');openInquire('${escAttr(p.PropertyName||'')}','${p.Id||''}')">Inquire About This Property</button>
+        <a class="detail-btn detail-btn-gold" href="https://realnex.com/listings/client/1/${p.Id}/${p.Id}" target="_blank">View Deal Room →</a>
+        ${p.BrochureUrl?`<a class="detail-btn detail-btn-outline" href="${esc(p.BrochureUrl)}" target="_blank">Download Brochure</a>`:''}
+      </div>
+    </div>`;
+}
+
+function openModal(id){document.getElementById(id).classList.add('open');document.body.style.overflow='hidden'}
+function closeModal(id){document.getElementById(id).classList.remove('open');document.body.style.overflow=''}
+function openInquire(name,id){document.getElementById('inquirePropertyName').textContent=name;openModal('inquireModal')}
+function handleInquireSubmit(e){e.preventDefault();alert('Thank you! Your inquiry has been submitted.');closeModal('inquireModal')}
+function handleContactSubmit(e){e.preventDefault();alert('Message sent! Dana will be in touch shortly.');e.target.reset()}
+
+function getImg(p){
+  const att=(p.Attachments||[]).find(a=>(a.AttachmentType||a.attachment_type)==='photo');
+  return att?att.FileName+'?h=500&mode=max&autorotate=true':'';
+}
+function fmt(n){return Number(n).toLocaleString('en-US',{maximumFractionDigits:0})}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function escAttr(s){return String(s||'').replace(/'/g,"\\'").replace(/"/g,'&quot;')}
+function ucw(s){return s.toLowerCase().replace(/\b\w/g,c=>c.toUpperCase())}
+
+loadListings();
+</script>
+</body>
+</html>
