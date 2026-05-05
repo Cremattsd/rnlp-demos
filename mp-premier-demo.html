@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MP Premier 2.0 — Upgrade Your Listing Page</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f8fafc; color: #1e293b; }
+
+  /* Header */
+  .header {
+    background: linear-gradient(135deg, #011f3d 0%, #013161 100%);
+    color: #fff;
+    text-align: center;
+    padding: 64px 24px 48px;
+  }
+  .header-badge {
+    display: inline-block;
+    background: rgba(255,255,255,.15);
+    color: rgba(255,255,255,.9);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 999px;
+    margin-bottom: 18px;
+  }
+  .header h1 {
+    font-size: clamp(26px, 4.5vw, 48px);
+    font-weight: 800;
+    margin-bottom: 12px;
+    letter-spacing: -.02em;
+  }
+  .header h1 span { color: #60b4ff; }
+  .header p {
+    font-size: 17px;
+    color: rgba(255,255,255,.75);
+    max-width: 500px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  /* Comparison */
+  .compare {
+    max-width: 1100px;
+    margin: 56px auto;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    align-items: start;
+  }
+  @media (max-width: 700px) { .compare { grid-template-columns: 1fr; } }
+
+  .col { border-radius: 16px; overflow: hidden; }
+
+  /* LEFT column */
+  .col-old { border: 2px solid #e2e8f0; }
+  .col-old .col-header { background: #f1f5f9; padding: 20px 24px; border-bottom: 1px solid #e2e8f0; }
+  .col-old .col-header h2 { font-size: 17px; font-weight: 700; color: #475569; }
+  .col-old .col-header p  { font-size: 12px; color: #94a3b8; margin-top: 3px; }
+  .col-placeholder {
+    background: #e8ecf0;
+    height: 240px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 8px;
+    color: #94a3b8;
+    font-size: 13px;
+  }
+  .col-placeholder svg { opacity: .35; }
+
+  /* RIGHT column */
+  .col-new { border: 2px solid #013161; box-shadow: 0 0 0 4px rgba(1,49,97,.08); }
+  .col-new .col-header { background: #013161; padding: 20px 24px; }
+  .col-new .col-header h2 { font-size: 17px; font-weight: 700; color: #fff; }
+  .col-new .col-header p  { font-size: 12px; color: rgba(255,255,255,.6); margin-top: 3px; }
+
+  .demo-frame-wrap {
+    height: 560px;
+    overflow: hidden;
+    position: relative;
+  }
+  .demo-frame-wrap iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+  }
+  .demo-frame-label {
+    position: absolute;
+    top: 12px; left: 12px;
+    background: rgba(1,49,97,.9);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .live-dot { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1}50%{opacity:.4} }
+
+  /* Feature lists */
+  .feature-list { padding: 20px 24px 24px; }
+  .feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 9px 0;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 14px;
+  }
+  .feature-item:last-child { border-bottom: none; }
+  .icon-x  { color: #ef4444; font-size: 16px; flex-shrink: 0; line-height: 1.3; }
+  .icon-ok { color: #22c55e; font-size: 16px; flex-shrink: 0; line-height: 1.3; }
+  .feature-text { line-height: 1.4; }
+  .feature-text strong { display: block; font-weight: 600; color: #1e293b; }
+  .feature-text span { font-size: 12px; color: #94a3b8; }
+
+  .price-row {
+    padding: 16px 24px;
+    background: #f8fafc;
+    border-top: 1px solid #e2e8f0;
+    font-size: 13px;
+    color: #64748b;
+  }
+  .price-row strong { font-size: 16px; font-weight: 700; color: #1e293b; }
+  .price-row.new-price { background: #eef5ff; border-top-color: #bfdbff; }
+  .price-row.new-price strong { color: #013161; }
+
+  /* CTA */
+  .cta {
+    background: linear-gradient(135deg, #011f3d, #013161);
+    text-align: center;
+    padding: 64px 24px;
+    color: #fff;
+  }
+  .cta h2 { font-size: 30px; font-weight: 800; margin-bottom: 12px; }
+  .cta p  { font-size: 16px; color: rgba(255,255,255,.75); margin-bottom: 32px; }
+  .cta-steps {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 36px;
+  }
+  .cta-step {
+    background: rgba(255,255,255,.1);
+    border: 1px solid rgba(255,255,255,.15);
+    color: rgba(255,255,255,.9);
+    border-radius: 8px;
+    padding: 10px 18px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .cta-step .n {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px; height: 20px;
+    background: rgba(255,255,255,.2);
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 700;
+    margin-right: 7px;
+  }
+  .cta-btn {
+    display: inline-block;
+    background: #fff;
+    color: #013161;
+    font-weight: 800;
+    font-size: 16px;
+    padding: 16px 40px;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: transform .15s, box-shadow .15s;
+  }
+  .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(0,0,0,.3); }
+  .cta-sub { margin-top: 16px; font-size: 12px; color: rgba(255,255,255,.5); }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<section class="header">
+  <div class="header-badge">MP Premier 2.0</div>
+  <h1>Upgrade your <span>listing page</span></h1>
+  <p>Replace the generic MP Direct page with a fully branded experience that lives on your domain and auto-captures leads to RealNex CRM.</p>
+</section>
+
+<!-- Comparison -->
+<div class="compare">
+
+  <!-- LEFT: MP Direct (old) -->
+  <div class="col col-old">
+    <div class="col-header">
+      <h2>MP Direct &mdash; Current</h2>
+      <p>What most RealNex brokers use today</p>
+    </div>
+    <div class="col-placeholder">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="48" height="48"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/></svg>
+      <span>Generic RealNex-hosted page</span>
+    </div>
+    <div class="feature-list">
+      <div class="feature-item"><span class="icon-x">✗</span><div class="feature-text"><strong>Lives on RealNex domain</strong><span>searchv2.realnex.com/listings/…</span></div></div>
+      <div class="feature-item"><span class="icon-x">✗</span><div class="feature-text"><strong>No SEO for your website</strong><span>Zero indexing benefit for your domain</span></div></div>
+      <div class="feature-item"><span class="icon-x">✗</span><div class="feature-text"><strong>No property detail pages</strong><span>No individual listing URLs</span></div></div>
+      <div class="feature-item"><span class="icon-x">✗</span><div class="feature-text"><strong>No lead capture to CRM</strong><span>Inquiries go nowhere</span></div></div>
+      <div class="feature-item"><span class="icon-x">✗</span><div class="feature-text"><strong>No demographics or map data</strong><span>No area stats, neighborhood info</span></div></div>
+      <div class="feature-item"><span class="icon-x">✗</span><div class="feature-text"><strong>No branding control</strong><span>Generic look, no custom fonts or colors</span></div></div>
+    </div>
+    <div class="price-row">
+      <strong>$995</strong> setup &nbsp;+&nbsp; <strong>$2,500/yr</strong> API access
+    </div>
+  </div>
+
+  <!-- RIGHT: MP Premier 2.0 -->
+  <div class="col col-new">
+    <div class="col-header">
+      <h2>MP Premier 2.0 &mdash; New</h2>
+      <p>Live demo below &mdash; actual MDL Group data</p>
+    </div>
+    <div class="demo-frame-wrap">
+      <div class="demo-frame-label"><div class="live-dot"></div> Live data</div>
+      <iframe
+        src="https://rnlp-proxy.onrender.com/embed?serial=RNLP-MDL-001&company=MDL+Group&theme=classic"
+        title="MP Premier 2.0 Demo"
+        loading="lazy">
+      </iframe>
+    </div>
+    <div class="feature-list">
+      <div class="feature-item"><span class="icon-ok">✓</span><div class="feature-text"><strong>Lives on YOUR domain</strong><span>yourfirm.com/listings</span></div></div>
+      <div class="feature-item"><span class="icon-ok">✓</span><div class="feature-text"><strong>Full SEO</strong><span>Google indexes every listing on your domain</span></div></div>
+      <div class="feature-item"><span class="icon-ok">✓</span><div class="feature-text"><strong>Full property detail pages</strong><span>Shareable URLs, photos, maps, spaces</span></div></div>
+      <div class="feature-item"><span class="icon-ok">✓</span><div class="feature-text"><strong>Auto lead capture → RealNex CRM</strong><span>Contact + history created automatically</span></div></div>
+      <div class="feature-item"><span class="icon-ok">✓</span><div class="feature-text"><strong>Demographics, map, amenities</strong><span>Census data, Leaflet map, nearby POIs</span></div></div>
+      <div class="feature-item"><span class="icon-ok">✓</span><div class="feature-text"><strong>Fully branded</strong><span>Your colors, fonts, logo</span></div></div>
+    </div>
+    <div class="price-row new-price">
+      <strong>$199</strong> setup &nbsp;+&nbsp; <strong>$199/mo</strong>
+    </div>
+  </div>
+
+</div>
+
+<!-- CTA -->
+<section class="cta">
+  <h2>Upgrade in 4 minutes &rarr;</h2>
+  <p>We handle the setup. You get a branded listing page with full CRM integration.</p>
+  <div class="cta-steps">
+    <div class="cta-step"><span class="n">1</span>Send your RealNex Company ID</div>
+    <div class="cta-step"><span class="n">2</span>We generate your serial number</div>
+    <div class="cta-step"><span class="n">3</span>Install the plugin (5 min)</div>
+    <div class="cta-step"><span class="n">4</span>Live on your site</div>
+  </div>
+  <a class="cta-btn" href="mailto:msmith@initial3development.com?subject=MP%20Premier%202.0%20%E2%80%94%20I'm%20interested">
+    Upgrade in 4 minutes &rarr;
+  </a>
+  <p class="cta-sub">msmith@initial3development.com &nbsp;&middot;&nbsp; Initial3 Development</p>
+</section>
+
+</body>
+</html>
