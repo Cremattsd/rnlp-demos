@@ -462,11 +462,12 @@ document.getElementById('mapToggle').addEventListener('click',()=>{
 async function showDetail(id){
   document.getElementById('detailContent').innerHTML='<div class="loading" style="padding:80px"><div class="spinner"></div><p>Loading property data…</p></div>';
   openModal('detailModal');
-  try{const r=await fetch(PROXY+'/property',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({serial:SERIAL,property_id:id})});const _d=await r.json();renderDetail(_d.property||_d,_d.demographics||null,_d.walk_score||null,_d.neighborhood||null);}
+  try{const r=await fetch(PROXY+'/property',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({serial:SERIAL,property_id:parseInt(id)})});const _d=await r.json();renderDetail(_d.property||_d,_d.demographics||null,_d.walk_score||null,_d.neighborhood||null);}
   catch(e){document.getElementById('detailContent').innerHTML='<p style="padding:40px;color:var(--muted)">Could not load property details.</p>';}
 }
 
 function renderDetail(p, demographics, walkScore, neighborhood){
+  if (!p || !p.Id) { document.getElementById('detailContent').innerHTML='<p style="padding:40px;color:var(--muted)">Property not found.</p>'; return; }
   const heroImg=(p.Attachments||[])[0]?.FileName?(p.Attachments[0].FileName+'?h=600&mode=max&autorotate=true'):'';
   const lt=(p.ListingType||'').toUpperCase();
   const isSold=p.Status?.toUpperCase()==='SOLD'||lt==='SOLD'||lt==='LEASED';
