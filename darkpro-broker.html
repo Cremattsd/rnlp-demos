@@ -180,6 +180,26 @@ body.rnlp-dark .card{background:#0d1520!important;border-color:rgba(255,255,255,
 .detail-close-btn{display:flex;align-items:center;gap:6px;height:40px;padding:0 14px;background:rgba(0,0,0,.8);color:#fff;border:none;border-radius:8px;font-size:.82rem;font-weight:600;cursor:pointer;backdrop-filter:blur(4px);position:absolute;top:16px;right:16px;z-index:100;letter-spacing:.04em}
 .detail-close-btn:hover{background:#000}
 
+
+/* Area Intelligence */
+.intel-section{margin-top:20px}
+.intel-header{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--muted,#94a3b8);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid rgba(128,128,128,.15)}
+.intel-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.intel-card{background:rgba(128,128,128,.06);border-radius:10px;padding:14px;border:1px solid rgba(128,128,128,.1)}
+.intel-card.intel-full{grid-column:1/-1}
+.intel-card-title{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted,#94a3b8);margin-bottom:8px}
+.intel-big{font-size:1.5rem;font-weight:800;line-height:1}
+.intel-sub{font-size:.7rem;color:var(--muted,#94a3b8);margin-top:2px;margin-bottom:6px}
+.intel-bar-wrap{height:5px;background:rgba(128,128,128,.15);border-radius:3px;overflow:hidden;margin:6px 0}
+.intel-bar-fill{height:100%;border-radius:3px;transition:width .6s}
+.intel-badge{display:inline-flex;padding:2px 9px;border-radius:20px;font-size:.7rem;font-weight:600;margin-top:4px}
+.intel-pill{display:inline-flex;padding:2px 8px;border-radius:12px;font-size:.7rem;font-weight:500;margin:2px}
+.intel-skeleton{height:110px;border-radius:10px;background:linear-gradient(90deg,rgba(128,128,128,.08) 0%,rgba(128,128,128,.16) 50%,rgba(128,128,128,.08) 100%);background-size:200% 100%;animation:intel-shimmer 1.4s infinite}
+@keyframes intel-shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.intel-locked-wrap{position:relative}
+.intel-lock-badge{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,0,0,.72);backdrop-filter:blur(3px);border-radius:10px;z-index:10;padding:14px;text-align:center;color:#fff}
+.ws-gauge-wrap{display:flex;align-items:center;gap:10px;margin-top:4px}
+
 </style>
 </head>
 <body>
@@ -480,6 +500,7 @@ function renderDetail(p, demographics, walkScore, neighborhood){
         ${neighborhood?`<div class="detail-demo" style="margin-top:16px;background:rgba(128,128,128,.07);border-radius:8px;padding:14px"><p style="font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">📍 Location Context</p>${neighborhood.neighborhood?`<div style="font-weight:600;font-size:.9rem;margin-bottom:2px">${esc(neighborhood.neighborhood)}</div>`:''}${neighborhood.county?`<div style="font-size:.8rem;color:var(--muted)">${esc(neighborhood.county)}</div>`:''}${neighborhood.city&&neighborhood.state?`<div style="font-size:.8rem;color:var(--muted)">${esc(neighborhood.city+', '+neighborhood.state)}</div>`:''}</div>`:''}
         <div id="d-amenities" style="margin-top:12px"></div>
         <div id="d-map"></div>
+        <div id="area-intel-panel"></div>
       </div>
       <div class="detail-sidebar">
         ${bname?`<div class="detail-broker"><div class="detail-broker-avatar">${binit}</div><div class="detail-broker-name">${esc(bname)}</div><div class="detail-broker-contact">${b.Email?`<a href="mailto:${esc(b.Email)}">${esc(b.Email)}</a><br>`:''}${b.Phone?`<a href="tel:${esc(b.Phone)}">${esc(b.Phone)}</a>`:''}</div></div>`:''}
@@ -569,6 +590,50 @@ async function getNearbyAmenities(lat, lon) {
 }
 
 document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeModal('detailModal'); closeModal('inquireModal'); } });
+
+
+async function loadAreaIntelligence(lat, lon, zip, addr) {
+  const panel = document.getElementById('area-intel-panel');
+  if (!panel) return;
+  const isPro = new URLSearchParams(location.search).get('pro') === 'true';
+  panel.innerHTML = `<div class="intel-section"><div class="intel-header">AREA INTELLIGENCE</div><div class="intel-grid">${Array(4).fill('<div class="intel-skeleton"></div>').join('')}</div></div>`;
+  try {
+    const r = await fetch(PROXY+'/enrich', {method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({serial:SERIAL, lat, lon, zip, address:addr})});
+    const d = await r.json();
+    renderIntelPanel(panel, d, isPro);
+  } catch(e) { panel.innerHTML = ''; }
+}
+
+function renderIntelPanel(panel, d, isPro) {
+  const lock = !isPro;
+  function wrapL(html) {
+    if (!lock) return `<div class="intel-card">${html}</div>`;
+    return `<div class="intel-locked-wrap"><div class="intel-card" style="filter:blur(4px);pointer-events:none;user-select:none">${html}</div><div class="intel-lock-badge"><div style="font-size:1.1rem">🔒</div><div style="font-weight:700;font-size:.8rem;margin-top:3px">MP Premier Pro</div><div style="font-size:.72rem;opacity:.75;margin:3px 0 10px">Upgrade to unlock full area data</div><a href="mailto:msmith@initial3development.com" style="padding:6px 14px;background:#c9a84c;color:#fff;border-radius:6px;font-size:.75rem;font-weight:600;text-decoration:none">Upgrade →</a></div></div>`;
+  }
+  const ws = d.walk_score || {};
+  const wScore = ws.walk;
+  const wsColor = wScore!=null ? (wScore>=70?'#4ade80':wScore>=50?'#facc15':'#f87171') : '#94a3b8';
+  const walkCard = `<div class="intel-card-title">🚶 ACCESSIBILITY</div>${wScore!=null?`<div class="ws-gauge-wrap"><svg viewBox="0 0 36 36" width="72" height="72"><path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#e2e8f0" stroke-width="3"/><path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="${wsColor}" stroke-width="3" stroke-dasharray="${wScore}, 100" stroke-linecap="round"/><text x="18" y="20" text-anchor="middle" font-size="9" font-weight="700" fill="currentColor">${wScore}</text></svg><div><div style="font-weight:700;font-size:.88rem">${esc(ws.walk_desc||'')}</div>${ws.transit!=null?`<span class="intel-pill" style="background:rgba(37,99,235,.1);color:#2563eb">🚌 ${ws.transit}</span>`:''}${ws.bike!=null?`<span class="intel-pill" style="background:rgba(13,148,136,.1);color:#0d9488">🚲 ${ws.bike}</span>`:''}</div></div>`:'<div style="font-size:.8rem;opacity:.5">Walk score unavailable</div>'}`;
+  const tr = d.traffic || {};
+  const trLvl = tr.level;
+  const trColor = trLvl==='very_high'||trLvl==='high' ? '#4ade80' : trLvl==='medium' ? '#facc15' : '#94a3b8';
+  const trPct = trLvl==='very_high'?'95':trLvl==='high'?'72':trLvl==='medium'?'48':'24';
+  const trafficCard = `<div class="intel-card-title">🚗 TRAFFIC</div>${tr.road_name?`<div class="intel-big">${esc(tr.daily_estimate)}</div><div class="intel-sub">vehicles/day</div><div class="intel-bar-wrap"><div class="intel-bar-fill" style="width:${trPct}%;background:${trColor}"></div></div><div style="font-size:.75rem">${esc(tr.road_name)} — ${esc(tr.road_type)}</div>`:'<div style="font-size:.8rem;opacity:.5">Traffic data unavailable</div>'}`;
+  const env = d.environment || {};
+  const airP = env.air_quality_pctile;
+  const airLabel = airP!=null ? (airP<33?'GOOD':airP<66?'MODERATE':'ELEVATED') : null;
+  const airC = airP!=null ? (airP<33?'#16a34a':airP<66?'#ca8a04':'#dc2626') : null;
+  const envCard = `<div class="intel-card-title">🌿 ENVIRONMENT</div>${airLabel?`<span class="intel-badge" style="background:${airC}18;color:${airC};border:1px solid ${airC}40">${airLabel} Air Quality</span>${env.flood_risk_pctile!=null?`<div style="margin-top:6px;font-size:.78rem">Flood Risk: ${env.flood_risk_pctile<33?'Minimal':env.flood_risk_pctile<66?'Low':'Moderate'}</div>`:'`:'<div style="font-size:.8rem;opacity:.5">Environmental data unavailable</div>'}`;
+  const sol = d.solar || {};
+  const solarCard = `<div class="intel-card-title">☀️ SOLAR POTENTIAL</div>${sol.annual_ghi?`<div class="intel-big">${sol.annual_ghi}</div><div class="intel-sub">kWh/m²/day avg</div><div class="intel-bar-wrap"><div class="intel-bar-fill" style="width:${Math.min(100,(sol.annual_ghi/7*100)).toFixed(0)}%;background:#facc15"></div></div><span class="intel-badge" style="background:#fef9c318;color:#92400e;border:1px solid #fde68a">${esc(sol.label)}</span>`:'<div style="font-size:.8rem;opacity:.5">Solar data unavailable</div>'}`;
+  const dem = d.demographics || {};
+  const demCard = `<div class="intel-card-title">👥 DEMOGRAPHICS · ${esc(dem.zip||'')}</div>${dem.population?`<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">${dem.population?`<div><div class="intel-card-title" style="margin-bottom:2px">Population</div><div style="font-weight:700">${fmt(dem.population)}</div></div>`:''}${dem.median_income?`<div><div class="intel-card-title" style="margin-bottom:2px">Med Income</div><div style="font-weight:700">$${fmt(dem.median_income)}</div></div>`:''}${dem.median_home_value?`<div><div class="intel-card-title" style="margin-bottom:2px">Home Value</div><div style="font-weight:700">$${fmt(dem.median_home_value)}</div></div>`:''}${dem.unemployment?`<div><div class="intel-card-title" style="margin-bottom:2px">Unemployed</div><div style="font-weight:700">${fmt(dem.unemployment)}</div></div>`:''}</div>`:'<div style="font-size:.8rem;opacity:.5">Demographics unavailable</div>'}`;
+  const amIcons = {restaurant:'🍽️',cafe:'☕',bank:'🏦',pharmacy:'💊',hospital:'🏥',parking:'🅿️',supermarket:'🛒'};
+  const amPills = d.amenities ? Object.entries(d.amenities).map(([t,n])=>`<span class="amenity-pill">${amIcons[t]||'📍'} ${n} ${t.replace(/_/g,' ')}</span>`).join('') : '';
+  const amCard = amPills ? `<div class="intel-card intel-full"><div class="intel-card-title">📍 NEARBY AMENITIES</div><div class="amenity-pills">${amPills}</div></div>` : '';
+  panel.innerHTML = `<div class="intel-section"><div class="intel-header">AREA INTELLIGENCE</div><div class="intel-grid"><div class="intel-card">${walkCard}</div>${wrapL(trafficCard)}${wrapL(envCard)}${wrapL(solarCard)}<div class="intel-card intel-full">${demCard}</div>${amCard}</div></div>`;
+}
 
 loadListings();
 </script>
