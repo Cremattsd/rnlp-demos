@@ -163,6 +163,18 @@ body.rnlp-dark .card-name{color:#e6edf3!important}
 #listingGrid.rnlp-list .card-img{height:100%!important;min-height:120px;border-radius:8px 0 0 8px}
 #listingGrid.rnlp-list .card-body{padding:12px 16px}
 #listingGrid.rnlp-full-grid{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))!important}
+
+/* Detail panel enhancements */
+.detail-hero{min-height:65vh!important;height:auto!important;background-size:cover!important;background-position:center!important}
+.detail-thumbs{display:flex;gap:8px;overflow-x:auto;padding:12px 20px;background:rgba(0,0,0,.05);scrollbar-width:thin;-webkit-overflow-scrolling:touch}
+.detail-thumb{width:80px;height:80px;flex-shrink:0;border-radius:6px;object-fit:cover;cursor:pointer;opacity:.7;transition:opacity .15s}
+.detail-thumb:hover,.detail-thumb.active{opacity:1;outline:2px solid #c9a84c;outline-offset:2px}
+#d-map{height:300px;border-radius:10px;margin-top:16px;z-index:1;overflow:hidden;position:relative}
+.amenity-pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;margin-bottom:4px}
+.amenity-pill{padding:3px 10px;background:rgba(128,128,128,.12);border-radius:20px;font-size:.78rem;white-space:nowrap}
+.detail-close-btn{display:flex;align-items:center;gap:6px;height:40px;padding:0 14px;background:rgba(0,0,0,.8);color:#fff;border:none;border-radius:8px;font-size:.82rem;font-weight:600;cursor:pointer;backdrop-filter:blur(4px);position:absolute;top:16px;right:16px;z-index:100;letter-spacing:.04em}
+.detail-close-btn:hover{background:#000}
+
 </style>
 </head>
 <body>
@@ -277,9 +289,9 @@ body.rnlp-dark .card-name{color:#e6edf3!important}
 </div>
 
 <!-- DETAIL MODAL -->
-<div class="modal-overlay detail-modal" id="detailModal">
+<div class="modal-overlay detail-modal" id="detailModal" onclick="if(event.target===this)closeModal('detailModal')">
   <div class="modal">
-    <button class="modal-close" onclick="closeModal('detailModal')" style="z-index:10;position:absolute;top:16px;right:16px">✕</button>
+    <button class="detail-close-btn" onclick="closeModal('detailModal')">✕ Close</button>
     <div id="detailContent"><div class="loading" style="padding:80px"><div class="spinner"></div><p>Loading property…</p></div></div>
   </div>
 </div>
@@ -288,6 +300,7 @@ body.rnlp-dark .card-name{color:#e6edf3!important}
 const PROXY = 'https://rnlp-proxy.onrender.com';
 const SERIAL = 'RNLP-TEST-001';
 const PER_PAGE = 9;
+const DETAIL_MODE = new URLSearchParams(location.search).get('detail') || 'popup';
 // ── URL Param Config ─────────────────────────────────────────────────────────
 (function(){
   var _p=new URLSearchParams(location.search);
@@ -404,6 +417,7 @@ document.getElementById('sortSelect').addEventListener('change',applyFilters);
 
 async function showDetail(id, name) {
   document.getElementById('detailContent').innerHTML = '<div class="loading" style="padding:80px"><div class="spinner"></div><p>Loading…</p></div>';
+  if (DETAIL_MODE === 'page') { window.open('property-detail.html?serial=' + SERIAL + '&id=' + id, '_blank'); return; }
   openModal('detailModal');
   try {
     const r = await fetch(PROXY+'/property',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({serial:SERIAL,property_id:parseInt(id)})});
@@ -454,6 +468,8 @@ function renderDetail(p, demographics, walkScore, neighborhood) {
         ${demographics?`<div class="detail-demo"><p style="font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:10px">Area Demographics · ${esc(p.Zip||'')}</p><div style="display:flex;gap:12px;flex-wrap:wrap">${demographics.population!=null?`<div class="detail-fact"><div class="detail-fact-lbl">Population</div><div class="detail-fact-val">${fmt(demographics.population)}</div></div>`:''}${demographics.median_income!=null?`<div class="detail-fact"><div class="detail-fact-lbl">Med. Income</div><div class="detail-fact-val">$${fmt(demographics.median_income)}</div></div>`:''}${demographics.median_home_value!=null?`<div class="detail-fact"><div class="detail-fact-lbl">Med. Home Value</div><div class="detail-fact-val">$${fmt(demographics.median_home_value)}</div></div>`:''}${demographics.unemployment!=null?`<div class="detail-fact"><div class="detail-fact-lbl">Unemployed</div><div class="detail-fact-val">${fmt(demographics.unemployment)}</div></div>`:''}</div></div>`:''}
         ${walkScore?`<div class="detail-demo" style="margin-top:16px"><p style="font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:12px">Walk Score</p><div style="display:flex;gap:20px;flex-wrap:wrap">${walkScore.walk!=null?`<div style="text-align:center"><div style="width:80px;height:80px;border-radius:50%;border:3px solid ${walkScore.walk>=70?'#16a34a':walkScore.walk>=50?'#ca8a04':'#dc2626'};display:flex;align-items:center;justify-content:center;font-size:1.6rem;font-weight:700;color:${walkScore.walk>=70?'#16a34a':walkScore.walk>=50?'#ca8a04':'#dc2626'}">${walkScore.walk}</div><div style="font-size:.72rem;margin-top:6px;font-weight:600">Walk</div>${walkScore.walk_desc?`<div style="font-size:.65rem;color:var(--muted)">${esc(walkScore.walk_desc)}</div>`:''}</div>`:''} ${walkScore.transit!=null?`<div style="text-align:center"><div style="width:80px;height:80px;border-radius:50%;border:3px solid #2563eb;display:flex;align-items:center;justify-content:center;font-size:1.6rem;font-weight:700;color:#2563eb">${walkScore.transit}</div><div style="font-size:.72rem;margin-top:6px;font-weight:600">Transit</div>${walkScore.transit_desc?`<div style="font-size:.65rem;color:var(--muted)">${esc(walkScore.transit_desc)}</div>`:''}</div>`:''} ${walkScore.bike!=null?`<div style="text-align:center"><div style="width:80px;height:80px;border-radius:50%;border:3px solid #0d9488;display:flex;align-items:center;justify-content:center;font-size:1.6rem;font-weight:700;color:#0d9488">${walkScore.bike}</div><div style="font-size:.72rem;margin-top:6px;font-weight:600">Bike</div>${walkScore.bike_desc?`<div style="font-size:.65rem;color:var(--muted)">${esc(walkScore.bike_desc)}</div>`:''}</div>`:''}</div></div>`:''}
         ${neighborhood?`<div class="detail-demo" style="margin-top:16px;background:rgba(128,128,128,.07);border-radius:8px;padding:14px"><p style="font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">📍 Location Context</p>${neighborhood.neighborhood?`<div style="font-weight:600;font-size:.9rem;margin-bottom:2px">${esc(neighborhood.neighborhood)}</div>`:''}${neighborhood.county?`<div style="font-size:.8rem;color:var(--muted)">${esc(neighborhood.county)}</div>`:''}${neighborhood.city&&neighborhood.state?`<div style="font-size:.8rem;color:var(--muted)">${esc(neighborhood.city+', '+neighborhood.state)}</div>`:''}</div>`:''}
+        <div id="d-amenities" style="margin-top:12px"></div>
+        <div id="d-map"></div>
       </div>
       <div class="detail-sidebar">
         ${bname?`<div class="detail-broker"><div class="detail-broker-avatar">${esc(binit)}</div><div class="detail-broker-name">${esc(bname)}</div><div class="detail-broker-contact">${broker.Email?`<a href="mailto:${esc(broker.Email)}">${esc(broker.Email)}</a><br>`:''}${broker.Phone?`<a href="tel:${esc(broker.Phone)}">${esc(broker.Phone)}</a>`:''}</div></div>`:''}
@@ -463,6 +479,38 @@ function renderDetail(p, demographics, walkScore, neighborhood) {
         <button class="detail-btn detail-btn-outline" onclick="navigator.clipboard&&navigator.clipboard.writeText(location.href).then(()=>alert('Link copied!'))">Share Property</button>
       </div>
     </div>`;
+
+  // FIX 1+2: map + nearby amenities
+  setTimeout(async () => {
+    const mapEl = document.getElementById('d-map');
+    if (!mapEl) return;
+    if (window._leafMap) { window._leafMap.remove(); window._leafMap = null; }
+    let lat = parseFloat(p.Latitude || (neighborhood && neighborhood.lat) || 0);
+    let lon = parseFloat(p.Longitude || (neighborhood && neighborhood.lon) || 0);
+    if (!lat || !lon) {
+      const addr = [p.Street, p.City, p.State, p.Zip].filter(Boolean).join(', ');
+      try {
+        const gr = await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' + encodeURIComponent(addr));
+        const gd = await gr.json();
+        if (gd[0]) { lat = parseFloat(gd[0].lat); lon = parseFloat(gd[0].lon); }
+      } catch(e) {}
+    }
+    if (!lat || !lon) return;
+    window._leafMap = L.map('d-map').setView([lat, lon], 14);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {attribution:'© OpenStreetMap'}).addTo(window._leafMap);
+    L.marker([lat, lon]).addTo(window._leafMap).bindPopup(p.PropertyName||'').openPopup();
+    const amenities = await getNearbyAmenities(lat, lon);
+    if (amenities) {
+      const el = document.getElementById('d-amenities');
+      if (el) {
+        const pills = Object.entries(amenities).map(([type, data]) =>
+          `<span class="amenity-pill">${data.icon} ${data.count} ${type.replace(/_/g,' ')}</span>`
+        ).join('');
+        el.innerHTML = pills ? `<div class="amenity-pills">${pills}</div>` : '';
+      }
+    }
+  }, 300);
+
 }
 
 function openModal(id){document.getElementById(id).classList.add('open');document.body.style.overflow='hidden'}
@@ -497,6 +545,25 @@ function fmt(n){return Number(n).toLocaleString('en-US',{maximumFractionDigits:0
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 function escAttr(s){return String(s||'').replace(/'/g,"\\'").replace(/"/g,'&quot;')}
 function ucw(s){return s.toLowerCase().replace(/\b\w/g,c=>c.toUpperCase())}
+
+
+async function getNearbyAmenities(lat, lon) {
+  const q = `[out:json][timeout:10];(node["amenity"~"restaurant|cafe|bank|pharmacy|hospital|parking|supermarket"](around:800,${lat},${lon}););out body 15;`;
+  try {
+    const r = await fetch('https://overpass-api.de/api/interpreter?data=' + encodeURIComponent(q));
+    const data = await r.json();
+    const am = {};
+    const icons = {restaurant:'🍽️',cafe:'☕',bank:'🏦',pharmacy:'💊',hospital:'🏥',parking:'🅿️',supermarket:'🛒'};
+    (data.elements||[]).forEach(el => {
+      const t = el.tags.amenity;
+      if (!am[t]) am[t] = {count:0, icon:icons[t]||'📍'};
+      am[t].count++;
+    });
+    return Object.keys(am).length ? am : null;
+  } catch(e) { return null; }
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeModal('detailModal'); closeModal('inquireModal'); } });
 
 loadListings();
 </script>

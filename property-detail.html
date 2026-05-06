@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Property Detail</title>
+<meta name="description" id="meta-desc" content="Commercial property listing details">
+<meta property="og:title" id="og-title" content="Property Detail">
+<meta property="og:description" id="og-desc" content="Commercial real estate listing">
+<meta property="og:image" id="og-img" content="">
+<meta property="og:type" content="website">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',system-ui,sans-serif;background:#f8f9fa;color:#1a1a2e;min-height:100vh}
+a{color:inherit;text-decoration:none}
+
+/* Back bar */
+.back-bar{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-bottom:1px solid #e2e8f0;padding:12px 24px;display:flex;align-items:center;gap:16px}
+.back-btn{display:flex;align-items:center;gap:8px;padding:8px 16px;background:#0d1828;color:#fff;border:none;border-radius:8px;font-size:.85rem;font-weight:600;cursor:pointer;letter-spacing:.04em}
+.back-btn:hover{background:#1a2f4a}
+.back-bar-title{font-size:.9rem;color:#64748b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* Hero */
+.detail-hero{min-height:65vh;background:#cbd5e1 no-repeat center center/cover;position:relative;display:flex;align-items:flex-end}
+.detail-hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 30%,rgba(0,0,0,.75))}
+.detail-hero-badge{position:absolute;top:20px;left:28px;padding:5px 14px;border-radius:14px;font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;backdrop-filter:blur(4px)}
+.detail-hero-price{position:absolute;top:20px;right:28px;background:rgba(0,0,0,.65);color:#fff;padding:8px 16px;border-radius:8px;font-weight:700;border:1px solid rgba(255,255,255,.15)}
+.detail-hero-text{position:relative;z-index:1;padding:28px 32px;color:#fff}
+.detail-hero-text h1{font-family:'DM Serif Display','Georgia',serif;font-size:2rem;font-weight:400;line-height:1.25;margin-bottom:6px}
+.detail-hero-text p{font-size:.95rem;opacity:.85}
+
+/* Thumbnails */
+.detail-thumbs{display:flex;gap:8px;overflow-x:auto;padding:12px 20px;background:rgba(0,0,0,.05);scrollbar-width:thin}
+.detail-thumb{width:80px;height:80px;flex-shrink:0;border-radius:6px;object-fit:cover;cursor:pointer;opacity:.7;transition:opacity .15s}
+.detail-thumb:hover,.detail-thumb.active{opacity:1;outline:2px solid #c9a84c;outline-offset:2px}
+
+/* Facts bar */
+.detail-facts{display:flex;gap:0;overflow-x:auto;border-bottom:1px solid #e2e8f0;scrollbar-width:none;background:#fff}
+.detail-facts::-webkit-scrollbar{display:none}
+.detail-fact{flex-shrink:0;min-width:max-content;padding:14px 24px;border-right:1px solid #e2e8f0;text-align:center}
+.detail-fact-lbl{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#94a3b8;margin-bottom:4px}
+.detail-fact-val{font-size:.95rem;font-weight:700;color:#1a1a2e}
+
+/* Layout */
+.detail-container{max-width:1200px;margin:0 auto;padding:32px 24px}
+.detail-grid{display:grid;grid-template-columns:1fr 340px;gap:32px;align-items:start}
+@media(max-width:768px){.detail-grid{grid-template-columns:1fr}.detail-sidebar{order:-1}}
+
+/* Left */
+.detail-section{background:#fff;border-radius:12px;padding:24px;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.detail-section h2{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#94a3b8;margin-bottom:14px}
+.detail-section p{font-size:.9rem;line-height:1.75;color:#475569}
+
+/* Spaces table */
+.spaces-table{width:100%;border-collapse:collapse;font-size:.85rem;margin-top:8px}
+.spaces-table th{background:#f8fafc;padding:8px 12px;text-align:left;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#64748b;border-bottom:2px solid #e2e8f0}
+.spaces-table td{padding:10px 12px;border-bottom:1px solid #f1f5f9;color:#334155}
+.spaces-table tr:hover td{background:#f8fafc}
+
+/* Demographics */
+.demo-grid{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.demo-card{flex:1;min-width:100px;background:#f8fafc;border-radius:8px;padding:12px;text-align:center;border-left:3px solid #c9a84c}
+.demo-card-lbl{font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;color:#94a3b8;margin-bottom:4px}
+.demo-card-val{font-size:1.05rem;font-weight:700;color:#1a1a2e}
+
+/* Map */
+#d-map{height:320px;border-radius:10px;margin-top:12px;overflow:hidden;position:relative;z-index:1}
+
+/* Amenities */
+.amenity-pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.amenity-pill{padding:4px 12px;background:#f1f5f9;border-radius:20px;font-size:.78rem}
+
+/* Sidebar */
+.detail-sidebar{position:sticky;top:80px}
+.sidebar-card{background:#fff;border-radius:12px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:16px}
+.broker-avatar{width:56px;height:56px;border-radius:50%;background:#0d1828;color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:700;margin-bottom:10px}
+.broker-name{font-size:1rem;font-weight:700;margin-bottom:2px}
+.broker-contact{font-size:.83rem;color:#64748b;line-height:1.8}
+.broker-contact a{color:#0d1828;font-weight:500}
+.broker-contact a:hover{text-decoration:underline}
+.btn{display:block;width:100%;padding:13px 16px;border-radius:8px;font-size:.85rem;font-weight:600;text-align:center;cursor:pointer;border:none;letter-spacing:.04em;margin-bottom:8px;transition:opacity .15s}
+.btn:hover{opacity:.88}
+.btn-primary{background:#0d1828;color:#fff}
+.btn-outline{background:transparent;color:#0d1828;border:1.5px solid #0d1828}
+.btn-ghost{background:transparent;color:#64748b;border:1.5px solid #e2e8f0}
+.prop-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.prop-tag{padding:3px 10px;background:#f1f5f9;border-radius:20px;font-size:.75rem;color:#475569}
+
+/* Loading / error */
+.page-loading{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;gap:16px;color:#64748b}
+.spinner{width:36px;height:36px;border:3px solid #e2e8f0;border-top-color:#c9a84c;border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Walk score circles */
+.walk-circles{display:flex;gap:16px;flex-wrap:wrap;margin-top:8px}
+.ws-wrap{text-align:center}
+.ws-circle{width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.4rem;font-weight:700;border:3px solid}
+.ws-label{font-size:.68rem;font-weight:600;margin-top:4px}
+.ws-desc{font-size:.6rem;color:#94a3b8;margin-top:1px}
+</style>
+</head>
+<body>
+
+<div class="back-bar">
+  <button class="back-btn" onclick="history.back()">← Back</button>
+  <div class="back-bar-title" id="backBarTitle">Loading property…</div>
+</div>
+
+<div id="pageContent">
+  <div class="page-loading"><div class="spinner"></div><p>Loading property details…</p></div>
+</div>
+
+<script>
+const PROXY = 'https://rnlp-proxy.onrender.com';
+const _qp = new URLSearchParams(location.search);
+const SERIAL = _qp.get('serial') || 'RNLP-TEST-001';
+const PROP_ID = _qp.get('id');
+
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function ucw(s){return s.toLowerCase().replace(/\b\w/g,c=>c.toUpperCase())}
+function fmt(n){return Number(n).toLocaleString('en-US',{maximumFractionDigits:0})}
+
+async function getNearbyAmenities(lat, lon) {
+  const q = `[out:json][timeout:10];(node["amenity"~"restaurant|cafe|bank|pharmacy|hospital|parking|supermarket"](around:800,${lat},${lon}););out body 15;`;
+  try {
+    const r = await fetch('https://overpass-api.de/api/interpreter?data=' + encodeURIComponent(q));
+    const data = await r.json();
+    const am = {};
+    const icons = {restaurant:'🍽️',cafe:'☕',bank:'🏦',pharmacy:'💊',hospital:'🏥',parking:'🅿️',supermarket:'🛒'};
+    (data.elements||[]).forEach(el => {
+      const t = el.tags.amenity;
+      if (!am[t]) am[t] = {count:0, icon:icons[t]||'📍'};
+      am[t].count++;
+    });
+    return Object.keys(am).length ? am : null;
+  } catch(e) { return null; }
+}
+
+async function loadProperty() {
+  if (!PROP_ID) {
+    document.getElementById('pageContent').innerHTML = '<div class="page-loading"><p>No property ID specified.</p></div>';
+    return;
+  }
+  try {
+    const r = await fetch(PROXY+'/property', {method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({serial: SERIAL, property_id: parseInt(PROP_ID)})});
+    const data = await r.json();
+    renderPage(data.property || data, data.demographics || null, data.walk_score || null, data.neighborhood || null);
+  } catch(e) {
+    document.getElementById('pageContent').innerHTML = '<div class="page-loading"><p>Could not load property. Please go back and try again.</p></div>';
+  }
+}
+
+function renderPage(p, demographics, walkScore, neighborhood) {
+  if (!p || !p.Id) {
+    document.getElementById('pageContent').innerHTML = '<div class="page-loading"><p>Property not found.</p></div>';
+    return;
+  }
+
+  const photos = (p.Attachments||[]).filter(a=>(a.AttachmentType||a.attachment_type)==='photo');
+  const heroImg = photos[0]?.FileName ? photos[0].FileName + '?h=800&mode=max&autorotate=true' : '';
+  const lt = (p.ListingType||'').toUpperCase();
+  const isSold = p.Status?.toUpperCase()==='SOLD' || lt==='SOLD' || lt==='LEASED';
+  const badgeText = lt==='FOR LEASE'?'For Lease':lt==='FOR SALE'?'For Sale':isSold?'Sold':(p.ListingType||p.Status||'');
+  const badgeStyle = lt==='FOR LEASE'?'background:rgba(16,185,129,.9);color:#fff':lt==='FOR SALE'?'background:rgba(59,130,246,.9);color:#fff':isSold?'background:rgba(220,38,38,.9);color:#fff':'background:rgba(0,0,0,.65);color:#fff';
+  const price = p.PriceDisclosed&&p.ListPrice ? '$'+fmt(p.ListPrice)+(lt==='FOR LEASE'&&p.PriceUnits?' /SF':'') : '';
+  const users = p.UserList||(p.User?[p.User]:[]);
+  const b = users[0]||{};
+  const bname = ((b.FirstName||'')+' '+(b.LastName||'')).trim();
+  const binit = ((b.FirstName?.[0]||'B')+(b.LastName?.[0]||'R')).toUpperCase();
+  const facts = [
+    p.BuildingSf&&{l:'Building SF',v:fmt(p.BuildingSf)+' SF'},
+    p.SpaceAvailMin&&{l:'Avail SF',v:fmt(p.SpaceAvailMin)+' SF'},
+    p.YearBuilt&&{l:'Year Built',v:p.YearBuilt},
+    p.BuildingClass&&{l:'Class',v:p.BuildingClass},
+    p.Stories&&{l:'Stories',v:p.Stories},
+    p.Units&&{l:'Units',v:p.Units},
+    p.LandSize&&{l:'Land',v:p.LandSize+' '+(p.LandSizeType||'AC')},
+    (p.PropertyTypes||[]).length&&{l:'Type',v:p.PropertyTypes.slice(0,2).join(', ')},
+    p.Zip&&{l:'ZIP',v:p.Zip},
+  ].filter(Boolean);
+  const spaces = (p.Spaces||[]).slice(0,10);
+  const propName = ucw(p.PropertyName||'Unnamed Property');
+
+  // SEO meta
+  document.title = propName + ' — Property Detail';
+  document.getElementById('meta-desc').content = p.PropertyDescription?.slice(0,155) || propName;
+  document.getElementById('og-title').content = propName;
+  document.getElementById('og-desc').content = [p.Street,p.City,p.State].filter(Boolean).join(', ');
+  if (heroImg) document.getElementById('og-img').content = heroImg;
+  document.getElementById('backBarTitle').textContent = propName;
+
+  document.getElementById('pageContent').innerHTML = `
+    <div class="detail-hero" style="background-image:${heroImg?'url('+heroImg+')':'linear-gradient(135deg,#0d1828,#1a2f4a)'}">
+      <div class="detail-hero-overlay"></div>
+      <span class="detail-hero-badge" style="${badgeStyle}">${esc(badgeText)}</span>
+      ${price?`<span class="detail-hero-price">${esc(price)}</span>`:''}
+      <div class="detail-hero-text">
+        <h1>${esc(propName)}</h1>
+        <p>${esc([p.Street,p.City,p.State,p.Zip].filter(Boolean).join(', '))}</p>
+      </div>
+    </div>
+    ${photos.length>1?`<div class="detail-thumbs">${photos.slice(0,8).map((a,i)=>`<img class="detail-thumb${i===0?' active':''}" src="${a.FileName}?h=160&mode=max&autorotate=true" onclick="(function(el,url){document.querySelector('.detail-hero').style.backgroundImage='url('+url+'?h=800&mode=max&autorotate=true)';document.querySelectorAll('.detail-thumb').forEach(t=>t.classList.remove('active'));el.classList.add('active')})(this,'${a.FileName}')">`).join('')}</div>`:''}
+    ${facts.length?`<div class="detail-facts">${facts.map(f=>`<div class="detail-fact"><div class="detail-fact-lbl">${esc(f.l)}</div><div class="detail-fact-val">${esc(String(f.v))}</div></div>`).join('')}</div>`:''}
+    <div class="detail-container">
+      <div class="detail-grid">
+        <div class="detail-left">
+          <div class="detail-section">
+            <h2>Description</h2>
+            <p>${esc(p.PropertyDescription||'Contact the listing broker for full property details.')}</p>
+          </div>
+          ${spaces.length?`<div class="detail-section"><h2>Available Spaces</h2><table class="spaces-table"><thead><tr><th>Space</th><th>Avail SF</th><th>Ask Rate</th><th>Lease Type</th><th>Available</th></tr></thead><tbody>${spaces.map(s=>`<tr><td>${esc(s.SpaceName||s.SpaceId||'—')}</td><td>${s.AvailSF?fmt(s.AvailSF)+' SF':'—'}</td><td>${s.AskRateSF?'$'+s.AskRateSF+(s.AskRateType?' '+s.AskRateType:''):'Call'}</td><td>${esc(s.SpaceType||'—')}</td><td>${esc(s.AvailableDate||'Now')}</td></tr>`).join('')}</tbody></table></div>`:''}
+          ${demographics?`<div class="detail-section"><h2>Area Demographics · ${esc(p.Zip||'')}</h2><div class="demo-grid">${demographics.population!=null?`<div class="demo-card"><div class="demo-card-lbl">Population</div><div class="demo-card-val">${fmt(demographics.population)}</div></div>`:''} ${demographics.median_income!=null?`<div class="demo-card"><div class="demo-card-lbl">Med. Income</div><div class="demo-card-val">$${fmt(demographics.median_income)}</div></div>`:''} ${demographics.median_home_value!=null?`<div class="demo-card"><div class="demo-card-lbl">Home Value</div><div class="demo-card-val">$${fmt(demographics.median_home_value)}</div></div>`:''} ${demographics.unemployment!=null?`<div class="demo-card"><div class="demo-card-lbl">Unemployed</div><div class="demo-card-val">${fmt(demographics.unemployment)}</div></div>`:''}</div></div>`:''}
+          ${walkScore?`<div class="detail-section"><h2>Walk Score</h2><div class="walk-circles">${walkScore.walk!=null?`<div class="ws-wrap"><div class="ws-circle" style="border-color:${walkScore.walk>=70?'#16a34a':walkScore.walk>=50?'#ca8a04':'#dc2626'};color:${walkScore.walk>=70?'#16a34a':walkScore.walk>=50?'#ca8a04':'#dc2626'}">${walkScore.walk}</div><div class="ws-label">Walk</div>${walkScore.walk_desc?`<div class="ws-desc">${esc(walkScore.walk_desc)}</div>`:''}</div>`:''} ${walkScore.transit!=null?`<div class="ws-wrap"><div class="ws-circle" style="border-color:#2563eb;color:#2563eb">${walkScore.transit}</div><div class="ws-label">Transit</div>${walkScore.transit_desc?`<div class="ws-desc">${esc(walkScore.transit_desc)}</div>`:''}</div>`:''} ${walkScore.bike!=null?`<div class="ws-wrap"><div class="ws-circle" style="border-color:#0d9488;color:#0d9488">${walkScore.bike}</div><div class="ws-label">Bike</div>${walkScore.bike_desc?`<div class="ws-desc">${esc(walkScore.bike_desc)}</div>`:''}</div>`:''}</div></div>`:''}
+          ${neighborhood?`<div class="detail-section"><h2>📍 Location Context</h2>${neighborhood.neighborhood?`<div style="font-weight:600;font-size:.95rem">${esc(neighborhood.neighborhood)}</div>`:''} ${neighborhood.county?`<div style="font-size:.85rem;color:#64748b;margin-top:2px">${esc(neighborhood.county)}</div>`:''} ${neighborhood.city&&neighborhood.state?`<div style="font-size:.85rem;color:#64748b;margin-top:2px">${esc(neighborhood.city+', '+neighborhood.state)}</div>`:''}</div>`:''}
+          <div class="detail-section"><h2>Nearby Amenities</h2><div id="d-amenities"><div style="color:#94a3b8;font-size:.85rem">Loading nearby amenities…</div></div></div>
+          <div class="detail-section" style="padding:0;overflow:hidden"><div id="d-map"></div></div>
+        </div>
+        <div class="detail-sidebar">
+          ${bname?`<div class="sidebar-card"><div class="broker-avatar">${esc(binit)}</div><div class="broker-name">${esc(bname)}</div><div class="broker-contact">${b.Email?`<a href="mailto:${esc(b.Email)}">${esc(b.Email)}</a><br>`:''}${b.Phone?`<a href="tel:${esc(b.Phone)}">${esc(b.Phone)}</a>`:''}</div></div>`:''}
+          <div class="sidebar-card">
+            <button class="btn btn-primary" onclick="openInquire('${esc(p.PropertyName||'')}','${p.Id||''}')">INQUIRE ABOUT THIS PROPERTY</button>
+            ${p.Status==='Active'?`<a class="btn btn-outline" href="https://realnex.com/listings/client/1/${p.Id}/${p.Id}" target="_blank">ACCESS REALNEX VAULT</a>`:''}
+            ${p.BrochureUrl?`<a class="btn btn-ghost" href="${esc(p.BrochureUrl)}" target="_blank">DOWNLOAD BROCHURE</a>`:''}
+            ${p.TourUrl?`<a class="btn btn-ghost" href="${esc(p.TourUrl)}" target="_blank">PROPERTY TOUR</a>`:''}
+            <button class="btn btn-ghost" onclick="navigator.clipboard&&navigator.clipboard.writeText(location.href).then(()=>alert('Link copied!'))">SHARE PROPERTY</button>
+          </div>
+          ${(p.PropertyTypes||[]).length?`<div class="sidebar-card"><div class="detail-fact-lbl" style="margin-bottom:8px">Property Type</div><div class="prop-tags">${(p.PropertyTypes||[]).map(t=>`<span class="prop-tag">${esc(t)}</span>`).join('')}</div></div>`:''}
+          ${p.IsFeatured?`<div class="sidebar-card" style="text-align:center;padding:12px"><span style="background:#c9a84c;color:#fff;padding:5px 14px;border-radius:20px;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase">⭐ Featured Listing</span></div>`:''}
+        </div>
+      </div>
+    </div>
+    <!-- Inquire modal -->
+    <div id="inquireOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px" onclick="if(event.target===this)closeInquire()">
+      <div style="background:#fff;border-radius:16px;padding:28px;width:100%;max-width:480px;position:relative" onclick="event.stopPropagation()">
+        <button style="position:absolute;top:16px;right:16px;background:rgba(0,0,0,.7);color:#fff;border:none;border-radius:6px;width:32px;height:32px;cursor:pointer;font-size:1rem" onclick="closeInquire()">✕</button>
+        <h3 style="margin-bottom:4px;font-size:1.1rem">Inquire About Property</h3>
+        <p id="inqPropName" style="font-size:.82rem;color:#64748b;margin-bottom:20px"></p>
+        <form id="inqForm" onsubmit="submitInquiry(event)">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+            <input id="inq-name" required placeholder="Full Name" style="padding:10px;border:1px solid #e2e8f0;border-radius:8px;font-size:.88rem;width:100%">
+            <input id="inq-phone" placeholder="Phone" style="padding:10px;border:1px solid #e2e8f0;border-radius:8px;font-size:.88rem;width:100%">
+          </div>
+          <input id="inq-email" required type="email" placeholder="Email Address" style="padding:10px;border:1px solid #e2e8f0;border-radius:8px;font-size:.88rem;width:100%;margin-bottom:12px">
+          <textarea id="inq-msg" rows="3" placeholder="Message (optional)" style="padding:10px;border:1px solid #e2e8f0;border-radius:8px;font-size:.88rem;width:100%;resize:vertical;margin-bottom:16px"></textarea>
+          <button type="submit" style="width:100%;padding:12px;background:#0d1828;color:#fff;border:none;border-radius:8px;font-size:.88rem;font-weight:600;cursor:pointer">Send Inquiry</button>
+        </form>
+      </div>
+    </div>
+  `;
+
+  // Map
+  setTimeout(async () => {
+    const mapEl = document.getElementById('d-map');
+    if (!mapEl) return;
+    if (window._leafMap) { window._leafMap.remove(); window._leafMap = null; }
+    let lat = parseFloat(p.Latitude || (neighborhood && neighborhood.lat) || 0);
+    let lon = parseFloat(p.Longitude || (neighborhood && neighborhood.lon) || 0);
+    if (!lat || !lon) {
+      const addr = [p.Street, p.City, p.State, p.Zip].filter(Boolean).join(', ');
+      try {
+        const gr = await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' + encodeURIComponent(addr));
+        const gd = await gr.json();
+        if (gd[0]) { lat = parseFloat(gd[0].lat); lon = parseFloat(gd[0].lon); }
+      } catch(e) {}
+    }
+    if (!lat || !lon) return;
+    window._leafMap = L.map('d-map').setView([lat, lon], 14);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {attribution:'© OpenStreetMap'}).addTo(window._leafMap);
+    L.marker([lat, lon]).addTo(window._leafMap).bindPopup(p.PropertyName||'').openPopup();
+    const amenities = await getNearbyAmenities(lat, lon);
+    const el = document.getElementById('d-amenities');
+    if (el) {
+      if (amenities) {
+        const pills = Object.entries(amenities).map(([type, data]) =>
+          `<span class="amenity-pill">${data.icon} ${data.count} ${type.replace(/_/g,' ')}</span>`
+        ).join('');
+        el.innerHTML = `<div class="amenity-pills">${pills}</div>`;
+      } else {
+        el.innerHTML = '<span style="color:#94a3b8;font-size:.85rem">No amenity data available</span>';
+      }
+    }
+  }, 300);
+}
+
+let _inqPropId = '';
+function openInquire(name, id) {
+  _inqPropId = id;
+  const el = document.getElementById('inquireOverlay');
+  const lbl = document.getElementById('inqPropName');
+  if (el) { el.style.display='flex'; }
+  if (lbl) lbl.textContent = name;
+}
+function closeInquire() {
+  const el = document.getElementById('inquireOverlay');
+  if (el) el.style.display='none';
+}
+async function submitInquiry(e) {
+  e.preventDefault();
+  const btn = e.target.querySelector('[type=submit]');
+  btn.disabled = true; btn.textContent = 'Sending…';
+  try {
+    const r = await fetch(PROXY+'/lead', {method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({serial:SERIAL, name:document.getElementById('inq-name').value, email:document.getElementById('inq-email').value, phone:document.getElementById('inq-phone').value, message:document.getElementById('inq-msg').value, property_id:_inqPropId})});
+    const d = await r.json();
+    if (r.ok && d.success) { alert('Inquiry submitted!'); e.target.reset(); closeInquire(); }
+    else { alert('Error: '+(d.error||'Please try again.')); }
+  } catch(err) { alert('Network error. Please try again.'); }
+  finally { btn.disabled=false; btn.textContent='Send Inquiry'; }
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeInquire(); });
+
+loadProperty();
+</script>
+</body>
+</html>
