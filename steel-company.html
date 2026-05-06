@@ -320,6 +320,9 @@ function renderGrid(){
   g.innerHTML=slice.map(p=>{
     const img=getImg(p);
     const sold=p.Status?.toUpperCase()==='SOLD';
+    const imgUrl=p.Attachments?.[0]?.FileName||'';
+    const idFromImg=imgUrl.includes('/ListingAttachment/')?imgUrl.split('/ListingAttachment/')[1].split('/')[0]:null;
+    const propId=p.Id||idFromImg;
     const lt=(p.ListingType||'').toUpperCase();
     const badge=lt==='FOR LEASE'?'For Lease':lt==='FOR SALE'?'For Sale':sold?'Sold':(p.ListingType||p.Status||'—');
     const bcls=sold?'sold':lt==='FOR LEASE'?'lease':'';
@@ -327,7 +330,7 @@ function renderGrid(){
     const bsf=p.BuildingSf?fmt(p.BuildingSf)+' SF':'';
     const asf=p.SpaceAvailMin?fmt(p.SpaceAvailMin)+' SF':(p.LandSize?p.LandSize+' '+(p.LandSizeType||'AC'):'');
     const types=(p.PropertyTypes||[]).slice(0,2);
-    return `<div class="card" onclick="showDetail('${p.Id}')">
+    return `<div class="card" onclick="showDetail('${propId}')">
       <div class="card-img" style="${img?'background-image:url('+img+')':''}">
         <span class="card-badge ${bcls}">${badgeIcon(lt,sold)}${badge}</span>
         ${pr?`<span class="card-price">${pr}</span>`:''}
