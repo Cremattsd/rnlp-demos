@@ -227,6 +227,49 @@ header{
 .btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
 .btn-ghost.copied{border-color:rgba(34,197,94,.4);color:#4ade80;background:rgba(34,197,94,.06)}
 
+/* PRODUCT HEADER */
+.tab-product-header{
+  display:flex;align-items:flex-start;justify-content:space-between;
+  gap:16px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:18px;
+  border-bottom:1px solid var(--border);
+}
+.tab-badge-group{display:flex;flex-direction:column;gap:6px}
+.tab-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:.65rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+  padding:4px 12px;border-radius:14px;width:fit-content;
+}
+.tab-badge.recommended{background:rgba(201,168,76,.15);color:var(--gold);border:1px solid rgba(201,168,76,.3)}
+.tab-badge.anysite{background:rgba(99,102,241,.12);color:#a5b4fc;border:1px solid rgba(99,102,241,.25)}
+.tab-badge.nosite{background:rgba(34,197,94,.1);color:#4ade80;border:1px solid rgba(34,197,94,.25)}
+.tab-badge.noseo{background:rgba(239,68,68,.1);color:#fca5a5;border:1px solid rgba(239,68,68,.2)}
+.tab-product-name{font-size:1rem;font-weight:700;color:var(--text);margin-top:6px}
+
+.tab-pricing{text-align:right}
+.tab-price-main{font-size:1.5rem;font-weight:800;color:var(--gold);letter-spacing:-.02em;line-height:1}
+.tab-price-sub{font-size:.75rem;color:var(--muted2);margin-top:4px}
+.tab-price-note{font-size:.7rem;color:var(--muted);margin-top:2px}
+
+.tab-desc{font-size:.875rem;color:var(--muted2);line-height:1.65;margin-bottom:20px}
+
+/* WARNING BOX */
+.tab-warning{
+  display:flex;align-items:flex-start;gap:12px;
+  background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.2);
+  border-radius:10px;padding:14px 16px;margin-bottom:20px;
+  font-size:.83rem;color:#fca5a5;line-height:1.6;
+}
+.tab-warning-icon{font-size:1rem;flex-shrink:0;margin-top:1px}
+.tab-warning strong{display:block;color:#f87171;margin-bottom:2px;font-size:.85rem}
+
+/* SEPARATOR NOTE */
+.tab-sep-note{
+  display:flex;align-items:center;gap:10px;
+  font-size:.72rem;color:var(--muted);letter-spacing:.04em;
+  margin:20px 0;
+}
+.tab-sep-note::before,.tab-sep-note::after{content:'';flex:1;height:1px;background:var(--border)}
+
 /* WP STEPS */
 .wp-steps{
   background:var(--surface2);border-radius:10px;padding:20px 22px;
@@ -457,9 +500,21 @@ footer a{color:var(--gold)}
         </button>
       </div>
 
-      <!-- TAB 1: WordPress -->
+      <!-- TAB 1: WordPress Plugin -->
       <div class="tab-pane active" id="tab-wp">
-        <p class="tab-desc">Full SEO. Listings served on your domain. Install the plugin, enter your serial, done — no iFrame needed.</p>
+        <div class="tab-product-header">
+          <div class="tab-badge-group">
+            <span class="tab-badge recommended">⭐ Recommended · Full SEO</span>
+            <div class="tab-product-name">WordPress Plugin</div>
+          </div>
+          <div class="tab-pricing">
+            <div class="tab-price-main">$199<span style="font-size:.9rem;font-weight:600"> setup</span></div>
+            <div class="tab-price-sub">+ $199 / month</div>
+            <div class="tab-price-note">Separate product from iFrame embed</div>
+          </div>
+        </div>
+        <p class="tab-desc">Full SEO. Listings served on <strong style="color:var(--text)">your domain</strong> — search engines index your properties directly. Install the plugin, enter your serial, and you're live. No iFrame, no third-party hosting.</p>
+        <div class="tab-sep-note">This is a separate product from the iFrame Embed — different pricing, different technology</div>
         <div class="code-block" id="wp-code"></div>
         <div class="btn-row">
           <a id="wp-download" href="https://monumental-llama-df46c6.netlify.app/realnex-listings-pro.zip" target="_blank" class="btn-gold">⬇ Download Plugin (.zip)</a>
@@ -474,19 +529,51 @@ footer a{color:var(--gold)}
         </div>
       </div>
 
-      <!-- TAB 2: iFrame -->
+      <!-- TAB 2: iFrame Embed -->
       <div class="tab-pane" id="tab-iframe">
-        <p class="tab-desc">Works on Wix, Squarespace, Webflow, or any website. Paste one line of code — no plugin required.</p>
+        <div class="tab-product-header">
+          <div class="tab-badge-group">
+            <div style="display:flex;gap:6px;flex-wrap:wrap">
+              <span class="tab-badge anysite">⊞ Any Website</span>
+              <span class="tab-badge noseo">✗ No SEO</span>
+            </div>
+            <div class="tab-product-name">iFrame Embed</div>
+          </div>
+          <div class="tab-pricing">
+            <div class="tab-price-main">$99<span style="font-size:.9rem;font-weight:600"> setup</span></div>
+            <div class="tab-price-sub">+ $99 / month</div>
+            <div class="tab-price-note">Works on Wix, Squarespace, Webflow</div>
+          </div>
+        </div>
+        <p class="tab-desc">Works on any website — paste one line of code. Listings are hosted on our server and displayed inside a frame on your page. Quick to set up, no plugin needed.</p>
+        <div class="tab-warning">
+          <div class="tab-warning-icon">⚠️</div>
+          <div>
+            <strong>iFrame embed does not provide SEO benefits.</strong>
+            Your listings live on our server, not your domain. Search engines cannot index them under your website. For full SEO, upgrade to the <strong>WordPress Plugin</strong> ($199 setup + $199/month).
+          </div>
+        </div>
         <div class="code-block" id="iframe-code"></div>
         <div class="btn-row">
           <button type="button" class="btn-gold" onclick="copyEl('iframe-code',this)" id="iframe-copy-btn">Copy Code</button>
-          <a id="iframe-preview-link" href="#" target="_blank" class="btn-ghost">Preview → </a>
+          <a id="iframe-preview-link" href="#" target="_blank" class="btn-ghost">Preview →</a>
         </div>
       </div>
 
       <!-- TAB 3: Hosted Page -->
       <div class="tab-pane" id="tab-hosted">
-        <p class="tab-desc">No website? No problem. Your listings are already live at this URL — share it directly with clients.</p>
+        <div class="tab-product-header">
+          <div class="tab-badge-group">
+            <span class="tab-badge nosite">⊕ No Website Needed</span>
+            <div class="tab-product-name">Fully Hosted Page</div>
+          </div>
+          <div class="tab-pricing">
+            <div class="tab-price-main">$249<span style="font-size:.9rem;font-weight:600">/mo</span></div>
+            <div class="tab-price-sub">No setup fee</div>
+            <div class="tab-price-note">We host everything for you</div>
+          </div>
+        </div>
+        <p class="tab-desc">No website? No problem. We host everything — your listings are already live at the URL below. Share it with clients, add it to your email signature, or run ads directly to it.</p>
         <div class="hosted-url-box">
           <div class="hosted-url-text" id="hosted-url-text"></div>
         </div>
