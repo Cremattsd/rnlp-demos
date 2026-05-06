@@ -160,11 +160,12 @@ footer a{color:var(--orange)}
 :root{--rnlp-accent:inherit;--rnlp-font:inherit}
 body.rnlp-dark{background:#060300!important}
 body.rnlp-dark .card{background:#0f0800!important;border-color:rgba(255,255,255,.06)!important}
-#listingGrid.rnlp-list{display:flex!important;flex-direction:column;gap:6px}
-#listingGrid.rnlp-list .card{display:grid!important;grid-template-columns:200px 1fr;min-height:120px;border-radius:4px}
-#listingGrid.rnlp-list .card-img{height:100%!important;min-height:120px;border-radius:4px 0 0 4px}
-#listingGrid.rnlp-list .card-body{padding:12px 16px}
-#listingGrid.rnlp-full-grid{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))!important}
+#listingsGrid.rnlp-list{display:flex!important;flex-direction:column;gap:6px}
+#listingsGrid.rnlp-list .card{display:grid!important;grid-template-columns:200px 1fr;min-height:120px;border-radius:4px}
+#listingsGrid.rnlp-list .card-img{height:100%!important;min-height:120px;border-radius:4px 0 0 4px}
+#listingsGrid.rnlp-list .card-body{padding:12px 16px}
+#listingsGrid.rnlp-full-grid{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))!important}
+#listingsGrid.rnlp-large-grid{grid-template-columns:repeat(auto-fill,minmax(400px,1fr))!important}
 
 /* Detail panel enhancements */
 .detail-hero{min-height:65vh!important;height:auto!important;background-size:cover!important;background-position:center!important}
@@ -244,11 +245,11 @@ body.rnlp-dark .card{background:#0f0800!important;border-color:rgba(255,255,255,
     <button class="filter-chip" data-filter="For Lease">For Lease</button>
     <button class="filter-chip" data-filter="For Sale">For Sale</button>
     <button class="filter-chip" data-filter="SOLD">Sold</button>
-    <select class="sort-select" id="sortSelect">
-      <option value="default">Default</option>
-      <option value="price-desc">Price ↓</option>
-      <option value="price-asc">Price ↑</option>
-      <option value="size-desc">Largest</option>
+    <select class="sort-select" id="layoutSelect">
+      <option value="grid">Grid</option>
+      <option value="list">List View</option>
+      <option value="compact">Compact</option>
+      <option value="wide">Wide</option>
     </select>
   </div>
   <div class="results-bar"><span id="resultsCount">Loading…</span></div>
@@ -333,10 +334,14 @@ let currentPropId='',currentPropName='';
 async function load(){
   try{
     const r=await fetch(PROXY+'/listings',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({serial:SERIAL,filters:{startIndex:0,NoOfRecords:500,SortBy:'updated',SortHow:'desc',SearchType:''}})});
+    if(!r.ok) throw new Error('HTTP '+r.status);
     const d=await r.json();
-    all=Array.isArray(d)?(Array.isArray(d[0])?d[0]:d):[];
-    filtered=[...all];renderGrid();renderTeam();
-  }catch(e){document.getElementById('listingsGrid').innerHTML='<p style="color:var(--muted);text-align:center;padding:60px">Unable to load listings.</p>';}
+    all=Array.isArray(d)&&Array.isArray(d[0])?d[0]:[];
+    console.log('Listings loaded:',all.length);
+    filtered=[...all];
+    if(!all.length){document.getElementById('listingsGrid').innerHTML='<div style="padding:40px;text-align:center;color:var(--muted)">No listings found.</div>';return;}
+    try{renderGrid();renderTeam();}catch(re){console.error('RENDER ERROR:',re);document.getElementById('listingsGrid').innerHTML='<div style="padding:40px;color:red">Render error: '+re.message+'</div>';}
+  }catch(e){console.error('Init error:',e);document.getElementById('listingsGrid').innerHTML='<p style="color:var(--muted);text-align:center;padding:60px">Unable to load listings: '+e.message+'</p>';}
 }
 
 function renderGrid(){
@@ -398,15 +403,18 @@ function applyFilters(){
     const mf=filt==='all'||(filt==='SOLD'&&isSold2)||(filt==='For Lease'&&lt2==='FOR LEASE'&&!isSold2)||(filt==='For Sale'&&lt2==='FOR SALE'&&!isSold2);
     return mt&&mf;
   });
-  const s=document.getElementById('sortSelect').value;
-  if(s==='price-desc')filtered.sort((a,b)=>(b.ListPrice||0)-(a.ListPrice||0));
-  if(s==='price-asc') filtered.sort((a,b)=>(a.ListPrice||0)-(b.ListPrice||0));
-  if(s==='size-desc') filtered.sort((a,b)=>(b.BuildingSf||0)-(a.BuildingSf||0));
+
   page=1;renderGrid();
 }
 document.querySelectorAll('.filter-chip').forEach(c=>c.addEventListener('click',()=>{document.querySelectorAll('.filter-chip').forEach(x=>x.classList.remove('active'));c.classList.add('active');filt=c.dataset.filter;applyFilters();}));
 document.getElementById('searchInput').addEventListener('input',applyFilters);
-document.getElementById('sortSelect').addEventListener('change',applyFilters);
+document.getElementById('layoutSelect').addEventListener('change', function() {
+  const g = document.getElementById('listingsGrid');
+  g.classList.remove('rnlp-list', 'rnlp-full-grid', 'rnlp-large-grid');
+  if (this.value === 'list')    g.classList.add('rnlp-list');
+  if (this.value === 'compact') g.classList.add('rnlp-full-grid');
+  if (this.value === 'wide')    g.classList.add('rnlp-large-grid');
+});
 async function showDetail(id){
   document.getElementById('detailContent').innerHTML='<div class="loading" style="padding:80px"><div class="spinner"></div><p>Loading…</p></div>';
   if (DETAIL_MODE === 'page') { window.open('property-detail.html?serial=' + SERIAL + '&id=' + id, '_blank'); return; }
