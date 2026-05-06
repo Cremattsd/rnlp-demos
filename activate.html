@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Activate Your Listing Page — RealNex Listings Pro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#07090e;
+  --surface:#0f1319;
+  --surface2:#161c25;
+  --surface3:#1c2433;
+  --border:rgba(255,255,255,.07);
+  --border2:rgba(255,255,255,.12);
+  --gold:#c9a227;
+  --gold2:#dbb94c;
+  --gold-dim:rgba(201,162,39,.12);
+  --gold-glow:rgba(201,162,39,.25);
+  --text:#e8eaf0;
+  --muted:#64748b;
+  --muted2:#8b9ab0;
+  --error:#ef4444;
+  --success:#22c55e;
+}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh}
+a{color:var(--gold);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* HEADER */
+header{
+  border-bottom:1px solid var(--border);
+  padding:0 48px;
+  height:66px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:rgba(7,9,14,.92);
+  backdrop-filter:blur(14px);
+  position:sticky;
+  top:0;
+  z-index:100;
+}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-mark{
+  width:36px;height:36px;
+  background:var(--gold);
+  border-radius:7px;
+  display:flex;align-items:center;justify-content:center;
+  color:#07090e;font-weight:900;font-size:.78rem;letter-spacing:.02em;flex-shrink:0;
+}
+.brand-name{font-size:.95rem;font-weight:700;color:var(--text)}
+.brand-name span{color:var(--gold)}
+.header-right{font-size:.8rem;color:var(--muted)}
+
+/* HERO */
+.hero{
+  padding:80px 48px 56px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.hero::before{
+  content:'';
+  position:absolute;top:-160px;left:50%;transform:translateX(-50%);
+  width:700px;height:700px;
+  background:radial-gradient(circle,rgba(201,162,39,.07) 0%,transparent 68%);
+  pointer-events:none;
+}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:20px;
+  background:rgba(201,162,39,.08);border:1px solid rgba(201,162,39,.2);
+  padding:6px 18px;border-radius:20px;
+}
+.hero h1{
+  font-size:clamp(1.8rem,4vw,3rem);font-weight:800;letter-spacing:-.025em;line-height:1.15;
+  color:var(--text);margin-bottom:14px;
+}
+.hero h1 span{background:linear-gradient(135deg,var(--gold),#e8c56b);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{font-size:1rem;color:var(--muted2);max-width:480px;margin:0 auto;line-height:1.75}
+
+/* MAIN CARD */
+.main{max-width:680px;margin:0 auto;padding:0 24px 80px}
+
+/* FORM CARD */
+.form-card{
+  background:var(--surface);
+  border:1px solid var(--border2);
+  border-radius:16px;
+  padding:40px;
+  margin-top:48px;
+}
+.form-card h2{
+  font-size:1.1rem;font-weight:700;margin-bottom:8px;
+}
+.form-card .form-sub{font-size:.85rem;color:var(--muted2);margin-bottom:32px}
+
+.field{margin-bottom:22px}
+.field label{
+  display:block;font-size:.8rem;font-weight:600;
+  color:var(--muted2);letter-spacing:.04em;text-transform:uppercase;
+  margin-bottom:8px;
+}
+.field input,.field select{
+  width:100%;height:48px;
+  padding:0 16px;
+  background:var(--surface2);
+  border:1px solid var(--border2);
+  border-radius:10px;
+  color:var(--text);
+  font-size:.9rem;
+  font-family:inherit;
+  outline:none;
+  transition:border-color .15s,box-shadow .15s;
+  appearance:none;-webkit-appearance:none;
+}
+.field input:focus,.field select:focus{
+  border-color:var(--gold);
+  box-shadow:0 0 0 3px rgba(201,162,39,.12);
+}
+.field input::placeholder{color:var(--muted)}
+.select-wrap{position:relative}
+.select-wrap::after{
+  content:'▾';
+  position:absolute;right:16px;top:50%;transform:translateY(-50%);
+  color:var(--muted2);pointer-events:none;font-size:.85rem;
+}
+.field select option{background:var(--surface2)}
+
+.btn-generate{
+  width:100%;height:52px;
+  background:var(--gold);
+  color:#07090e;
+  font-size:.95rem;font-weight:800;
+  border:none;border-radius:10px;
+  cursor:pointer;font-family:inherit;
+  transition:background .15s,box-shadow .15s,transform .1s;
+  margin-top:8px;
+  letter-spacing:.02em;
+}
+.btn-generate:hover{background:var(--gold2);box-shadow:0 0 28px var(--gold-glow);transform:translateY(-1px)}
+.btn-generate:active{transform:translateY(0)}
+.btn-generate:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+
+/* SPINNER */
+.spinner{
+  display:none;width:20px;height:20px;
+  border:2px solid rgba(7,9,14,.3);
+  border-top-color:#07090e;
+  border-radius:50%;
+  animation:spin .6s linear infinite;
+  margin:0 auto;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ERROR */
+.error-box{
+  display:none;
+  background:rgba(239,68,68,.08);
+  border:1px solid rgba(239,68,68,.25);
+  border-radius:10px;
+  padding:16px 20px;
+  margin-top:20px;
+  font-size:.875rem;
+  color:#fca5a5;
+  line-height:1.6;
+}
+.error-box a{color:#fca5a5;text-decoration:underline}
+
+/* RESULTS */
+#results{display:none;margin-top:32px}
+
+.serial-info{
+  background:rgba(201,162,39,.07);
+  border:1px solid rgba(201,162,39,.18);
+  border-radius:10px;
+  padding:18px 22px;
+  margin-bottom:28px;
+  display:flex;
+  gap:28px;
+  flex-wrap:wrap;
+}
+.serial-info-item{}
+.serial-info-label{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.serial-info-value{font-size:.9rem;font-weight:600;color:var(--text)}
+
+.divider{
+  display:flex;align-items:center;gap:12px;
+  font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);margin:28px 0 22px;
+}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* OPTION CARDS */
+.option-card{
+  background:var(--surface2);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:24px;
+  margin-bottom:16px;
+}
+.option-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.option-label{
+  display:flex;align-items:center;gap:10px;
+}
+.option-num{
+  width:26px;height:26px;
+  background:var(--gold-dim);
+  border:1px solid rgba(201,162,39,.25);
+  border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.72rem;font-weight:800;color:var(--gold);
+  flex-shrink:0;
+}
+.option-title{font-size:.88rem;font-weight:700;color:var(--text)}
+.option-subtitle{font-size:.75rem;color:var(--muted2);margin-top:1px}
+
+.btn-copy{
+  background:var(--surface3);
+  border:1px solid var(--border2);
+  color:var(--muted2);
+  font-size:.75rem;font-weight:600;
+  padding:6px 14px;border-radius:7px;
+  cursor:pointer;font-family:inherit;
+  transition:all .15s;
+  white-space:nowrap;
+  flex-shrink:0;
+}
+.btn-copy:hover{border-color:var(--gold);color:var(--gold)}
+.btn-copy.copied{background:rgba(34,197,94,.1);border-color:rgba(34,197,94,.3);color:#4ade80}
+
+.code-block{
+  background:var(--bg);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:14px 16px;
+  font-family:'SF Mono','Fira Code','Courier New',monospace;
+  font-size:.78rem;
+  color:#94a3b8;
+  line-height:1.7;
+  overflow-x:auto;
+  white-space:pre;
+  word-break:break-all;
+}
+.code-block .hl{color:var(--gold)}
+
+/* FOOTER */
+footer{
+  border-top:1px solid var(--border);
+  padding:24px 48px;
+  text-align:center;
+  font-size:.78rem;
+  color:var(--muted);
+}
+
+/* RESPONSIVE */
+@media(max-width:600px){
+  header{padding:0 20px}
+  .hero{padding:56px 20px 40px}
+  .main{padding:0 16px 60px}
+  .form-card{padding:28px 20px}
+  footer{padding:20px 24px}
+  .serial-info{gap:16px}
+  .option-header{flex-direction:column;align-items:flex-start;gap:10px}
+  .btn-copy{align-self:flex-end}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="brand-mark">RN</div>
+    <div class="brand-name">RealNex <span>Listings Pro</span></div>
+  </div>
+  <div class="header-right">Powered by RealNex CRM</div>
+</header>
+
+<div class="hero">
+  <div class="hero-eyebrow">License Activation</div>
+  <h1>Activate Your <span>Listing Page</span></h1>
+  <p>Enter your serial number to generate your embed code and get your listing page live in minutes.</p>
+</div>
+
+<div class="main">
+  <div class="form-card">
+    <h2>Generate Your Embed Code</h2>
+    <div class="form-sub">Your serial number was included in your welcome email. Need help? Contact <a href="mailto:msmith@initial3development.com">msmith@initial3development.com</a></div>
+
+    <form id="activateForm" novalidate>
+      <div class="field">
+        <label for="serial">Serial Number</label>
+        <input type="text" id="serial" name="serial" placeholder="RNLP-XXX-001" autocomplete="off" spellcheck="false" required>
+      </div>
+      <div class="field">
+        <label for="company">Company Name</label>
+        <input type="text" id="company" name="company" placeholder="Acme Commercial Real Estate" required>
+      </div>
+      <div class="field">
+        <label for="theme">Theme</label>
+        <div class="select-wrap">
+          <select id="theme" name="theme">
+            <option value="classic">Classic</option>
+            <option value="darkpro">Dark Pro</option>
+            <option value="steel">Steel Blue</option>
+            <option value="ember">Ember</option>
+            <option value="darkgold">Dark Gold</option>
+          </select>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-generate" id="submitBtn">
+        <span id="btnText">Generate Code</span>
+        <div class="spinner" id="spinner"></div>
+      </button>
+    </form>
+
+    <div class="error-box" id="errorBox"></div>
+
+    <div id="results">
+      <div class="divider">Your Activation</div>
+
+      <div class="serial-info" id="serialInfo">
+        <div class="serial-info-item">
+          <div class="serial-info-label">Serial</div>
+          <div class="serial-info-value" id="infoSerial">—</div>
+        </div>
+        <div class="serial-info-item">
+          <div class="serial-info-label">Plan</div>
+          <div class="serial-info-value" id="infoPlan">—</div>
+        </div>
+        <div class="serial-info-item">
+          <div class="serial-info-label">Expires</div>
+          <div class="serial-info-value" id="infoExpires">—</div>
+        </div>
+      </div>
+
+      <!-- OPTION 1: WordPress -->
+      <div class="option-card">
+        <div class="option-header">
+          <div class="option-label">
+            <div class="option-num">1</div>
+            <div>
+              <div class="option-title">WordPress Shortcode</div>
+              <div class="option-subtitle">Paste into any page or post in your WordPress editor</div>
+            </div>
+          </div>
+          <button class="btn-copy" onclick="copyCode('code1',this)">Copy Code</button>
+        </div>
+        <div class="code-block" id="code1"></div>
+      </div>
+
+      <!-- OPTION 2: iFrame -->
+      <div class="option-card">
+        <div class="option-header">
+          <div class="option-label">
+            <div class="option-num">2</div>
+            <div>
+              <div class="option-title">iFrame Embed</div>
+              <div class="option-subtitle">Works on any website — Wix, Squarespace, Webflow, custom HTML</div>
+            </div>
+          </div>
+          <button class="btn-copy" onclick="copyCode('code2',this)">Copy Code</button>
+        </div>
+        <div class="code-block" id="code2"></div>
+      </div>
+
+      <!-- OPTION 3: JS Widget -->
+      <div class="option-card">
+        <div class="option-header">
+          <div class="option-label">
+            <div class="option-num">3</div>
+            <div>
+              <div class="option-title">JavaScript Widget</div>
+              <div class="option-subtitle">Drop into any HTML page — full dynamic filtering &amp; pagination</div>
+            </div>
+          </div>
+          <button class="btn-copy" onclick="copyCode('code3',this)">Copy Code</button>
+        </div>
+        <div class="code-block" id="code3"></div>
+      </div>
+
+    </div><!-- /results -->
+  </div><!-- /form-card -->
+</div><!-- /main -->
+
+<footer>
+  &copy; 2025 Initial3 Development &mdash; RealNex Listings Pro
+</footer>
+
+<script>
+const PROXY = 'https://rnlp-proxy.onrender.com';
+const EMBED_BASE = 'https://monumental-llama-df46c6.netlify.app/mdl-replica.html';
+
+const form = document.getElementById('activateForm');
+const submitBtn = document.getElementById('submitBtn');
+const btnText = document.getElementById('btnText');
+const spinner = document.getElementById('spinner');
+const errorBox = document.getElementById('errorBox');
+const results = document.getElementById('results');
+
+function setLoading(on) {
+  submitBtn.disabled = on;
+  btnText.style.display = on ? 'none' : 'inline';
+  spinner.style.display = on ? 'block' : 'none';
+}
+
+function showError(msg) {
+  errorBox.innerHTML = msg;
+  errorBox.style.display = 'block';
+  results.style.display = 'none';
+}
+
+function hideError() {
+  errorBox.style.display = 'none';
+}
+
+function formatExpiry(dateStr) {
+  if (!dateStr) return 'N/A';
+  try {
+    const d = new Date(dateStr);
+    return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  } catch(e) {
+    return dateStr;
+  }
+}
+
+function buildCodes(serial, company, theme) {
+  const companySlug = company.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'') || 'company';
+  const iframeSrc = `${EMBED_BASE}?serial=${encodeURIComponent(serial)}&theme=${encodeURIComponent(theme)}`;
+  const widgetSrc = `${PROXY}/widget.js?serial=${encodeURIComponent(serial)}`;
+
+  document.getElementById('code1').textContent =
+    `[${companySlug} serial="${serial}"]`;
+
+  document.getElementById('code2').textContent =
+    `<iframe src="${iframeSrc}" width="100%" height="950" frameborder="0" style="border:none;"></iframe>`;
+
+  document.getElementById('code3').textContent =
+    `<script src="${widgetSrc}"><\/script>\n<div id="rnlp-listings"></div>`;
+}
+
+function showResults(serial, plan, expires, company, theme) {
+  document.getElementById('infoSerial').textContent = serial;
+  document.getElementById('infoPlan').textContent = plan || 'Pro';
+  document.getElementById('infoExpires').textContent = formatExpiry(expires);
+  buildCodes(serial, company, theme);
+  results.style.display = 'block';
+  results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+form.addEventListener('submit', async function(e) {
+  e.preventDefault();
+  hideError();
+
+  const serial = document.getElementById('serial').value.trim();
+  const company = document.getElementById('company').value.trim();
+  const theme = document.getElementById('theme').value;
+
+  if (!serial) { showError('Please enter your serial number.'); return; }
+  if (!company) { showError('Please enter your company name.'); return; }
+
+  setLoading(true);
+
+  try {
+    const res = await fetch(`${PROXY}/validate`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ serial })
+    });
+
+    let data = {};
+    try { data = await res.json(); } catch(_) {}
+
+    const valid = data.valid === true || data.status === 'active' || data.status === 'valid' || res.ok && data.serial;
+
+    if (!valid) {
+      showError(
+        'Invalid serial number. Please double-check your entry or contact ' +
+        '<a href="mailto:msmith@initial3development.com">msmith@initial3development.com</a> for assistance.'
+      );
+      return;
+    }
+
+    const plan = data.plan || data.tier || 'Pro';
+    const expires = data.expires || data.expiry || data.expiration || null;
+    showResults(serial, plan, expires, company, theme);
+
+  } catch (err) {
+    showError(
+      'Unable to reach the activation server. Please check your connection and try again, or contact ' +
+      '<a href="mailto:msmith@initial3development.com">msmith@initial3development.com</a>.'
+    );
+  } finally {
+    setLoading(false);
+  }
+});
+
+function copyCode(id, btn) {
+  const el = document.getElementById(id);
+  const text = el.textContent;
+  navigator.clipboard.writeText(text).then(function() {
+    const orig = btn.textContent;
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(function() {
+      btn.textContent = orig;
+      btn.classList.remove('copied');
+    }, 2000);
+  }).catch(function() {
+    const range = document.createRange();
+    range.selectNode(el);
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(range);
+    document.execCommand('copy');
+    window.getSelection().removeAllRanges();
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(function() { btn.textContent = 'Copy Code'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+</script>
+</body>
+</html>
