@@ -115,19 +115,105 @@ header{
 .field input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,.1)}
 .field input::placeholder{color:var(--muted)}
 
-/* THEME PILLS */
-.theme-pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:2px}
-.theme-pill{
-  padding:9px 18px;border-radius:24px;
-  border:1px solid rgba(255,255,255,.1);background:var(--surface2);
-  color:var(--muted2);font-size:.82rem;font-weight:500;
-  cursor:pointer;transition:all .15s;font-family:'DM Sans',sans-serif;
-  white-space:nowrap;
+/* ── LAYOUT SELECTOR ── */
+.layout-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}
+.layout-card{
+  position:relative;background:var(--surface2);border:2px solid rgba(255,255,255,.07);
+  border-radius:12px;padding:14px;cursor:pointer;
+  transition:border-color .15s,transform .12s,box-shadow .15s;
+  display:flex;flex-direction:column;gap:10px;
 }
-.theme-pill:hover{border-color:var(--gold);color:var(--gold)}
-.theme-pill.active{
-  background:var(--gold);color:#0d1828;
-  border-color:var(--gold);font-weight:600;
+.layout-card:hover{border-color:rgba(201,168,76,.35);transform:translateY(-2px)}
+.layout-card.active{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold),0 4px 20px rgba(201,168,76,.12)}
+.lc-check{
+  position:absolute;top:10px;right:10px;width:20px;height:20px;border-radius:50%;
+  background:var(--gold);color:#0d1828;font-size:.65rem;font-weight:900;
+  display:none;align-items:center;justify-content:center;
+}
+.layout-card.active .lc-check{display:flex}
+.lc-mockup{
+  height:62px;background:var(--surface3);border-radius:7px;overflow:hidden;
+  display:flex;gap:2px;padding:5px;
+}
+/* Grid+Map mockup */
+.lm-grid-map .lm-left{flex:1;display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:1fr 1fr;gap:2px}
+.lm-grid-map .lm-cell{background:rgba(255,255,255,.1);border-radius:2px}
+.lm-grid-map .lm-right{width:30%;background:rgba(201,168,76,.15);border-radius:4px;border:1px solid rgba(201,168,76,.25)}
+/* Full Grid mockup */
+.lm-full-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:1fr 1fr;gap:2px;flex:1}
+.lm-full-grid .lm-cell{background:rgba(255,255,255,.1);border-radius:2px}
+/* Hero+Grid mockup */
+.lm-hero-grid{display:flex;flex-direction:column;gap:2px;flex:1}
+.lm-hero-grid .lm-hero{flex:0 0 48%;background:rgba(201,168,76,.13);border-radius:3px;border:1px solid rgba(201,168,76,.2)}
+.lm-hero-grid .lm-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;flex:1}
+.lm-hero-grid .lm-cell{background:rgba(255,255,255,.1);border-radius:2px}
+/* List View mockup */
+.lm-list{display:flex;flex-direction:column;gap:2px;flex:1}
+.lm-list .lm-row{display:flex;gap:2px;flex:1;align-items:stretch}
+.lm-list .lm-thumb{width:28%;background:rgba(255,255,255,.12);border-radius:2px}
+.lm-list .lm-lines{flex:1;display:flex;flex-direction:column;justify-content:center;gap:3px;padding:2px 4px}
+.lm-list .lm-line{height:3px;background:rgba(255,255,255,.14);border-radius:1px}
+.lm-list .lm-line.short{width:55%}
+.lc-info{}
+.lc-name{font-size:.85rem;font-weight:700;color:var(--text);margin-bottom:2px}
+.lc-desc{font-size:.74rem;color:var(--muted2);line-height:1.4;margin-bottom:3px}
+.lc-best{font-size:.67rem;color:var(--muted);font-style:italic}
+
+/* ── COLOR CUSTOMIZER ── */
+.config-section-title{
+  font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--muted2);margin-bottom:14px;margin-top:8px;
+  display:flex;align-items:center;gap:8px;
+}
+.config-section-title::after{content:'';flex:1;height:1px;background:var(--border)}
+.color-top{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.color-picker-wrap input[type=color]{
+  width:46px;height:46px;padding:3px;
+  border:2px solid var(--border2);border-radius:9px;
+  background:var(--surface2);cursor:pointer;
+}
+.color-presets{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.preset-dot{
+  width:28px;height:28px;border-radius:50%;border:2.5px solid transparent;
+  cursor:pointer;transition:transform .12s,border-color .12s;flex-shrink:0;
+}
+.preset-dot:hover{transform:scale(1.18)}
+.preset-dot.active{border-color:var(--gold);box-shadow:0 0 0 2px rgba(201,168,76,.4)}
+.bg-pills,.font-pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:2px}
+.bg-pill,.font-pill{
+  padding:9px 18px;border-radius:22px;
+  border:1px solid rgba(255,255,255,.1);background:var(--surface2);
+  color:var(--muted2);font-size:.8rem;font-weight:500;
+  cursor:pointer;transition:all .15s;font-family:'DM Sans',sans-serif;
+  display:flex;flex-direction:column;align-items:center;line-height:1.2;
+}
+.bg-pill:hover,.font-pill:hover{border-color:var(--gold);color:var(--gold)}
+.bg-pill.active,.font-pill.active{background:var(--gold);color:#0d1828;border-color:var(--gold);font-weight:600}
+.pill-sub{font-size:.62rem;opacity:.7;margin-top:1px}
+
+/* ── DETAIL BEHAVIOR ── */
+.detail-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}
+.detail-card{
+  background:var(--surface2);border:2px solid rgba(255,255,255,.07);
+  border-radius:12px;padding:16px 14px;cursor:pointer;
+  transition:border-color .15s,transform .12s;position:relative;
+}
+.detail-card:hover{border-color:rgba(201,168,76,.35);transform:translateY(-2px)}
+.detail-card.active{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold)}
+.dc-check{
+  position:absolute;top:10px;right:10px;width:20px;height:20px;border-radius:50%;
+  background:var(--gold);color:#0d1828;font-size:.65rem;font-weight:900;
+  display:none;align-items:center;justify-content:center;
+}
+.detail-card.active .dc-check{display:flex}
+.dc-icon{font-size:1.4rem;margin-bottom:8px}
+.dc-name{font-size:.86rem;font-weight:700;color:var(--text);margin-bottom:5px}
+.dc-desc{font-size:.74rem;color:var(--muted2);line-height:1.45;margin-bottom:5px}
+.dc-best{font-size:.67rem;color:var(--muted);font-style:italic;margin-bottom:4px}
+.dc-note{font-size:.67rem;color:rgba(201,168,76,.75);margin-top:4px}
+
+@media(max-width:580px){
+  .layout-cards,.detail-options{grid-template-columns:1fr}
 }
 
 .btn-generate{
@@ -452,14 +538,136 @@ footer a{color:var(--gold)}
         <label for="company">Company Name</label>
         <input type="text" id="company" name="company" placeholder="Your Brokerage Name" required>
       </div>
+      <!-- LAYOUT SELECTOR -->
       <div class="field">
-        <label>Theme</label>
-        <div class="theme-pills" id="themePills">
-          <button type="button" class="theme-pill active" data-theme="classic">Classic</button>
-          <button type="button" class="theme-pill" data-theme="darkpro">Dark Pro</button>
-          <button type="button" class="theme-pill" data-theme="steel">Steel Blue</button>
-          <button type="button" class="theme-pill" data-theme="ember">Ember</button>
-          <button type="button" class="theme-pill" data-theme="darkgold">Dark Gold</button>
+        <label>Layout</label>
+        <div class="layout-cards" id="layoutCards">
+
+          <div class="layout-card active" data-layout="grid-map">
+            <div class="lc-check">✓</div>
+            <div class="lc-mockup lm-grid-map">
+              <div class="lm-left">
+                <div class="lm-cell"></div><div class="lm-cell"></div><div class="lm-cell"></div>
+                <div class="lm-cell"></div><div class="lm-cell"></div><div class="lm-cell"></div>
+              </div>
+              <div class="lm-right"></div>
+            </div>
+            <div class="lc-info">
+              <div class="lc-name">Grid + Map</div>
+              <div class="lc-desc">Listings grid with live map sidebar</div>
+              <div class="lc-best">Best for: Companies with many listings</div>
+            </div>
+          </div>
+
+          <div class="layout-card" data-layout="full-grid">
+            <div class="lc-check">✓</div>
+            <div class="lc-mockup">
+              <div class="lm-full-grid" style="flex:1">
+                <div class="lm-cell"></div><div class="lm-cell"></div><div class="lm-cell"></div><div class="lm-cell"></div>
+                <div class="lm-cell"></div><div class="lm-cell"></div><div class="lm-cell"></div><div class="lm-cell"></div>
+              </div>
+            </div>
+            <div class="lc-info">
+              <div class="lc-name">Full Grid</div>
+              <div class="lc-desc">Clean full-width listing grid, no map</div>
+              <div class="lc-best">Best for: Brokers who want maximum listings visible</div>
+            </div>
+          </div>
+
+          <div class="layout-card" data-layout="hero-grid">
+            <div class="lc-check">✓</div>
+            <div class="lc-mockup">
+              <div class="lm-hero-grid">
+                <div class="lm-hero"></div>
+                <div class="lm-row">
+                  <div class="lm-cell"></div><div class="lm-cell"></div><div class="lm-cell"></div>
+                </div>
+              </div>
+            </div>
+            <div class="lc-info">
+              <div class="lc-name">Hero + Grid</div>
+              <div class="lc-desc">Spotlight your best listing at the top</div>
+              <div class="lc-best">Best for: Single property focus</div>
+            </div>
+          </div>
+
+          <div class="layout-card" data-layout="list">
+            <div class="lc-check">✓</div>
+            <div class="lc-mockup">
+              <div class="lm-list">
+                <div class="lm-row"><div class="lm-thumb"></div><div class="lm-lines"><div class="lm-line"></div><div class="lm-line short"></div></div></div>
+                <div class="lm-row"><div class="lm-thumb"></div><div class="lm-lines"><div class="lm-line"></div><div class="lm-line short"></div></div></div>
+                <div class="lm-row"><div class="lm-thumb"></div><div class="lm-lines"><div class="lm-line"></div><div class="lm-line short"></div></div></div>
+              </div>
+            </div>
+            <div class="lc-info">
+              <div class="lc-name">List View</div>
+              <div class="lc-desc">Detailed list with more info per listing</div>
+              <div class="lc-best">Best for: Data-focused brokers</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- BRAND COLORS -->
+      <div class="config-section-title">Brand Colors</div>
+
+      <div class="field">
+        <label>Primary / Accent Color</label>
+        <div class="color-top">
+          <div class="color-picker-wrap">
+            <input type="color" id="colorPicker" value="#013161">
+          </div>
+          <div class="color-presets">
+            <button type="button" class="preset-dot active" data-color="#013161" style="background:#013161" title="Navy"></button>
+            <button type="button" class="preset-dot" data-color="#c9a84c" style="background:#c9a84c" title="Gold"></button>
+            <button type="button" class="preset-dot" data-color="#2d6a4f" style="background:#2d6a4f" title="Forest"></button>
+            <button type="button" class="preset-dot" data-color="#2d2d2d" style="background:#2d2d2d;border:1px solid rgba(255,255,255,.2)" title="Charcoal"></button>
+            <button type="button" class="preset-dot" data-color="#6b2737" style="background:#6b2737" title="Burgundy"></button>
+            <button type="button" class="preset-dot" data-color="#475569" style="background:#475569" title="Slate"></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Background Style</label>
+        <div class="bg-pills" id="bgPills">
+          <button type="button" class="bg-pill active" data-bg="light">☀️&nbsp; Light</button>
+          <button type="button" class="bg-pill" data-bg="dark">🌙&nbsp; Dark</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Typography</label>
+        <div class="font-pills" id="fontPills">
+          <button type="button" class="font-pill active" data-font="modern">Modern<span class="pill-sub">DM Sans</span></button>
+          <button type="button" class="font-pill" data-font="classic">Classic<span class="pill-sub">Playfair</span></button>
+          <button type="button" class="font-pill" data-font="bold">Bold<span class="pill-sub">Montserrat</span></button>
+        </div>
+      </div>
+
+      <!-- PROPERTY DETAIL BEHAVIOR -->
+      <div class="config-section-title">Property Detail Behavior</div>
+
+      <div class="field">
+        <label>When a visitor clicks a listing:</label>
+        <div class="detail-options" id="detailOptions">
+          <div class="detail-card active" data-detail="popup">
+            <div class="dc-check">✓</div>
+            <div class="dc-icon">🪟</div>
+            <div class="dc-name">Popup Modal</div>
+            <div class="dc-desc">Property details slide up in a modal overlay. Visitor stays on the same page.</div>
+            <div class="dc-best">Best for: Faster browsing, better UX on listing pages</div>
+          </div>
+          <div class="detail-card" data-detail="page">
+            <div class="dc-check">✓</div>
+            <div class="dc-icon">📄</div>
+            <div class="dc-name">Full Detail Page</div>
+            <div class="dc-desc">Clicking opens a dedicated property page. Better SEO. Each listing gets its own URL.</div>
+            <div class="dc-best">Best for: SEO, sharing individual listings, WordPress</div>
+            <div class="dc-note">★ Requires WordPress plugin for full SEO benefit</div>
+          </div>
         </div>
       </div>
 
@@ -704,16 +912,61 @@ footer a{color:var(--gold)}
 const PROXY = 'https://rnlp-proxy.onrender.com';
 
 // ── State ──────────────────────────────────────────────────────────────────
-let selectedTheme = 'classic';
-let activatedSerial = '';
-let activatedCompany = '';
+let selectedLayout = 'grid-map';
+let selectedColor  = '#013161';
+let selectedBg     = 'light';
+let selectedFont   = 'modern';
+let selectedDetail = 'popup';
 
-// ── Theme pills ────────────────────────────────────────────────────────────
-document.querySelectorAll('.theme-pill').forEach(function(pill) {
+// ── Layout cards ────────────────────────────────────────────────────────────
+document.querySelectorAll('.layout-card').forEach(function(card) {
+  card.addEventListener('click', function() {
+    document.querySelectorAll('.layout-card').forEach(function(c) { c.classList.remove('active'); });
+    card.classList.add('active');
+    selectedLayout = card.dataset.layout;
+  });
+});
+
+// ── Color picker ─────────────────────────────────────────────────────────────
+document.getElementById('colorPicker').addEventListener('input', function() {
+  selectedColor = this.value;
+  document.querySelectorAll('.preset-dot').forEach(function(d) { d.classList.remove('active'); });
+});
+
+// ── Color presets ─────────────────────────────────────────────────────────────
+document.querySelectorAll('.preset-dot').forEach(function(dot) {
+  dot.addEventListener('click', function() {
+    selectedColor = dot.dataset.color;
+    document.getElementById('colorPicker').value = selectedColor;
+    document.querySelectorAll('.preset-dot').forEach(function(d) { d.classList.remove('active'); });
+    dot.classList.add('active');
+  });
+});
+
+// ── Background pills ──────────────────────────────────────────────────────────
+document.querySelectorAll('.bg-pill').forEach(function(pill) {
   pill.addEventListener('click', function() {
-    document.querySelectorAll('.theme-pill').forEach(function(p) { p.classList.remove('active'); });
+    document.querySelectorAll('.bg-pill').forEach(function(p) { p.classList.remove('active'); });
     pill.classList.add('active');
-    selectedTheme = pill.dataset.theme;
+    selectedBg = pill.dataset.bg;
+  });
+});
+
+// ── Font pills ────────────────────────────────────────────────────────────────
+document.querySelectorAll('.font-pill').forEach(function(pill) {
+  pill.addEventListener('click', function() {
+    document.querySelectorAll('.font-pill').forEach(function(p) { p.classList.remove('active'); });
+    pill.classList.add('active');
+    selectedFont = pill.dataset.font;
+  });
+});
+
+// ── Detail behavior ───────────────────────────────────────────────────────────
+document.querySelectorAll('.detail-card').forEach(function(card) {
+  card.addEventListener('click', function() {
+    document.querySelectorAll('.detail-card').forEach(function(c) { c.classList.remove('active'); });
+    card.classList.add('active');
+    selectedDetail = card.dataset.detail;
   });
 });
 
@@ -780,13 +1033,32 @@ function showResults(serial, company, plan, expiresAt) {
   // Company slug for WP shortcode
   const slug = company.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'company';
 
-  // WP tab
-  document.getElementById('wp-code').textContent = 'Serial Number: ' + serial;
+  // Config param set (shared across embed, hosted, preview)
+  const configParams = new URLSearchParams({
+    layout: selectedLayout,
+    color:  selectedColor,
+    bg:     selectedBg,
+    font:   selectedFont,
+    detail: selectedDetail,
+  });
+
+  const layoutNames = { 'grid-map': 'Grid + Sidebar Map', 'full-grid': 'Full Width Grid', 'hero-grid': 'Featured Hero + Grid', 'list': 'List View' };
+  const fontNames   = { modern: 'DM Sans — Modern', classic: 'Playfair Display — Classic', bold: 'Montserrat — Bold' };
+
+  // WP tab — show full config summary
+  document.getElementById('wp-code').textContent = [
+    'Serial Number:   ' + serial,
+    'Layout:          ' + (layoutNames[selectedLayout] || selectedLayout),
+    'Accent Color:    ' + selectedColor,
+    'Background:      ' + (selectedBg === 'dark' ? 'Dark Mode' : 'Light Mode'),
+    'Typography:      ' + (fontNames[selectedFont] || selectedFont),
+    'Detail Behavior: ' + (selectedDetail === 'page' ? 'Full Detail Page' : 'Popup Modal'),
+  ].join('\n');
   document.getElementById('wp-shortcode-inline').textContent = '[' + slug + ']';
 
   // iFrame tab
-  const companyEnc = encodeURIComponent(company);
-  const embedSrc = PROXY + '/embed?serial=' + encodeURIComponent(serial) + '&company=' + companyEnc + '&theme=' + selectedTheme;
+  const embedSrc = PROXY + '/embed?serial=' + encodeURIComponent(serial) +
+    '&company=' + encodeURIComponent(company) + '&' + configParams.toString();
   document.getElementById('iframe-code').textContent =
     '<iframe\n' +
     '  src="' + embedSrc + '"\n' +
@@ -798,7 +1070,7 @@ function showResults(serial, company, plan, expiresAt) {
   document.getElementById('iframe-preview-link').href = embedSrc;
 
   // Hosted Page tab
-  const hostedUrl = PROXY + '/site/' + serial;
+  const hostedUrl = PROXY + '/site/' + serial + '?' + configParams.toString();
   document.getElementById('hosted-url-text').textContent = hostedUrl;
   document.getElementById('hosted-open-btn').href = hostedUrl;
   document.getElementById('hosted-mailto').href =
@@ -806,11 +1078,9 @@ function showResults(serial, company, plan, expiresAt) {
     '&body=' + encodeURIComponent('View our commercial listings at: ' + hostedUrl);
 
   // Live preview
-  const previewWrap = document.getElementById('livePreviewWrap');
-  previewWrap.style.display = 'block';
-  const siteUrl = PROXY + '/site/' + serial + '?theme=' + selectedTheme;
-  document.getElementById('livePreviewFrame').src = siteUrl;
-  document.getElementById('livePreviewOpen').href = siteUrl;
+  document.getElementById('livePreviewWrap').style.display = 'block';
+  document.getElementById('livePreviewFrame').src = hostedUrl;
+  document.getElementById('livePreviewOpen').href = hostedUrl;
 
   results.style.display = 'block';
   setTimeout(function() {

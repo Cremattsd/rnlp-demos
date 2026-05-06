@@ -184,6 +184,15 @@ footer{background:#070809;border-top:1px solid var(--border);padding:32px 48px;d
   .form-row{grid-template-columns:1fr}.detail-body{grid-template-columns:1fr}
   .hero{padding:40px 20px}
 }
+/* ── RNLP URL Param Config ── */
+:root{--rnlp-accent:inherit;--rnlp-font:inherit}
+body.rnlp-dark{background:#04060a!important;color:#e8eaf0!important}
+body.rnlp-dark .card{background:#0a0e18!important;border-color:rgba(255,255,255,.06)!important}
+#listingGrid.rnlp-list{display:flex!important;flex-direction:column;gap:6px}
+#listingGrid.rnlp-list .card{display:grid!important;grid-template-columns:200px 1fr;min-height:120px;border-radius:8px}
+#listingGrid.rnlp-list .card-img{height:100%!important;min-height:120px;border-radius:8px 0 0 8px}
+#listingGrid.rnlp-list .card-body{padding:12px 16px}
+#listingGrid.rnlp-full-grid{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))!important}
 </style>
 </head>
 <body>
@@ -363,6 +372,25 @@ footer{background:#070809;border-top:1px solid var(--border);padding:32px 48px;d
 
 <script>
 const PROXY='https://rnlp-proxy.onrender.com',SERIAL='RNLP-TEST-001',PER_PAGE=9;
+// ── URL Param Config ─────────────────────────────────────────────────────────
+(function(){
+  var _p=new URLSearchParams(location.search);
+  var color=_p.get('color'),bg=_p.get('bg')||'light',
+      font=_p.get('font')||'modern',layout=_p.get('layout')||'grid-map',
+      detail=_p.get('detail')||'popup';
+  if(color)document.documentElement.style.setProperty('--rnlp-accent',color);
+  if(bg==='dark')document.body.classList.add('rnlp-dark');
+  var fMap={modern:"'DM Sans',sans-serif",classic:"'Playfair Display',Georgia,serif",bold:"'Montserrat',sans-serif"};
+  if(fMap[font])document.documentElement.style.setProperty('--rnlp-font',fMap[font]);
+  window.RNLP_CFG={color:color,bg:bg,font:font,layout:layout,detail:detail};
+  document.addEventListener('DOMContentLoaded',function(){
+    setTimeout(function(){
+      var g=document.getElementById('listingGrid');if(!g)return;
+      if(layout==='list')g.classList.add('rnlp-list');
+      if(layout==='full-grid')g.classList.add('rnlp-full-grid');
+    },1000);
+  });
+})();
 let all=[],filtered=[],page=1,filt='all',mapOpen=false;
 let currentPropId='',currentPropName='';
 
