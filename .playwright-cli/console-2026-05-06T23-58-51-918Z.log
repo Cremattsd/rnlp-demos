@@ -1,0 +1,7 @@
+[     351ms] [LOG] [RNLP demo] selected layout full_grid @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[     352ms] [LOG] [RNLP demo] selected template Marcus Chen, SIOR — Industrial & Logistics · Dallas-Fort Worth @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[     602ms] [ERROR] Failed to load resource: the server responded with a status of 404 (File not found) @ http://127.0.0.1:8765/favicon.ico:0
+[    1443ms] [LOG] [RNLP demo] listings fetched count 131 @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[    1443ms] [LOG] [RNLP demo] first listing sample {Id: 4058458, PropertyName: Valley Freeway Commerce Center Phase III - 7705, 7715, 7725 Commercial Way, ListingType: FOR LEASE, Status: Active, City: Henderson} @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[    1468ms] [LOG] [RNLP demo] mount element found true @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[    1469ms] [LOG] [RNLP demo] render completed true @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17

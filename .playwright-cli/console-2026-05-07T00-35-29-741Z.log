@@ -1,0 +1,79 @@
+[     318ms] [LOG] [RNLP demo] selected layout full_grid @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[     318ms] [LOG] [RNLP demo] selected template Marcus Chen, SIOR — Industrial & Logistics · Dallas-Fort Worth @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[     532ms] [ERROR] Failed to load resource: the server responded with a status of 404 (File not found) @ http://127.0.0.1:8765/favicon.ico:0
+[    1522ms] [LOG] [RNLP demo] listings fetched count 131 @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[    1522ms] [LOG] [RNLP demo] first listing sample {Id: 4058458, PropertyName: Valley Freeway Commerce Center Phase III - 7705, 7715, 7725 Commercial Way, ListingType: FOR LEASE, Status: Active, City: Henderson} @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[    1543ms] [LOG] [RNLP demo] mount element found true @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[    1545ms] [LOG] [RNLP demo] render completed true @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[  885276ms] [LOG] [RNLP demo] selected layout full_grid @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[  885276ms] [LOG] [RNLP demo] selected template Marcus Chen, SIOR — Industrial & Logistics · Dallas-Fort Worth @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[  886125ms] [LOG] [RNLP demo] listings fetched count 131 @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[  886125ms] [LOG] [RNLP demo] first listing sample {Id: 4058458, PropertyName: Valley Freeway Commerce Center Phase III - 7705, 7715, 7725 Commercial Way, ListingType: FOR LEASE, Status: Active, City: Henderson} @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[  886132ms] [LOG] [RNLP demo] mount element found true @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[  886133ms] [LOG] [RNLP demo] render completed true @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[  889035ms] [LOG] [RNLP demo] selected layout full_grid @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[  889035ms] [LOG] [RNLP demo] selected template Dana Whitmore, CCIM — Commercial Real Estate · Northeast Ohio @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[  889721ms] [LOG] [RNLP demo] listings fetched count 131 @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[  889721ms] [LOG] [RNLP demo] first listing sample {Id: 4058458, PropertyName: Valley Freeway Commerce Center Phase III - 7705, 7715, 7725 Commercial Way, ListingType: FOR LEASE, Status: Active, City: Henderson} @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[  889728ms] [LOG] [RNLP demo] mount element found true @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[  889728ms] [LOG] [RNLP demo] render completed true @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[  891916ms] [LOG] [RNLP demo] selected layout full_grid @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[  891916ms] [LOG] [RNLP demo] selected template Westfield Partners CRE — Boutique Commercial Brokerage · Southwest @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[  892585ms] [LOG] [RNLP demo] listings fetched count 131 @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[  892585ms] [LOG] [RNLP demo] first listing sample {Id: 4058458, PropertyName: Valley Freeway Commerce Center Phase III - 7705, 7715, 7725 Commercial Way, ListingType: FOR LEASE, Status: Active, City: Henderson} @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[  892591ms] [LOG] [RNLP demo] mount element found true @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[  892592ms] [LOG] [RNLP demo] render completed true @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[  947747ms] [LOG] [RNLP demo] selected layout full_grid @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[  947747ms] [LOG] [RNLP demo] selected template Marcus Chen, SIOR — Industrial & Logistics · Dallas-Fort Worth @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[  948796ms] [LOG] [RNLP demo] listings fetched count 131 @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[  948796ms] [LOG] [RNLP demo] first listing sample {Id: 4058458, PropertyName: Valley Freeway Commerce Center Phase III - 7705, 7715, 7725 Commercial Way, ListingType: FOR LEASE, Status: Active, City: Henderson} @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[  948802ms] [LOG] [RNLP demo] mount element found true @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[  948803ms] [LOG] [RNLP demo] render completed true @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[  952433ms] [LOG] [RNLP demo] selected layout full_grid @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[  952433ms] [LOG] [RNLP demo] selected template Dana Whitmore, CCIM — Commercial Real Estate · Northeast Ohio @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[  953159ms] [LOG] [RNLP demo] listings fetched count 131 @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[  953159ms] [LOG] [RNLP demo] first listing sample {Id: 4058458, PropertyName: Valley Freeway Commerce Center Phase III - 7705, 7715, 7725 Commercial Way, ListingType: FOR LEASE, Status: Active, City: Henderson} @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[  953166ms] [LOG] [RNLP demo] mount element found true @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[  953166ms] [LOG] [RNLP demo] render completed true @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[  958782ms] [LOG] [RNLP demo] selected layout full_grid @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[  958782ms] [LOG] [RNLP demo] selected template Westfield Partners CRE — Boutique Commercial Brokerage · Southwest @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[  960923ms] [LOG] [RNLP demo] listings fetched count 131 @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[  960923ms] [LOG] [RNLP demo] first listing sample {Id: 4058458, PropertyName: Valley Freeway Commerce Center Phase III - 7705, 7715, 7725 Commercial Way, ListingType: FOR LEASE, Status: Active, City: Henderson} @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[  960930ms] [LOG] [RNLP demo] mount element found true @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[  960930ms] [LOG] [RNLP demo] render completed true @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[ 1008213ms] [LOG] [RNLP demo] selected layout full_grid @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[ 1008213ms] [LOG] [RNLP demo] selected template Marcus Chen, SIOR — Industrial & Logistics · Dallas-Fort Worth @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[ 1009017ms] [LOG] [RNLP demo] listings fetched count 131 @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[ 1009017ms] [LOG] [RNLP demo] first listing sample {Id: 4058458, PropertyName: Valley Freeway Commerce Center Phase III - 7705, 7715, 7725 Commercial Way, ListingType: FOR LEASE, Status: Active, City: Henderson} @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[ 1009023ms] [LOG] [RNLP demo] mount element found true @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[ 1009024ms] [LOG] [RNLP demo] render completed true @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[ 1013035ms] [LOG] [RNLP demo] selected layout full_grid @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[ 1013035ms] [LOG] [RNLP demo] selected template Dana Whitmore, CCIM — Commercial Real Estate · Northeast Ohio @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[ 1013660ms] [LOG] [RNLP demo] listings fetched count 131 @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[ 1013660ms] [LOG] [RNLP demo] first listing sample {Id: 4058458, PropertyName: Valley Freeway Commerce Center Phase III - 7705, 7715, 7725 Commercial Way, ListingType: FOR LEASE, Status: Active, City: Henderson} @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[ 1013666ms] [LOG] [RNLP demo] mount element found true @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[ 1013667ms] [LOG] [RNLP demo] render completed true @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[ 1017565ms] [LOG] [RNLP demo] selected layout full_grid @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[ 1017565ms] [LOG] [RNLP demo] selected template Westfield Partners CRE — Boutique Commercial Brokerage · Southwest @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[ 1018368ms] [LOG] [RNLP demo] listings fetched count 131 @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[ 1018368ms] [LOG] [RNLP demo] first listing sample {Id: 4058458, PropertyName: Valley Freeway Commerce Center Phase III - 7705, 7715, 7725 Commercial Way, ListingType: FOR LEASE, Status: Active, City: Henderson} @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[ 1018375ms] [LOG] [RNLP demo] mount element found true @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[ 1018375ms] [LOG] [RNLP demo] render completed true @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[ 1043646ms] [LOG] [RNLP demo] selected layout full_grid @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[ 1043646ms] [LOG] [RNLP demo] selected template Meridian Commercial Group — Full-Service CRE · Las Vegas Metro @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[ 1044379ms] [LOG] [RNLP demo] listings fetched count 131 @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[ 1044379ms] [LOG] [RNLP demo] first listing sample {Id: 4058458, PropertyName: Valley Freeway Commerce Center Phase III - 7705, 7715, 7725 Commercial Way, ListingType: FOR LEASE, Status: Active, City: Henderson} @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[ 1044385ms] [LOG] [RNLP demo] mount element found true @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[ 1044386ms] [LOG] [RNLP demo] render completed true @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[ 1047760ms] [LOG] [RNLP demo] selected layout full_grid @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[ 1047760ms] [LOG] [RNLP demo] selected template Hospitality & Commercial Brokers — Commercial Real Estate · Gillette, WY @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[ 1048516ms] [LOG] [RNLP demo] listings fetched count 131 @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[ 1048516ms] [LOG] [RNLP demo] first listing sample {Id: 4058458, PropertyName: Valley Freeway Commerce Center Phase III - 7705, 7715, 7725 Commercial Way, ListingType: FOR LEASE, Status: Active, City: Henderson} @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[ 1048522ms] [LOG] [RNLP demo] mount element found true @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[ 1048523ms] [LOG] [RNLP demo] render completed true @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[ 1133574ms] [LOG] [RNLP demo] selected layout full_grid @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[ 1133574ms] [LOG] [RNLP demo] selected template Westfield Partners CRE — Boutique Commercial Brokerage · Southwest @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[ 1134468ms] [LOG] [RNLP demo] listings fetched count 131 @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[ 1134468ms] [LOG] [RNLP demo] first listing sample {Id: 4058458, PropertyName: Valley Freeway Commerce Center Phase III - 7705, 7715, 7725 Commercial Way, ListingType: FOR LEASE, Status: Active, City: Henderson} @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[ 1134475ms] [LOG] [RNLP demo] mount element found true @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[ 1134476ms] [LOG] [RNLP demo] render completed true @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17

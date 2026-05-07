@@ -1,0 +1,12 @@
+[     177ms] [LOG] [RNLP demo] selected layout full_grid @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[     177ms] [LOG] [RNLP demo] selected template Westfield Partners CRE — Boutique Commercial Brokerage · Southwest @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[     975ms] [LOG] [RNLP demo] listings fetched count 131 @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[     975ms] [LOG] [RNLP demo] first listing sample {Id: 4058458, PropertyName: Valley Freeway Commerce Center Phase III - 7705, 7715, 7725 Commercial Way, ListingType: FOR LEASE, Status: Active, City: Henderson} @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[     981ms] [LOG] [RNLP demo] mount element found true @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[     984ms] [LOG] [RNLP demo] render completed true @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[   27086ms] [LOG] [RNLP demo] selected layout full_grid @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[   27086ms] [LOG] [RNLP demo] selected template Hospitality & Commercial Brokers — Commercial Real Estate · Gillette, WY @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[   27951ms] [LOG] [RNLP demo] listings fetched count 131 @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[   27951ms] [LOG] [RNLP demo] first listing sample {Id: 4058458, PropertyName: Valley Freeway Commerce Center Phase III - 7705, 7715, 7725 Commercial Way, ListingType: FOR LEASE, Status: Active, City: Henderson} @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[   27958ms] [LOG] [RNLP demo] mount element found true @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17
+[   27960ms] [LOG] [RNLP demo] render completed true @ http://127.0.0.1:8765/rnlp-demo-runtime.js:17

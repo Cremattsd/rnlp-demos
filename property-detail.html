@@ -133,7 +133,7 @@ a{color:inherit;text-decoration:none}
 </div>
 
 <script>
-const PROXY = 'https://rnlp-proxy.onrender.com';
+const PROXY = 'https://api.initial3development.com';
 const _qp = new URLSearchParams(location.search);
 const SERIAL = _qp.get('serial') || 'RNLP-MDL-001';
 const PROP_ID = _qp.get('id');
@@ -241,7 +241,7 @@ function renderPage(p, demographics, walkScore, neighborhood) {
         <div class="detail-sidebar">
           ${bname?`<div class="sidebar-card"><div class="broker-avatar">${esc(binit)}</div><div class="broker-name">${esc(bname)}</div><div class="broker-contact">${b.Email?`<a href="mailto:${esc(b.Email)}">${esc(b.Email)}</a><br>`:''}${b.Phone?`<a href="tel:${esc(b.Phone)}">${esc(b.Phone)}</a>`:''}</div></div>`:''}
           <div class="sidebar-card">
-            <button class="btn btn-primary" onclick="openInquire('${esc(p.PropertyName||'')}','${p.Id||''}')">INQUIRE ABOUT THIS PROPERTY</button>
+            <button class="btn btn-primary" onclick="openInquire('${esc(p.PropertyName||'')}','${p.Id||''}','${esc([p.Street,p.City,p.State,p.Zip].filter(Boolean).join(', '))}','${esc(b.Email||'')}')">INQUIRE ABOUT THIS PROPERTY</button>
             ${p.Status==='Active'?`<a class="btn btn-outline" href="https://realnex.com/listings/client/1/${p.Id}/${p.Id}" target="_blank">ACCESS REALNEX VAULT</a>`:''}
             ${p.BrochureUrl?`<a class="btn btn-ghost" href="${esc(p.BrochureUrl)}" target="_blank">DOWNLOAD BROCHURE</a>`:''}
             ${p.TourUrl?`<a class="btn btn-ghost" href="${esc(p.TourUrl)}" target="_blank">PROPERTY TOUR</a>`:''}
@@ -309,8 +309,14 @@ function renderPage(p, demographics, walkScore, neighborhood) {
 }
 
 let _inqPropId = '';
-function openInquire(name, id) {
+let _inqPropName = '';
+let _inqAddress = '';
+let _inqBrokerEmail = '';
+function openInquire(name, id, address, brokerEmail) {
   _inqPropId = id;
+  _inqPropName = name || '';
+  _inqAddress = address || '';
+  _inqBrokerEmail = brokerEmail || '';
   const el = document.getElementById('inquireOverlay');
   const lbl = document.getElementById('inqPropName');
   if (el) { el.style.display='flex'; }
@@ -326,11 +332,11 @@ async function submitInquiry(e) {
   btn.disabled = true; btn.textContent = 'Sending…';
   try {
     const r = await fetch(PROXY+'/lead', {method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({serial:SERIAL, name:document.getElementById('inq-name').value, email:document.getElementById('inq-email').value, phone:document.getElementById('inq-phone').value, message:document.getElementById('inq-msg').value, property_id:_inqPropId})});
+      body: JSON.stringify({serial:SERIAL, name:document.getElementById('inq-name').value, email:document.getElementById('inq-email').value, phone:document.getElementById('inq-phone').value, message:document.getElementById('inq-msg').value, property_id:_inqPropId, property_name:_inqPropName, address:_inqAddress, broker_email:_inqBrokerEmail, page_url:location.href, source_website:location.origin})});
     const d = await r.json();
-    if (r.ok && d.success) { alert('Inquiry submitted!'); e.target.reset(); closeInquire(); }
-    else { alert('Error: '+(d.error||'Please try again.')); }
-  } catch(err) { alert('Network error. Please try again.'); }
+    if (r.ok && d.success) { alert(d.message || 'Thanks. Your inquiry was sent to the listing team.'); e.target.reset(); closeInquire(); }
+    else { alert('We could not send your inquiry right now. Please try again or contact the listing team directly.'); }
+  } catch(err) { if (new URLSearchParams(location.search).get('debug') === '1') console.error('[RNLP detail] inquiry failed', err); alert('We could not send your inquiry right now. Please try again or contact the listing team directly.'); }
   finally { btn.disabled=false; btn.textContent='Send Inquiry'; }
 }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeInquire(); });

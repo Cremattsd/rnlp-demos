@@ -1,0 +1,311 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]: MC
+      - generic [ref=e5]: Marcus Chen, SIOR
+    - list [ref=e6]:
+      - listitem [ref=e7]:
+        - link "Listings" [ref=e8] [cursor=pointer]:
+          - /url: "#listings"
+      - listitem [ref=e9]:
+        - link "Team" [ref=e10] [cursor=pointer]:
+          - /url: "#team"
+      - listitem [ref=e11]:
+        - link "Contact" [ref=e12] [cursor=pointer]:
+          - /url: "#contact"
+    - link "Connect" [ref=e13] [cursor=pointer]:
+      - /url: "#contact"
+  - generic [ref=e16]:
+    - generic [ref=e17]: ⚡ Industrial & Logistics · Dallas-Fort Worth
+    - heading "The future of industrial real estate is data-driven." [level=1] [ref=e18]:
+      - text: The future of
+      - text: industrial real estate
+      - text: is data-driven.
+    - paragraph [ref=e19]: Marcus Chen SIOR combines deep market intelligence with cutting-edge analytics to deliver superior outcomes for industrial and logistics clients across the DFW metroplex.
+    - generic [ref=e20]:
+      - link "View Listings" [ref=e21] [cursor=pointer]:
+        - /url: "#listings"
+      - link "Schedule a Call" [ref=e22] [cursor=pointer]:
+        - /url: "#contact"
+    - generic [ref=e23]:
+      - generic [ref=e24]:
+        - generic [ref=e25]: $1.8B
+        - generic [ref=e26]: Transactions
+      - generic [ref=e27]:
+        - generic [ref=e28]: 15+
+        - generic [ref=e29]: Years Experience
+      - generic [ref=e30]:
+        - generic [ref=e31]: SIOR
+        - generic [ref=e32]: Designation
+      - generic [ref=e33]:
+        - generic [ref=e34]: DFW
+        - generic [ref=e35]: Market Focus
+  - generic [ref=e36]:
+    - generic [ref=e37]:
+      - generic [ref=e38]: Available Properties
+      - heading "Active Listings" [level=2] [ref=e39]
+      - paragraph [ref=e40]: Industrial, logistics, and flex properties across Dallas-Fort Worth — click any card for full details.
+    - generic [ref=e41]:
+      - textbox "Search properties…" [ref=e42]
+      - button "All" [ref=e43] [cursor=pointer]
+      - button "For Lease" [ref=e44] [cursor=pointer]
+      - button "For Sale" [ref=e45] [cursor=pointer]
+      - button "Sold" [ref=e46] [cursor=pointer]
+      - combobox [ref=e47] [cursor=pointer]:
+        - option "Grid" [selected]
+        - option "List View"
+        - option "Compact"
+        - option "Wide"
+    - generic [ref=e49]: 131 listings
+    - generic [ref=e50]:
+      - article [ref=e75] [cursor=pointer]:
+        - generic [ref=e76]:
+          - img "Valley Freeway Commerce Center Phase III - 7705, 7715, 7725 Commercial Way - 7725 Commercial Way, Henderson, NV, 89011" [ref=e77]
+          - generic [ref=e78]: For Lease
+        - generic [ref=e79]:
+          - generic [ref=e80]: Valley Freeway Commerce Center Phase III - 7705, 7715, 7725 Commercial Way
+          - generic [ref=e81]: 7725 Commercial Way, Henderson, NV, 89011
+          - generic [ref=e82]:
+            - generic [ref=e83]: IND, IND-DIST
+            - generic [ref=e84]: 113,531 SF
+          - generic [ref=e85]:
+            - generic [ref=e86]: Building113,531 SF
+            - generic [ref=e87]: Land8.21 Ac
+          - generic [ref=e88]: View Details
+      - article [ref=e89] [cursor=pointer]:
+        - generic [ref=e90]:
+          - img "311 E Warm Springs Rd - 311 East Warm Springs Road, Las Vegas, NV, 89119" [ref=e91]
+          - generic [ref=e92]: For Sale
+          - generic [ref=e93]: $5,250,000
+        - generic [ref=e94]:
+          - generic [ref=e95]: 311 E Warm Springs Rd
+          - generic [ref=e96]: 311 East Warm Springs Road, Las Vegas, NV, 89119
+          - generic [ref=e97]:
+            - generic [ref=e98]: OFC
+            - generic [ref=e99]: 25,000 SF
+          - generic [ref=e100]:
+            - generic [ref=e101]: Building25,000 SF
+            - generic [ref=e102]: Land1 Ac
+          - generic [ref=e103]: View Details
+      - article [ref=e104] [cursor=pointer]:
+        - generic [ref=e105]:
+          - img "Seven Hills Medical & Business Park - 880 Seven Hills Drive, Henderson, NV, 89052" [ref=e106]
+          - generic [ref=e107]: For Lease
+        - generic [ref=e108]:
+          - generic [ref=e109]: Seven Hills Medical & Business Park
+          - generic [ref=e110]: 880 Seven Hills Drive, Henderson, NV, 89052
+          - generic [ref=e111]:
+            - generic [ref=e112]: OFC, OFC-MED
+            - generic [ref=e113]: 49,945 SF
+          - generic [ref=e114]:
+            - generic [ref=e115]: Building49,945 SF
+            - generic [ref=e116]: Land3.5 Ac
+          - generic [ref=e117]: View Details
+      - article [ref=e118] [cursor=pointer]:
+        - generic [ref=e119]:
+          - img "Henderson Commerce Center | Warm Springs - 451 Mirror Court, Henderson, NV, 89011" [ref=e120]
+          - generic [ref=e121]: For Lease
+        - generic [ref=e122]:
+          - generic [ref=e123]: Henderson Commerce Center | Warm Springs
+          - generic [ref=e124]: 451 Mirror Court, Henderson, NV, 89011
+          - generic [ref=e125]:
+            - generic [ref=e126]: IND, IND-DIST
+            - generic [ref=e127]: 390,514 SF
+          - generic [ref=e128]:
+            - generic [ref=e129]: Building390,514 SF
+            - generic [ref=e130]: Land24.46 Ac
+          - generic [ref=e131]: View Details
+      - article [ref=e132] [cursor=pointer]:
+        - generic [ref=e133]:
+          - img "4580 W Sahara Ave Ste 120 - 4580 West Sahara Avenue, Las Vegas, NV, 89102" [ref=e134]
+          - generic [ref=e135]: For Lease
+        - generic [ref=e136]:
+          - generic [ref=e137]: 4580 W Sahara Ave Ste 120
+          - generic [ref=e138]: 4580 West Sahara Avenue, Las Vegas, NV, 89102
+          - generic [ref=e139]:
+            - generic [ref=e140]: IND-DIST, SCR-COM
+            - generic [ref=e141]: 61,300 SF
+          - generic [ref=e142]:
+            - generic [ref=e143]: Building61,300 SF
+            - generic [ref=e144]: Land6.15 Ac
+          - generic [ref=e145]: View Details
+      - article [ref=e146] [cursor=pointer]:
+        - generic [ref=e147]:
+          - img "Southfork Pointe - 9975 South Eastern Avenue, Las Vegas, NV, 89183" [ref=e148]
+          - generic [ref=e149]: For Lease
+        - generic [ref=e150]:
+          - generic [ref=e151]: Southfork Pointe
+          - generic [ref=e152]: 9975 South Eastern Avenue, Las Vegas, NV, 89183
+          - generic [ref=e153]:
+            - generic [ref=e154]: OFC-MED, SCR
+            - generic [ref=e155]: 20,128 SF
+          - generic [ref=e156]:
+            - generic [ref=e157]: Building20,128 SF
+            - generic [ref=e158]: Land1.81 Ac
+          - generic [ref=e159]: View Details
+      - article [ref=e160] [cursor=pointer]:
+        - generic [ref=e161]:
+          - img "West Sahara Town Plaza - 6322 West Sahara Avenue, Las Vegas, NV, 89146" [ref=e162]
+          - generic [ref=e163]: For Lease
+        - generic [ref=e164]:
+          - generic [ref=e165]: West Sahara Town Plaza
+          - generic [ref=e166]: 6322 West Sahara Avenue, Las Vegas, NV, 89146
+          - generic [ref=e167]:
+            - generic [ref=e168]: SCR, SCR-PAD
+            - generic [ref=e169]: 64,807 SF
+          - generic [ref=e170]:
+            - generic [ref=e171]: Building64,807 SF
+            - generic [ref=e172]: Land243936 SF
+          - generic [ref=e173]: View Details
+      - article [ref=e174] [cursor=pointer]:
+        - generic [ref=e175]:
+          - img "SUNSET AIRPORT CENTER 2 (Buildings C & D) - 3272 East Sunset Road, Las Vegas, NV, 89120" [ref=e176]
+          - generic [ref=e177]: For Lease
+        - generic [ref=e178]:
+          - generic [ref=e179]: SUNSET AIRPORT CENTER 2 (Buildings C & D)
+          - generic [ref=e180]: 3272 East Sunset Road, Las Vegas, NV, 89120
+          - generic [ref=e181]:
+            - generic [ref=e182]: IND
+            - generic [ref=e183]: 258,300 SF
+          - generic [ref=e184]:
+            - generic [ref=e185]: Building258,300 SF
+            - generic [ref=e186]: Land17.7 Ac
+          - generic [ref=e187]: View Details
+      - article [ref=e188] [cursor=pointer]:
+        - generic [ref=e189]:
+          - img "Black Mountain Industrial Center - 7700 Eastgate Road, Henderson, NV, 89011" [ref=e190]
+          - generic [ref=e191]: For Lease
+        - generic [ref=e192]:
+          - generic [ref=e193]: Black Mountain Industrial Center
+          - generic [ref=e194]: 7700 Eastgate Road, Henderson, NV, 89011
+          - generic [ref=e195]:
+            - generic [ref=e196]: IND, IND-FLEX
+            - generic [ref=e197]: 31,642 SF
+          - generic [ref=e198]:
+            - generic [ref=e199]: Building31,642 SF
+            - generic [ref=e200]: Land4.4 Ac
+          - generic [ref=e201]: View Details
+    - generic [ref=e202]:
+      - button "‹" [disabled] [ref=e203]
+      - button "1" [ref=e204] [cursor=pointer]
+      - button "2" [ref=e205] [cursor=pointer]
+      - generic: ...
+      - button "15" [ref=e206] [cursor=pointer]
+      - button "›" [ref=e207] [cursor=pointer]
+  - generic [ref=e54]:
+    - generic [ref=e56]:
+      - generic [ref=e57]: The Team
+      - heading "Broker Roster" [level=2] [ref=e58]
+    - generic [ref=e59]:
+      - generic [ref=e208]:
+        - generic [ref=e209]: JK
+        - generic [ref=e210]: Jarrad Katz, SIOR, CCIM
+        - link "jkatz@mdlgroup.com" [ref=e211] [cursor=pointer]:
+          - /url: mailto:jkatz@mdlgroup.com
+        - link "+17023881800" [ref=e212] [cursor=pointer]:
+          - /url: tel:+17023881800
+      - generic [ref=e213]:
+        - generic [ref=e214]: GK
+        - generic [ref=e215]: Galit Kimerling-Moreau, SIOR
+        - link "gkimerling@mdlgroup.com" [ref=e216] [cursor=pointer]:
+          - /url: mailto:gkimerling@mdlgroup.com
+        - link "+17023881800" [ref=e217] [cursor=pointer]:
+          - /url: tel:+17023881800
+      - generic [ref=e218]:
+        - generic [ref=e219]: MG
+        - generic [ref=e220]: Michael Greene, CCIM
+        - link "mgreene@mdlgroup.com" [ref=e221] [cursor=pointer]:
+          - /url: mailto:mgreene@mdlgroup.com
+        - link "+17023881800" [ref=e222] [cursor=pointer]:
+          - /url: tel:+17023881800
+      - generic [ref=e223]:
+        - generic [ref=e224]: HM
+        - generic [ref=e225]: Hayim Mizrachi
+        - link "hmizrachi@mdlgroup.com" [ref=e226] [cursor=pointer]:
+          - /url: mailto:hmizrachi@mdlgroup.com
+        - link "+17023881800" [ref=e227] [cursor=pointer]:
+          - /url: tel:+17023881800
+      - generic [ref=e228]:
+        - generic [ref=e229]: LR
+        - generic [ref=e230]: Luke Ramous
+        - link "lramous@mdlgroup.com" [ref=e231] [cursor=pointer]:
+          - /url: mailto:lramous@mdlgroup.com
+        - link "+17023881800" [ref=e232] [cursor=pointer]:
+          - /url: tel:+17023881800
+      - generic [ref=e233]:
+        - generic [ref=e234]: BH
+        - generic [ref=e235]: Buck Hujabre
+        - link "bhujabre@mdlgroup.com" [ref=e236] [cursor=pointer]:
+          - /url: mailto:bhujabre@mdlgroup.com
+        - link "+17023504179" [ref=e237] [cursor=pointer]:
+          - /url: tel:+17023504179
+      - generic [ref=e238]:
+        - generic [ref=e239]: BS
+        - generic [ref=e240]: Brian Singleton
+        - link "bsingleton@mdlgroup.com" [ref=e241] [cursor=pointer]:
+          - /url: mailto:bsingleton@mdlgroup.com
+        - link "+17023881800" [ref=e242] [cursor=pointer]:
+          - /url: tel:+17023881800
+      - generic [ref=e243]:
+        - generic [ref=e244]: BP
+        - generic [ref=e245]: Brendon Pereira
+        - link "bpereira@mdlgroup.com" [ref=e246] [cursor=pointer]:
+          - /url: mailto:bpereira@mdlgroup.com
+        - link "+17023881800" [ref=e247] [cursor=pointer]:
+          - /url: tel:+17023881800
+  - generic [ref=e61]:
+    - generic [ref=e62]: Get Started
+    - heading "Ready to Move?" [level=2] [ref=e63]
+    - paragraph [ref=e64]: DFW industrial market insights delivered directly to you. Let's talk.
+    - generic [ref=e65]:
+      - textbox "Your name" [ref=e66]
+      - textbox "Email address" [ref=e67]
+      - textbox "Phone" [ref=e68]
+      - textbox "How can Marcus help you?" [ref=e69]
+      - button "Send Message" [ref=e70] [cursor=pointer]
+  - contentinfo [ref=e71]:
+    - paragraph [ref=e72]: © 2026 Marcus Chen, SIOR · Industrial & Logistics · Dallas-Fort Worth
+    - paragraph [ref=e73]:
+      - text: Powered by
+      - link "RealNex Listings Pro" [ref=e74] [cursor=pointer]:
+        - /url: https://www.initial3development.com
+      - text: — Initial3 Development
+  - generic [ref=e249]:
+    - button "✕ Close" [ref=e250] [cursor=pointer]
+    - generic [ref=e251]:
+      - generic [ref=e252]:
+        - img "Seven Hills Medical & Business Park - 880 Seven Hills Drive, Henderson, NV, 89052" [ref=e254]
+        - generic [ref=e256]: For Lease
+        - generic [ref=e257]:
+          - heading "Seven Hills Medical & Business Park" [level=2] [ref=e258]
+          - paragraph [ref=e259]: 880 Seven Hills Drive, Henderson, NV, 89052
+      - generic [ref=e260]:
+        - generic [ref=e261]:
+          - heading "Description" [level=3] [ref=e262]
+          - paragraph [ref=e263]: Contact the listing broker for full property details.
+          - generic [ref=e264]:
+            - generic [ref=e265]:
+              - generic [ref=e266]: Type
+              - generic [ref=e267]: OFC, OFC-MED
+            - generic [ref=e268]:
+              - generic [ref=e269]: Size
+              - generic [ref=e270]: 49,945 SF
+            - generic [ref=e271]:
+              - generic [ref=e272]: Land
+              - generic [ref=e273]: 3.5 Ac
+            - generic [ref=e274]:
+              - generic [ref=e275]: Location
+              - generic [ref=e276]: Henderson, NV
+          - generic [ref=e277]:
+            - strong [ref=e278]: Area demographics
+            - paragraph [ref=e279]: Population 59,075 - Median income $96,944
+          - generic [ref=e280]:
+            - strong [ref=e281]: Location context
+            - paragraph [ref=e282]: Seven Hills Drive, Henderson, Clark County, Nevada, 89052, United States
+        - generic [ref=e283]:
+          - generic [ref=e284]:
+            - generic [ref=e285]: Hayim Mizrachi
+            - link "hmizrachi@mdlgroup.com" [ref=e286] [cursor=pointer]:
+              - /url: mailto:hmizrachi@mdlgroup.com
+          - button "Inquire About This Property" [ref=e287] [cursor=pointer]
+          - button "Share Property" [ref=e288] [cursor=pointer]

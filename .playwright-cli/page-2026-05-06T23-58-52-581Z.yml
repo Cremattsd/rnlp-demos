@@ -1,0 +1,82 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]: MC
+      - generic [ref=e5]: Marcus Chen, SIOR
+    - list [ref=e6]:
+      - listitem [ref=e7]:
+        - link "Listings" [ref=e8] [cursor=pointer]:
+          - /url: "#listings"
+      - listitem [ref=e9]:
+        - link "Team" [ref=e10] [cursor=pointer]:
+          - /url: "#team"
+      - listitem [ref=e11]:
+        - link "Contact" [ref=e12] [cursor=pointer]:
+          - /url: "#contact"
+    - link "Connect" [ref=e13] [cursor=pointer]:
+      - /url: "#contact"
+  - generic [ref=e16]:
+    - generic [ref=e17]: ⚡ Industrial & Logistics · Dallas-Fort Worth
+    - heading "The future of industrial real estate is data-driven." [level=1] [ref=e18]:
+      - text: The future of
+      - text: industrial real estate
+      - text: is data-driven.
+    - paragraph [ref=e19]: Marcus Chen SIOR combines deep market intelligence with cutting-edge analytics to deliver superior outcomes for industrial and logistics clients across the DFW metroplex.
+    - generic [ref=e20]:
+      - link "View Listings" [ref=e21] [cursor=pointer]:
+        - /url: "#listings"
+      - link "Schedule a Call" [ref=e22] [cursor=pointer]:
+        - /url: "#contact"
+    - generic [ref=e23]:
+      - generic [ref=e24]:
+        - generic [ref=e25]: $1.8B
+        - generic [ref=e26]: Transactions
+      - generic [ref=e27]:
+        - generic [ref=e28]: 15+
+        - generic [ref=e29]: Years Experience
+      - generic [ref=e30]:
+        - generic [ref=e31]: SIOR
+        - generic [ref=e32]: Designation
+      - generic [ref=e33]:
+        - generic [ref=e34]: DFW
+        - generic [ref=e35]: Market Focus
+  - generic [ref=e36]:
+    - generic [ref=e37]:
+      - generic [ref=e38]: Available Properties
+      - heading "Active Listings" [level=2] [ref=e39]
+      - paragraph [ref=e40]: Industrial, logistics, and flex properties across Dallas-Fort Worth — click any card for full details.
+    - generic [ref=e41]:
+      - textbox "Search properties…" [ref=e42]
+      - button "All" [ref=e43] [cursor=pointer]
+      - button "For Lease" [ref=e44] [cursor=pointer]
+      - button "For Sale" [ref=e45] [cursor=pointer]
+      - button "Sold" [ref=e46] [cursor=pointer]
+      - combobox [ref=e47] [cursor=pointer]:
+        - option "Grid" [selected]
+        - option "List View"
+        - option "Compact"
+        - option "Wide"
+    - generic [ref=e49]: Loading…
+    - paragraph [ref=e53]: Loading listings…
+  - generic [ref=e54]:
+    - generic [ref=e56]:
+      - generic [ref=e57]: The Team
+      - heading "Broker Roster" [level=2] [ref=e58]
+    - paragraph [ref=e60]: Loading team…
+  - generic [ref=e61]:
+    - generic [ref=e62]: Get Started
+    - heading "Ready to Move?" [level=2] [ref=e63]
+    - paragraph [ref=e64]: DFW industrial market insights delivered directly to you. Let's talk.
+    - generic [ref=e65]:
+      - textbox "Your name" [ref=e66]
+      - textbox "Email address" [ref=e67]
+      - textbox "Phone" [ref=e68]
+      - textbox "How can Marcus help you?" [ref=e69]
+      - button "Send Message" [ref=e70] [cursor=pointer]
+  - contentinfo [ref=e71]:
+    - paragraph [ref=e72]: © 2026 Marcus Chen, SIOR · Industrial & Logistics · Dallas-Fort Worth
+    - paragraph [ref=e73]:
+      - text: Powered by
+      - link "RealNex Listings Pro" [ref=e74] [cursor=pointer]:
+        - /url: https://www.initial3development.com
+      - text: — Initial3 Development
