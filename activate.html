@@ -520,13 +520,13 @@ footer a{color:var(--gold)}
 <div class="hero">
   <div class="hero-eyebrow">License Activation</div>
   <h1>Activate Your <em>Listing Page</em></h1>
-  <p class="hero-sub">Enter your serial number below to generate your embed code instantly.</p>
+  <p class="hero-sub">Enter your activation key to access your RealNex Listings Pro setup package.</p>
 </div>
 
 <!-- MAIN: FORM -->
 <div class="page-body">
   <div class="form-card">
-    <div class="form-card-title">Generate Your Embed Code</div>
+    <div class="form-card-title">Access Your Setup Package</div>
     <div class="form-card-sub">Your serial number was included in your welcome email. Questions? Contact <a href="mailto:msmith@initial3development.com">msmith@initial3development.com</a> or call <a href="tel:+18584581063">(858) 458-1063</a></div>
 
     <form id="activateForm" novalidate>
@@ -535,8 +535,8 @@ footer a{color:var(--gold)}
         <input type="text" id="serial" name="serial" placeholder="RNLP-XXX-001" autocomplete="off" spellcheck="false" required>
       </div>
       <div class="field">
-        <label for="company">Company Name</label>
-        <input type="text" id="company" name="company" placeholder="Your Brokerage Name" required>
+        <label for="company">Display Name <span style="color:var(--muted);font-weight:400">(optional)</span></label>
+        <input type="text" id="company" name="company" placeholder="Your Brokerage Name">
       </div>
       <!-- LAYOUT SELECTOR -->
       <div class="field">
@@ -697,13 +697,13 @@ footer a{color:var(--gold)}
 
       <!-- TABS -->
       <div class="tabs-bar">
-        <button class="tab-btn active" onclick="switchTab('wp',this)">
+        <button class="tab-btn active" id="tabbtn-wp" onclick="switchTab('wp',this)">
           <span class="tab-icon">⊞</span> WordPress Plugin
         </button>
-        <button class="tab-btn" onclick="switchTab('iframe',this)">
+        <button class="tab-btn" id="tabbtn-iframe" onclick="switchTab('iframe',this)">
           <span class="tab-icon">&lt;/&gt;</span> iFrame Embed
         </button>
-        <button class="tab-btn" onclick="switchTab('hosted',this)">
+        <button class="tab-btn" id="tabbtn-hosted" onclick="switchTab('hosted',this)">
           <span class="tab-icon">⊕</span> Hosted Page
         </button>
       </div>
@@ -725,7 +725,7 @@ footer a{color:var(--gold)}
         <div class="tab-sep-note">This is a separate product from the iFrame Embed — different pricing, different technology</div>
         <div class="code-block" id="wp-code"></div>
         <div class="btn-row">
-          <a id="wp-download" href="https://monumental-llama-df46c6.netlify.app/realnex-listings-pro.zip" target="_blank" class="btn-gold">⬇ Download Plugin (.zip)</a>
+          <a id="wp-download" href="https://www.initial3development.com/realnex-listings-pro" target="_blank" class="btn-gold">⬇ Download Plugin (.zip)</a>
           <button type="button" class="btn-ghost" onclick="copyEl('wp-code',this)">Copy Serial</button>
         </div>
         <div class="wp-steps">
@@ -909,7 +909,7 @@ footer a{color:var(--gold)}
 </footer>
 
 <script>
-const PROXY = 'https://rnlp-proxy.onrender.com';
+const PROXY = 'https://api.initial3development.com';
 
 // ── State ──────────────────────────────────────────────────────────────────
 let selectedLayout = 'grid-map';
@@ -996,9 +996,8 @@ form.addEventListener('submit', async function(e) {
   hideError();
 
   const serial = document.getElementById('serial').value.trim();
-  const company = document.getElementById('company').value.trim();
+  const company = document.getElementById('company').value.trim() || 'Your Company';
   if (!serial) { alert('Please enter your serial number.'); return; }
-  if (!company) { alert('Please enter your company name.'); return; }
 
   setLoading(true);
   try {
@@ -1014,7 +1013,7 @@ form.addEventListener('submit', async function(e) {
 
     activatedSerial = serial;
     activatedCompany = company;
-    showResults(serial, company, data.plan, data.expires_at);
+    showResults(serial, company, data);
 
   } catch(err) {
     showError();
@@ -1024,15 +1023,19 @@ form.addEventListener('submit', async function(e) {
 });
 
 // ── Show results ───────────────────────────────────────────────────────────
-function showResults(serial, company, plan, expiresAt) {
+function showResults(serial, company, entitlement) {
+  const plan = entitlement.plan || 'pro';
+  const productType = entitlement.product_type || (plan === 'iframe' || plan === 'iframe_only' ? 'iframe_only' : 'mp_premier_2_0');
+  const pluginAllowed = entitlement.plugin_allowed !== undefined ? Boolean(entitlement.plugin_allowed) : productType !== 'iframe_only';
+  const iframeAllowed = entitlement.iframe_allowed !== undefined ? Boolean(entitlement.iframe_allowed) : true;
+  const expiresAt = entitlement.expires_at || '';
+
   // Success header
-  document.getElementById('successTitle').textContent = 'Serial Activated — ' + company;
+  document.getElementById('successTitle').textContent = 'Activation Key Verified';
   const exp = expiresAt ? formatDate(expiresAt) : 'December 31, 2027';
-  document.getElementById('successMeta').textContent = 'Plan: ' + (plan || 'Pro') + ' · Expires: ' + exp;
+  document.getElementById('successMeta').textContent = 'Product: ' + (productType === 'iframe_only' ? 'Iframe Only' : 'MP Premier 2.0') + ' · Expires: ' + exp;
 
   // Company slug for WP shortcode
-  const slug = company.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'company';
-
   // Config param set (shared across embed, hosted, preview)
   const configParams = new URLSearchParams({
     layout: selectedLayout,
@@ -1048,13 +1051,14 @@ function showResults(serial, company, plan, expiresAt) {
   // WP tab — show full config summary
   document.getElementById('wp-code').textContent = [
     'Serial Number:   ' + serial,
+    'Shortcode:       [realnex_listings]',
     'Layout:          ' + (layoutNames[selectedLayout] || selectedLayout),
     'Accent Color:    ' + selectedColor,
     'Background:      ' + (selectedBg === 'dark' ? 'Dark Mode' : 'Light Mode'),
     'Typography:      ' + (fontNames[selectedFont] || selectedFont),
     'Detail Behavior: ' + (selectedDetail === 'page' ? 'Full Detail Page' : 'Popup Modal'),
   ].join('\n');
-  document.getElementById('wp-shortcode-inline').textContent = '[' + slug + ']';
+  document.getElementById('wp-shortcode-inline').textContent = '[realnex_listings]';
 
   // iFrame tab
   const embedSrc = PROXY + '/embed?serial=' + encodeURIComponent(serial) +
@@ -1081,6 +1085,18 @@ function showResults(serial, company, plan, expiresAt) {
   document.getElementById('livePreviewWrap').style.display = 'block';
   document.getElementById('livePreviewFrame').src = hostedUrl;
   document.getElementById('livePreviewOpen').href = hostedUrl;
+
+  document.getElementById('tabbtn-wp').style.display = pluginAllowed ? '' : 'none';
+  document.getElementById('tabbtn-iframe').style.display = iframeAllowed ? '' : 'none';
+  document.getElementById('tabbtn-hosted').style.display = pluginAllowed ? '' : 'none';
+  document.getElementById('tab-wp').style.display = pluginAllowed ? '' : 'none';
+  document.getElementById('tab-iframe').style.display = iframeAllowed ? '' : 'none';
+  document.getElementById('tab-hosted').style.display = pluginAllowed ? '' : 'none';
+  if (pluginAllowed) {
+    switchTab('wp', document.getElementById('tabbtn-wp'));
+  } else {
+    switchTab('iframe', document.getElementById('tabbtn-iframe'));
+  }
 
   results.style.display = 'block';
   setTimeout(function() {

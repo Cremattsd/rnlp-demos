@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RealNex Listings Pro License Generator</title>
+<style>
+:root{--bg:#f5f7fb;--panel:#fff;--text:#162033;--muted:#65758b;--border:#dbe3ee;--primary:#013161;--ok:#0f8a5f;--warn:#a16207;--err:#b42318;--shadow:0 18px 40px rgba(22,32,51,.10)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding:34px 18px 60px}
+header{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;margin-bottom:22px}
+h1{margin:0;font-size:1.65rem;letter-spacing:0}
+.sub{margin:6px 0 0;color:var(--muted);font-size:.95rem}
+.grid{display:grid;grid-template-columns:420px 1fr;gap:18px}
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:8px;box-shadow:var(--shadow)}
+.panel-h{padding:18px 20px;border-bottom:1px solid var(--border)}
+.panel-h h2{margin:0;font-size:1rem}
+.panel-b{padding:20px}
+label{display:block;font-size:.78rem;font-weight:700;text-transform:uppercase;color:#334155;margin:0 0 7px}
+input,select,textarea{width:100%;border:1px solid var(--border);border-radius:7px;padding:11px 12px;font:inherit;background:#fff;color:var(--text)}
+textarea{min-height:130px;resize:vertical;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.83rem}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.field{margin-bottom:14px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+button{border:0;border-radius:7px;padding:11px 14px;font-weight:750;cursor:pointer;background:var(--primary);color:#fff}
+button.secondary{background:#e8eef6;color:#16324f}
+button:disabled{opacity:.55;cursor:not-allowed}
+.status{margin-top:12px;font-size:.88rem;color:var(--muted)}
+.status.ok{color:var(--ok)}.status.err{color:var(--err)}.status.warn{color:var(--warn)}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:14px}
+.metric{border:1px solid var(--border);border-radius:8px;padding:13px;background:#fbfdff}
+.metric span{display:block;color:var(--muted);font-size:.74rem;text-transform:uppercase;font-weight:700}
+.metric strong{display:block;margin-top:5px;font-size:1.1rem}
+.list{display:grid;gap:8px}
+.listing{border:1px solid var(--border);border-radius:8px;padding:12px;background:#fff}
+.listing strong{display:block;font-size:.92rem}
+.listing span{display:block;color:var(--muted);font-size:.82rem;margin-top:3px}
+.badge{display:inline-flex;align-items:center;border-radius:999px;padding:4px 9px;font-size:.74rem;font-weight:800;background:#eef6ff;color:#164b7a;margin-top:8px}
+.output{display:none}.output.show{display:block}
+.steps{margin:0;padding-left:20px;color:#334155;font-size:.92rem;line-height:1.8}
+.copyline{display:flex;gap:8px;margin-top:8px}
+.copyline input{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+@media(max-width:900px){.grid{grid-template-columns:1fr}.cards{grid-template-columns:1fr}header{display:block}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>RealNex Listings Pro License Generator</h1>
+      <p class="sub">Protected Steve flow: preview a company, generate a serial, and hand off the correct setup output.</p>
+    </div>
+  </header>
+
+  <div class="grid">
+    <section class="panel">
+      <div class="panel-h"><h2>Generate License</h2></div>
+      <div class="panel-b">
+        <div class="field">
+          <label for="adminKey">Admin Key</label>
+          <input id="adminKey" type="password" autocomplete="off" placeholder="Required for protected proxy endpoints">
+        </div>
+        <div class="row">
+          <div class="field">
+            <label for="companyId">Company ID</label>
+            <input id="companyId" value="35853" inputmode="numeric">
+          </div>
+          <div class="field">
+            <label for="expiresAt">Expiration</label>
+            <input id="expiresAt" type="date" value="2027-12-31">
+          </div>
+        </div>
+        <div class="field">
+          <label for="productType">Purchased Product</label>
+          <select id="productType">
+            <option value="mp_premier_2_0">MP Premier 2.0</option>
+            <option value="iframe_only">Iframe Only</option>
+          </select>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label for="clientEmail">Client Email</label>
+            <input id="clientEmail" type="email" placeholder="optional">
+          </div>
+          <div class="field">
+            <label for="domain">Domain</label>
+            <input id="domain" placeholder="optional">
+          </div>
+        </div>
+        <div class="field">
+          <label for="clientCode">Client Code</label>
+          <input id="clientCode" placeholder="Auto from preview">
+        </div>
+        <div class="actions">
+          <button id="previewBtn">Preview Company</button>
+          <button id="generateBtn" class="secondary" disabled>Generate Key</button>
+        </div>
+        <div id="status" class="status"></div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-h"><h2>Company Preview</h2></div>
+      <div class="panel-b">
+        <div class="cards">
+          <div class="metric"><span>Company ID</span><strong id="mCompany">-</strong></div>
+          <div class="metric"><span>Listing Count</span><strong id="mCount">-</strong></div>
+          <div class="metric"><span>Source Name</span><strong id="mName">-</strong></div>
+          <div class="metric"><span>Broker Contacts</span><strong id="mBrokers">-</strong></div>
+        </div>
+        <div id="previewWarning" class="status warn"></div>
+        <div id="samples" class="list"></div>
+      </div>
+    </section>
+  </div>
+
+  <section id="output" class="panel output" style="margin-top:18px">
+    <div class="panel-h"><h2>Setup Output</h2></div>
+    <div class="panel-b">
+      <div class="cards">
+        <div class="metric"><span>Serial Key</span><strong id="oSerial">-</strong></div>
+        <div class="metric"><span>Product</span><strong id="oProduct">-</strong></div>
+      </div>
+
+      <div id="pluginBlock">
+        <h3>MP Premier 2.0 Setup</h3>
+        <ol class="steps">
+          <li>Download plugin ZIP.</li>
+          <li>Upload to WordPress.</li>
+          <li>Activate plugin.</li>
+          <li>Paste serial key.</li>
+          <li>Save and validate.</li>
+          <li>Add shortcode to page.</li>
+        </ol>
+        <div class="copyline"><input id="downloadLink" readonly><button data-copy="downloadLink">Copy</button></div>
+        <div class="copyline"><input id="shortcode" readonly value="[realnex_listings]"><button data-copy="shortcode">Copy</button></div>
+      </div>
+
+      <div id="iframeBlock">
+        <h3>Iframe Output</h3>
+        <div class="copyline"><input id="previewLink" readonly><button data-copy="previewLink">Copy</button></div>
+        <textarea id="iframeCode" readonly></textarea>
+        <div class="actions"><button data-copy="iframeCode">Copy Iframe Code</button></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+const API = 'https://api.initial3development.com';
+let preview = null;
+
+const $ = id => document.getElementById(id);
+function status(text, type = '') {
+  $('status').textContent = text;
+  $('status').className = 'status ' + type;
+}
+function adminHeaders() {
+  const key = $('adminKey').value.trim();
+  if (!key) throw new Error('Admin key is required.');
+  return {'Content-Type':'application/json','X-Admin-Key':key};
+}
+async function post(path, body) {
+  const res = await fetch(API + path, {method:'POST', headers:adminHeaders(), body:JSON.stringify(body)});
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok || data.success === false) throw new Error(data.error || 'Request failed.');
+  return data;
+}
+function renderPreview(data) {
+  preview = data;
+  $('mCompany').textContent = data.company_id || '-';
+  $('mCount').textContent = data.listing_count ?? '-';
+  $('mName').textContent = data.company_name || '-';
+  $('mBrokers').textContent = (data.brokers || []).length;
+  $('previewWarning').textContent = data.warning || '';
+  if (data.client_code) $('clientCode').value = data.client_code;
+  $('samples').innerHTML = (data.sample_listings || []).map(item => `
+    <div class="listing">
+      <strong>${escapeHtml(item.title || 'Untitled Listing')}</strong>
+      <span>${escapeHtml(item.address || 'Address unavailable')}</span>
+      <span>${escapeHtml(item.broker_email || '')}</span>
+      <span class="badge">${escapeHtml([item.listing_type,item.status].filter(Boolean).join(' · ') || 'Listing')}</span>
+    </div>
+  `).join('') || '<div class="listing"><strong>No sample listings found.</strong><span>Confirm the company ID before generating.</span></div>';
+  $('generateBtn').disabled = false;
+}
+function renderOutput(data) {
+  $('output').classList.add('show');
+  $('oSerial').textContent = data.serial;
+  $('oProduct').textContent = data.product_type === 'iframe_only' ? 'Iframe Only' : 'MP Premier 2.0';
+  $('pluginBlock').style.display = data.plugin_allowed ? 'block' : 'none';
+  $('iframeBlock').style.display = data.iframe_allowed ? 'block' : 'none';
+  $('downloadLink').value = data.plugin_download_url || '';
+  $('shortcode').value = data.shortcode || '[realnex_listings]';
+  $('previewLink').value = data.iframe_src || '';
+  $('iframeCode').value = data.iframe_code || '';
+}
+function escapeHtml(value) {
+  return String(value == null ? '' : value).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[ch]));
+}
+
+$('previewBtn').addEventListener('click', async () => {
+  try {
+    status('Previewing company...');
+    const data = await post('/company-preview', {company_id:$('companyId').value.trim()});
+    renderPreview(data);
+    status('Company preview loaded.', data.warning ? 'warn' : 'ok');
+  } catch (err) {
+    status(err.message, 'err');
+  }
+});
+
+$('generateBtn').addEventListener('click', async () => {
+  try {
+    if (!preview) throw new Error('Preview the company before generating a key.');
+    status('Generating license...');
+    const data = await post('/register', {
+      company_id: $('companyId').value.trim(),
+      email: $('clientEmail').value.trim(),
+      domain: $('domain').value.trim(),
+      expires_at: $('expiresAt').value,
+      product_type: $('productType').value,
+      client_code: $('clientCode').value.trim(),
+      company_name: preview.company_name || ''
+    });
+    renderOutput(data);
+    status('Serial generated and saved.', 'ok');
+  } catch (err) {
+    status(err.message, 'err');
+  }
+});
+
+document.addEventListener('click', event => {
+  const id = event.target.getAttribute('data-copy');
+  if (!id) return;
+  const el = $(id);
+  if (!el) return;
+  navigator.clipboard && navigator.clipboard.writeText(el.value);
+});
+</script>
+</body>
+</html>
