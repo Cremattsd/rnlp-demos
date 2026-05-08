@@ -284,7 +284,7 @@ body.rnlp-dark .card{background:#0a0e18!important;border-color:rgba(255,255,255,
   </div>
   <div class="hero-right">
     <div class="hero-stat-card"><div class="hero-stat-val">25+</div><div class="hero-stat-lbl">Years in Gillette</div><div class="hero-stat-desc">Serving CRE clients since 1998</div></div>
-    <div class="hero-stat-card"><div class="hero-stat-val">$400M+</div><div class="hero-stat-lbl">Closed Volume</div><div class="hero-stat-desc">Commercial transactions</div></div>
+    <div class="hero-stat-card"><div class="hero-stat-val">$180M+</div><div class="hero-stat-lbl">Closed Volume</div><div class="hero-stat-desc">Commercial transactions</div></div>
     <div class="hero-stat-card"><div class="hero-stat-val">NE WY</div><div class="hero-stat-lbl">Market Focus</div><div class="hero-stat-desc">Campbell County specialist</div></div>
     <div class="hero-stat-card"><div class="hero-stat-val">CCIM</div><div class="hero-stat-lbl">Designation</div><div class="hero-stat-desc">Certified analysts on staff</div></div>
   </div>
@@ -380,7 +380,7 @@ body.rnlp-dark .card{background:#0a0e18!important;border-color:rgba(255,255,255,
 </footer>
 
 <!-- INQUIRE MODAL -->
-<div class="modal-overlay" id="inquireModal">
+<div class="modal-overlay" id="inquireModal" onclick="if(event.target===this)closeModal('inquireModal')"
   <div class="modal">
     <button class="modal-close" onclick="closeModal('inquireModal')">✕</button>
     <h2>Property Inquiry</h2>
@@ -404,5 +404,39 @@ body.rnlp-dark .card{background:#0a0e18!important;border-color:rgba(255,255,255,
 </div>
 
 <script src="rnlp-demo-runtime.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV/XN/WLs=" crossorigin=""></script>
+<script>
+(function () {
+  var mapInitialized = false;
+  var mapInstance = null;
+  var GILLETTE_LAT = 44.2912;
+  var GILLETTE_LNG = -105.5011;
+
+  document.getElementById('mapToggle').addEventListener('click', function () {
+    var panel = document.getElementById('mapPanel');
+    var btn = document.getElementById('mapToggle');
+    var isOpen = panel.classList.toggle('open');
+    btn.innerHTML = isOpen
+      ? '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="15" height="15"><path stroke-linecap="round" stroke-linejoin="round" d="M9 6.75V15m6-6v8.25m.503 3.498l4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 00-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0z"/></svg> Hide Map'
+      : '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="15" height="15"><path stroke-linecap="round" stroke-linejoin="round" d="M9 6.75V15m6-6v8.25m.503 3.498l4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 00-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0z"/></svg> Show Map';
+
+    if (isOpen && !mapInitialized && typeof L !== 'undefined') {
+      mapInitialized = true;
+      mapInstance = L.map('mapContainer').setView([GILLETTE_LAT, GILLETTE_LNG], 13);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        maxZoom: 19
+      }).addTo(mapInstance);
+      L.marker([GILLETTE_LAT, GILLETTE_LNG])
+        .addTo(mapInstance)
+        .bindPopup('<strong>HCBRE</strong><br>Gillette, WY')
+        .openPopup();
+    } else if (isOpen && mapInstance) {
+      mapInstance.invalidateSize();
+    }
+  });
+})();
+</script>
 </body>
 </html>

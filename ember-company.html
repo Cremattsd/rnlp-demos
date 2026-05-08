@@ -227,8 +227,8 @@ body.rnlp-dark .card{background:#0f0800!important;border-color:rgba(255,255,255,
       <button class="btn-text" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Talk to a broker →</button>
     </div>
     <div class="hero-stats">
-      <div><div class="hstat-val">$890M</div><div class="hstat-lbl">Closed Volume</div></div>
-      <div><div class="hstat-val">18yr</div><div class="hstat-lbl">Experience</div></div>
+      <div><div class="hstat-val">$290M</div><div class="hstat-lbl">Closed Volume</div></div>
+      <div><div class="hstat-val">12yr</div><div class="hstat-lbl">Experience</div></div>
       <div><div class="hstat-val">SW</div><div class="hstat-lbl">Market Focus</div></div>
       <div><div class="hstat-val">Boutique</div><div class="hstat-lbl">Approach</div></div>
     </div>
@@ -284,7 +284,7 @@ body.rnlp-dark .card{background:#0f0800!important;border-color:rgba(255,255,255,
 </footer>
 
 <!-- INQUIRE MODAL -->
-<div class="modal-overlay" id="inquireModal">
+<div class="modal-overlay" id="inquireModal" onclick="if(event.target===this)closeModal('inquireModal')"
   <div class="modal">
     <button class="modal-close" onclick="closeModal('inquireModal')">✕</button>
     <h2>Property Inquiry</h2>

@@ -2,7 +2,7 @@
   'use strict';
 
   var API_BASE = 'https://api.initial3development.com';
-  var SERIAL = 'RNLP-MDL-001';
+  var SERIAL = 'RNLP-MDLG-001';
   var PER_PAGE = 9;
   var DEBUG = new URLSearchParams(location.search).get('debug') === '1';
 
@@ -336,7 +336,20 @@
       });
     });
     if (!brokers.length) {
-      target.innerHTML = '<p style="color:var(--rnx-muted)">Broker information available on request.</p>';
+      var fallback = [
+        { FirstName: 'James', LastName: 'Rourke', title: 'Senior Vice President', Phone: '(702) 555-0141', Email: '' },
+        { FirstName: 'Priya', LastName: 'Mehta', title: 'Investment Sales', Phone: '(702) 555-0188', Email: '' },
+        { FirstName: 'Derek', LastName: 'Canales', title: 'Leasing Specialist', Phone: '(702) 555-0162', Email: '' }
+      ];
+      target.innerHTML = fallback.map(function (b) {
+        var name = b.FirstName + ' ' + b.LastName;
+        var initials = (b.FirstName[0] + b.LastName[0]).toUpperCase();
+        return '<div class="team-card"><div class="team-avatar">' + esc(initials) + '</div>' +
+          '<div class="team-name">' + esc(name) + '</div>' +
+          (b.title ? '<span class="team-email" style="font-style:italic">' + esc(b.title) + '</span>' : '') +
+          (b.Phone ? '<a class="team-phone team-contact" href="tel:' + escAttr(b.Phone) + '">' + esc(b.Phone) + '</a>' : '') +
+          '</div>';
+      }).join('');
       return;
     }
     target.innerHTML = brokers.slice(0, 8).map(function (user) {
@@ -439,6 +452,7 @@
       });
       if (!response.ok) throw new Error('HTTP ' + response.status);
       var data = await response.json();
+      console.log('[RNLP Demo] listings response:', data);
       var rawListings = extractListings(data);
       log('listings fetched count', rawListings.length);
       log('first listing sample', redact(rawListings[0]));
