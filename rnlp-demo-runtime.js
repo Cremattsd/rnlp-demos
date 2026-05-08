@@ -154,8 +154,8 @@
   }
 
   function first() {
-    for (var i = 0; i < arguments.length; i++) {
-      var val = clean(arguments[i]);
+    for (let i = 0; i < arguments.length; i++) {
+      const val = clean(arguments[i]);
       if (val) return val;
     }
     return '';
@@ -173,26 +173,26 @@
 
   function normalizeListing(raw) {
     raw = raw || {};
-    var photos = (raw.Attachments || []).filter(function (att) {
+    const photos = (raw.Attachments || []).filter(function (att) {
       return (att.AttachmentType || att.attachment_type) === 'photo' && att.FileName;
     });
-    var imgUrl = photos[0] && photos[0].FileName ? photos[0].FileName : '';
-    var idFromImg = imgUrl.indexOf('/ListingAttachment/') > -1
+    const imgUrl = photos[0] && photos[0].FileName ? photos[0].FileName : '';
+    const idFromImg = imgUrl.indexOf('/ListingAttachment/') > -1
       ? imgUrl.split('/ListingAttachment/')[1].split('/')[0]
       : '';
-    var address = [raw.Street, raw.City, raw.State, raw.Zip].map(clean).filter(Boolean).join(', ');
-    var locationFallback = [raw.City, raw.State].map(clean).filter(Boolean).join(', ');
-    var title = first(raw.PropertyName, raw.Name, raw.Title, raw.Street, locationFallback, 'Property details available on request.');
-    var listingType = clean(raw.ListingType);
-    var status = first(raw.Status, listingType);
-    var user = (raw.UserList && raw.UserList[0]) || raw.User || {};
-    var price = raw.PriceDisclosed && raw.ListPrice ? '$' + fmt(raw.ListPrice) : '';
-    var rate = raw.PriceDisclosed && raw.ListPrice && /lease/i.test(listingType)
+    const address = [raw.Street, raw.City, raw.State, raw.Zip].map(clean).filter(Boolean).join(', ');
+    const locationFallback = [raw.City, raw.State].map(clean).filter(Boolean).join(', ');
+    const title = first(raw.PropertyName, raw.Name, raw.Title, raw.Street, locationFallback, 'Property details available on request.');
+    const listingType = clean(raw.ListingType);
+    const status = first(raw.Status, listingType);
+    const user = (raw.UserList && raw.UserList[0]) || raw.User || {};
+    const price = raw.PriceDisclosed && raw.ListPrice ? '$' + fmt(raw.ListPrice) : '';
+    const rate = raw.PriceDisclosed && raw.ListPrice && /lease/i.test(listingType)
       ? '$' + fmt(raw.ListPrice) + (raw.PriceUnits ? ' /SF ' + clean(raw.PriceUnits).toUpperCase() : ' /SF')
       : '';
 
     return {
-      id: first(raw.Id, raw.PropertyId, idFromImg),
+      id: first(raw.Id, raw.ListingId, raw.PropertyId, idFromImg),
       title: title,
       address: address || locationFallback || 'Property details available on request.',
       city: clean(raw.City),
@@ -220,8 +220,11 @@
   function extractListings(data) {
     if (Array.isArray(data) && Array.isArray(data[0])) return data[0];
     if (Array.isArray(data)) return data;
-    if (Array.isArray(data && data.listings)) return data.listings;
-    if (Array.isArray(data && data.data)) return data.data;
+    if (data && Array.isArray(data.listings)) return data.listings;
+    if (data && Array.isArray(data.Listings)) return data.Listings;
+    if (data && Array.isArray(data.data)) return data.data;
+    if (data && Array.isArray(data.Properties)) return data.Properties;
+    if (data && Array.isArray(data.results)) return data.results;
     return [];
   }
 
@@ -244,8 +247,8 @@
   }
 
   function card(listing, hero) {
-    var meta = [listing.property_type, listing.size_sf || listing.acreage].filter(Boolean);
-    var price = listing.rate || listing.price;
+    const meta = [listing.property_type, listing.size_sf || listing.acreage].filter(Boolean);
+    const price = listing.rate || listing.price;
     return [
       '<article class="card' + (hero ? ' rnx-hero-card' : '') + '" data-rnlp-id="' + escAttr(listing.id) + '">',
       '<div class="card-img">' + media(listing, hero) + '<span class="card-badge">' + esc(badge(listing)) + '</span>' + (price ? '<span class="card-price">' + esc(price) + '</span>' : '') + '</div>',
@@ -274,8 +277,8 @@
     if (state.settings.layout === 'hero_grid') grid.classList.add('rnx-layout-hero');
     if (state.settings.layout === 'grid_map') grid.classList.add('rnx-layout-map');
 
-    var start = (state.page - 1) * PER_PAGE;
-    var slice = state.filtered.slice(start, start + PER_PAGE);
+    const start = (state.page - 1) * PER_PAGE;
+    let slice = state.filtered.slice(start, start + PER_PAGE);
     if (results) results.textContent = state.filtered.length + ' listing' + (state.filtered.length === 1 ? '' : 's');
 
     if (!state.filtered.length) {
@@ -285,12 +288,15 @@
       return;
     }
 
-    var html = '';
+    let html = '';
     if (state.settings.layout === 'hero_grid') {
       html += card(state.filtered[0], true);
       slice = state.filtered.slice(Math.max(1, start), start + PER_PAGE);
     }
-    html += slice.map(function (listing) { return card(listing, false); }).join('');
+    html += slice.map(function (item) {
+      const listing = item; // explicit per-iteration const binding
+      return card(listing, false);
+    }).join('');
     if (state.settings.layout === 'grid_map') {
       html += '<div class="rnx-map-placeholder">Map view is ready for listings with location data.</div>';
     }
@@ -307,8 +313,8 @@
       el.innerHTML = '';
       return;
     }
-    var html = '<button class="page-btn" ' + (state.page === 1 ? 'disabled' : '') + ' data-rnlp-page="' + (state.page - 1) + '">‹</button>';
-    for (var i = 1; i <= total; i++) {
+    let html = '<button class="page-btn" ' + (state.page === 1 ? 'disabled' : '') + ' data-rnlp-page="' + (state.page - 1) + '">‹</button>';
+    for (let i = 1; i <= total; i++) {
       if (i === 1 || i === total || Math.abs(i - state.page) <= 1) {
         html += '<button class="page-btn ' + (i === state.page ? 'active' : '') + '" data-rnlp-page="' + i + '">' + i + '</button>';
       } else if (Math.abs(i - state.page) === 2) {
@@ -325,8 +331,8 @@
     var seen = {};
     var brokers = [];
     state.all.forEach(function (listing) {
-      var raw = listing.raw || {};
-      var users = raw.UserList || (raw.User ? [raw.User] : []);
+      const raw = listing.raw || {};
+      const users = raw.UserList || (raw.User ? [raw.User] : []);
       users.forEach(function (user) {
         var email = clean(user.Email).toLowerCase();
         if (email && !seen[email]) {
@@ -486,8 +492,8 @@
         body: JSON.stringify({ serial: SERIAL, property_id: parseInt(id, 10) })
       });
       if (!response.ok) throw new Error('HTTP ' + response.status);
-      var data = await response.json();
-      var listing = normalizeListing(data.property || data);
+      const data = await response.json();
+      const listing = normalizeListing(data.property || data);
       renderDetail(listing, data.demographics || null, data.neighborhood || null);
     } catch (error) {
       console.error('[RNLP demo] property detail failed', error);
