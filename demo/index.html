@@ -986,6 +986,15 @@ button { cursor: pointer; font-family: inherit; }
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
+/*
+ *   ░█▀▀░█▀▄░█▀▀░█▄█░█▀█░▀█▀░▀█▀░█▀▀░█▀▄
+ *   ░█░░░█▀▄░█▀▀░█░█░█▀█░░█░░░█░░▀▀█░█░█
+ *   ░▀▀▀░▀░▀░▀▀▀░▀░▀░▀░▀░░▀░░░▀░░▀▀▀░▀▀░
+ *
+ *   RealNex Listings Pro · MP Premier 2.0
+ *   M. Crematti · Initial3 Development
+ *   github.com/Cremattsd
+ */
 (function () {
   'use strict';
 
@@ -1967,6 +1976,40 @@ button { cursor: pointer; font-family: inherit; }
   window.toggleInquiry = toggleInquiry;
   window.submitInquiry = submitInquiry;
   window.submitOrder = submitOrder;
+
+  /* ============================
+     KONAMI CODE — ↑↑↓↓←→←→BA
+     ============================ */
+  (() => {
+    const KONAMI = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+    let pos = 0;
+    document.addEventListener('keydown', e => {
+      if ( e.key === KONAMI[pos] ) {
+        pos++;
+        if ( pos === KONAMI.length ) {
+          pos = 0;
+          const egg = document.createElement('div');
+          egg.style.cssText = 'position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.88);z-index:9999;cursor:pointer;font-family:monospace';
+          egg.innerHTML = `<pre style="color:#00ff99;font-size:clamp(10px,1.4vw,16px);line-height:1.6;text-align:center">
+░█▀▀░█▀▄░█▀▀░█▄█░█▀█░▀█▀░▀█▀░█▀▀░█▀▄
+░█░░░█▀▄░█▀▀░█░█░█▀█░░█░░░█░░▀▀█░█░█
+░▀▀▀░▀░▀░▀▀▀░▀░▀░▀░▀░░▀░░░▀░░▀▀▀░▀▀░
+
+RealNex Listings Pro · MP Premier 2.0
+M. Crematti · Initial3 Development
+github.com/Cremattsd
+
+you found it. nice work.
+
+[ click to close ]</pre>`;
+          egg.addEventListener('click', () => egg.remove());
+          document.body.appendChild(egg);
+        }
+      } else {
+        pos = e.key === KONAMI[0] ? 1 : 0;
+      }
+    });
+  })();
 
 })();
 </script>
