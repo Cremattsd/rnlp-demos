@@ -1,0 +1,1974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MP Premier 2.0 — Live Demo | RealNex Listings Pro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root {
+  --accent: #1e3a5f;
+  --bg-page: #ffffff;
+  --bg-card: #ffffff;
+  --bg-surface: #f8f9fc;
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --border: #e5e7eb;
+  --radius: 10px;
+  --radius-lg: 16px;
+  --font: 'DM Sans', sans-serif;
+  --shadow: 0 10px 30px rgba(15,23,42,0.10);
+  --hero-bg: #1e3a5f;
+  --hero-text: #ffffff;
+  --hero-sub: rgba(255,255,255,0.75);
+  --hero-stat: #c9a84c;
+  --badge-bg: rgba(30,58,95,0.85);
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg-page);
+  color: var(--text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+button { cursor: pointer; font-family: inherit; }
+
+/* ============================
+   CONTROL BAR
+   ============================ */
+#controlBar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
+  padding: 8px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: nowrap;
+  min-height: 56px;
+}
+
+.ctrl-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.ctrl-logo-mark {
+  width: 30px; height: 30px;
+  background: var(--accent);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-weight: 900; font-size: .65rem; letter-spacing: .02em;
+  flex-shrink: 0;
+}
+.ctrl-logo-text {
+  font-size: .85rem; font-weight: 700;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+.ctrl-logo-text span { color: var(--accent); }
+
+.ctrl-sep {
+  width: 1px; height: 28px;
+  background: var(--border);
+  flex-shrink: 0;
+}
+
+.ctrl-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 2px 0;
+}
+.ctrl-controls::-webkit-scrollbar { display: none; }
+
+.ctrl-group {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+}
+.ctrl-label {
+  font-size: .62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.ctrl-pills { display: flex; gap: 3px; }
+
+.ctrl-pill {
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1.5px solid var(--border);
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: .72rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: all .15s;
+}
+.ctrl-pill:hover { border-color: var(--accent); color: var(--accent); }
+.ctrl-pill.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+.ctrl-swatches {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+.ctrl-swatch {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: transform .15s, border-color .15s;
+  outline: none;
+}
+.ctrl-swatch:hover { transform: scale(1.2); }
+.ctrl-swatch.active { border-color: var(--text-primary); transform: scale(1.1); }
+
+.ctrl-hex {
+  width: 72px; height: 26px;
+  padding: 0 6px;
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  font-size: .7rem;
+  font-family: monospace;
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color .15s;
+}
+.ctrl-hex:focus { border-color: var(--accent); }
+
+#buyNowBtn {
+  flex-shrink: 0;
+  height: 34px;
+  padding: 0 18px;
+  background: #c9a84c;
+  color: #111;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: .78rem;
+  letter-spacing: .03em;
+  transition: all .15s;
+  white-space: nowrap;
+  margin-left: auto;
+}
+#buyNowBtn:hover { background: #dbb94c; transform: translateY(-1px); }
+
+/* ============================
+   HERO
+   ============================ */
+#hero {
+  background: var(--hero-bg);
+  padding: 56px 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 40px;
+}
+.hero-left { max-width: 540px; }
+.hero-name {
+  font-size: 1rem; font-weight: 600;
+  color: var(--hero-text);
+  opacity: .85;
+  margin-bottom: 8px;
+  letter-spacing: .01em;
+}
+.hero-tagline {
+  font-size: clamp(1.7rem, 3vw, 2.6rem);
+  font-weight: 800;
+  color: var(--hero-text);
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+.hero-sub {
+  font-size: .9rem;
+  color: var(--hero-sub);
+  margin-bottom: 32px;
+}
+.hero-stats { display: flex; gap: 28px; flex-wrap: wrap; }
+.hero-stat-val {
+  font-size: 1.35rem; font-weight: 800;
+  color: var(--hero-stat);
+  display: block;
+}
+.hero-stat-lbl {
+  font-size: .67rem;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--hero-sub);
+  display: block;
+  margin-top: 1px;
+}
+.hero-avatar {
+  width: 96px; height: 96px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.1);
+  border: 3px solid var(--hero-stat);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.6rem; font-weight: 800;
+  color: var(--hero-text);
+  flex-shrink: 0;
+  letter-spacing: -.02em;
+}
+
+/* ============================
+   FILTER BAR
+   ============================ */
+#filterBar {
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 40px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.filter-chip {
+  padding: 6px 16px;
+  border-radius: 20px;
+  border: 1.5px solid var(--border);
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: .78rem; font-weight: 600;
+  transition: all .15s;
+  cursor: pointer;
+}
+.filter-chip.active, .filter-chip:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.filter-results {
+  font-size: .78rem;
+  color: var(--text-secondary);
+  padding: 0 4px;
+}
+.filter-view-pills {
+  display: flex; gap: 4px;
+  margin-left: auto;
+}
+.filter-view-pill {
+  padding: 5px 12px;
+  border-radius: 6px;
+  border: 1.5px solid var(--border);
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: .72rem; font-weight: 600;
+  transition: all .15s;
+  cursor: pointer;
+}
+.filter-view-pill.active, .filter-view-pill:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+/* ============================
+   LISTINGS SECTION
+   ============================ */
+#mainContent {
+  display: flex;
+  align-items: flex-start;
+}
+#listingsSection {
+  flex: 1;
+  padding: 28px 40px 80px;
+  min-width: 0;
+}
+#mapSidePanel {
+  display: none;
+  width: 42%;
+  min-width: 380px;
+  position: sticky;
+  top: 56px;
+  height: calc(100vh - 56px);
+  border-left: 1px solid var(--border);
+  flex-shrink: 0;
+}
+#leafletMap { width: 100%; height: 100%; }
+
+/* Map layout active */
+#mainContent.map-active #mapSidePanel { display: block; }
+#mainContent.map-active #listingsGrid {
+  grid-template-columns: repeat(2, 1fr) !important;
+  gap: 16px;
+}
+
+/* ============================
+   LISTING GRID
+   ============================ */
+#listingsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 22px;
+}
+
+/* List layout */
+#listingsGrid.layout-list {
+  display: flex !important;
+  flex-direction: column;
+  gap: 10px;
+}
+#listingsGrid.layout-list .card {
+  display: grid !important;
+  grid-template-columns: 220px 1fr;
+  min-height: 140px;
+}
+#listingsGrid.layout-list .card .card-img {
+  height: 100% !important;
+  aspect-ratio: auto !important;
+  border-radius: var(--radius) 0 0 var(--radius);
+}
+#listingsGrid.layout-list .card .card-body { padding: 14px 18px; }
+
+/* Hero layout */
+#listingsGrid.layout-hero .card.hero-card {
+  grid-column: 1 / -1;
+  display: grid !important;
+  grid-template-columns: minmax(280px, 44%) 1fr;
+  min-height: 300px;
+}
+#listingsGrid.layout-hero .card.hero-card .card-img {
+  height: 100% !important;
+  aspect-ratio: auto !important;
+  border-radius: var(--radius) 0 0 var(--radius);
+}
+#listingsGrid.layout-hero .card.hero-card .card-body { padding: 28px 24px; }
+
+/* ============================
+   CARDS
+   ============================ */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform .2s, box-shadow .2s, border-color .2s;
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow);
+  border-color: var(--accent);
+}
+.card-img {
+  aspect-ratio: 16 / 10;
+  height: auto;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--accent), #000);
+}
+.card-img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform .2s;
+}
+.card:hover .card-img img { transform: scale(1.03); }
+.card-fallback {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,.8);
+  font-size: .8rem; font-weight: 600;
+  text-align: center; padding: 16px;
+  background: linear-gradient(135deg, var(--accent), rgba(0,0,0,.6));
+  min-height: 180px;
+}
+.card-badge {
+  position: absolute; top: 10px; left: 10px;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: .62rem; font-weight: 700;
+  letter-spacing: .06em; text-transform: uppercase;
+  background: var(--badge-bg);
+  color: #fff;
+  backdrop-filter: blur(4px);
+}
+.card-badge.sold { background: rgba(185,28,28,.85); }
+.card-badge.leased { background: rgba(22,101,52,.85); }
+.card-price {
+  position: absolute; bottom: 10px; right: 10px;
+  background: rgba(0,0,0,.65); color: #fff;
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: .72rem; font-weight: 700;
+  backdrop-filter: blur(4px);
+}
+.card-body { padding: 14px 16px; }
+.card-name {
+  font-weight: 700; font-size: .875rem;
+  color: var(--text-primary);
+  margin-bottom: 3px;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.card-addr {
+  font-size: .75rem;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.card-pills {
+  display: flex; gap: 4px; flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+.card-pill {
+  font-size: .65rem; font-weight: 600;
+  padding: 2px 8px; border-radius: 10px;
+  background: var(--bg-surface);
+  color: var(--accent);
+  border: 1px solid var(--border);
+}
+.card-stats {
+  display: flex; gap: 14px; flex-wrap: wrap;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+.card-stat-lbl {
+  font-size: .62rem; text-transform: uppercase; letter-spacing: .06em;
+  color: var(--text-secondary); display: block;
+}
+.card-stat-val {
+  font-size: .78rem; font-weight: 700;
+  color: var(--text-primary); display: block;
+}
+
+/* ============================
+   STATES + PAGINATION
+   ============================ */
+.state-msg {
+  grid-column: 1 / -1;
+  padding: 64px 20px;
+  text-align: center;
+  color: var(--text-secondary);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.state-error { color: #ef4444; }
+.spinner {
+  width: 36px; height: 36px;
+  border: 3px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+  margin: 0 auto 14px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+#pagination {
+  display: flex; justify-content: center;
+  gap: 5px; margin-top: 32px; flex-wrap: wrap;
+}
+.page-btn {
+  width: 36px; height: 36px;
+  border-radius: 7px;
+  border: 1.5px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  font-size: .8rem; font-weight: 600;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .15s;
+}
+.page-btn:hover, .page-btn.active {
+  background: var(--accent); color: #fff; border-color: var(--accent);
+}
+.page-btn:disabled { opacity: .4; cursor: not-allowed; }
+.page-btn.active { pointer-events: none; }
+
+/* ============================
+   DETAIL OVERLAY
+   ============================ */
+#detailOverlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.62);
+  z-index: 200;
+  align-items: flex-start; justify-content: center;
+  padding: 24px 16px;
+  overflow-y: auto;
+  backdrop-filter: blur(4px);
+}
+#detailOverlay.open { display: flex; }
+
+#detailModal {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  max-width: 860px; width: 100%;
+  overflow: hidden;
+  position: relative;
+  margin: auto 0;
+  box-shadow: 0 24px 64px rgba(0,0,0,.28);
+}
+
+.det-close {
+  position: absolute; top: 12px; right: 12px;
+  background: rgba(0,0,0,.7); color: #fff;
+  border: none; border-radius: 7px;
+  padding: 6px 14px;
+  font-size: .75rem; font-weight: 700;
+  z-index: 10; cursor: pointer;
+  backdrop-filter: blur(4px);
+  letter-spacing: .04em;
+}
+.det-close:hover { background: #000; }
+
+.det-hero-wrap {
+  width: 100%; height: 340px;
+  position: relative; overflow: hidden;
+  background: linear-gradient(135deg, var(--accent), rgba(0,0,0,.6));
+}
+.det-hero-wrap img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  display: block;
+}
+.det-hero-placeholder {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,.7); font-size: 1rem; font-weight: 600;
+}
+.det-hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, transparent 40%, rgba(0,0,0,.6));
+}
+.det-hero-badge {
+  position: absolute; top: 16px; left: 16px;
+  padding: 4px 12px; border-radius: 12px;
+  font-size: .65rem; font-weight: 700;
+  letter-spacing: .06em; text-transform: uppercase;
+  background: var(--badge-bg); color: #fff;
+  backdrop-filter: blur(4px);
+}
+.det-hero-price {
+  position: absolute; top: 16px; right: 56px;
+  background: rgba(0,0,0,.7); color: #fff;
+  padding: 6px 14px; border-radius: 7px;
+  font-weight: 700; font-size: .85rem;
+  backdrop-filter: blur(4px);
+}
+.det-hero-title {
+  position: absolute; bottom: 18px; left: 20px; right: 20px;
+  color: #fff;
+}
+.det-hero-title h2 {
+  font-size: 1.35rem; font-weight: 800; line-height: 1.25;
+  text-shadow: 0 1px 4px rgba(0,0,0,.5);
+}
+.det-hero-title p {
+  font-size: .82rem; opacity: .85;
+  margin-top: 3px;
+}
+
+.det-facts {
+  display: flex; gap: 8px; flex-wrap: wrap;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-surface);
+}
+.det-fact {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: 7px;
+  padding: 8px 14px;
+  min-width: 90px;
+}
+.det-fact-lbl {
+  font-size: .6rem; text-transform: uppercase;
+  letter-spacing: .07em; color: var(--text-secondary);
+}
+.det-fact-val {
+  font-size: .85rem; font-weight: 700;
+  color: var(--text-primary); margin-top: 2px;
+}
+
+.det-body {
+  padding: 20px 20px 24px;
+  display: grid;
+  grid-template-columns: 1fr 260px;
+  gap: 24px;
+}
+.det-desc h3 {
+  font-size: .9rem; font-weight: 700;
+  color: var(--text-primary); margin-bottom: 8px;
+}
+.det-desc p {
+  font-size: .84rem; line-height: 1.75;
+  color: var(--text-secondary);
+}
+.det-sidebar {}
+.det-broker {
+  background: var(--bg-surface);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 12px;
+  border: 1px solid var(--border);
+}
+.det-broker-name {
+  font-weight: 700; font-size: .875rem;
+  color: var(--text-primary); margin-bottom: 4px;
+}
+.det-broker-contact {
+  font-size: .75rem; color: var(--text-secondary);
+  display: block; margin-bottom: 2px;
+}
+.det-btn {
+  display: flex; align-items: center; justify-content: center;
+  height: 42px;
+  border-radius: 8px;
+  font-weight: 700; font-size: .82rem;
+  cursor: pointer; font-family: inherit;
+  text-decoration: none; border: none;
+  transition: all .15s; width: 100%; margin-bottom: 8px;
+}
+.det-btn-primary { background: var(--accent); color: #fff; }
+.det-btn-primary:hover { opacity: .9; }
+.det-btn-outline {
+  background: transparent;
+  border: 1.5px solid var(--border);
+  color: var(--text-primary);
+}
+.det-btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Inquiry form */
+#inqFormWrap { display: none; margin-top: 12px; }
+#inqFormWrap.open { display: block; }
+.inq-field { margin-bottom: 10px; }
+.inq-field label {
+  display: block; font-size: .74rem; font-weight: 600;
+  color: var(--text-primary); margin-bottom: 4px;
+}
+.inq-field input, .inq-field textarea {
+  width: 100%; padding: 9px 11px;
+  border: 1.5px solid var(--border); border-radius: 7px;
+  font-size: .84rem; font-family: inherit;
+  background: var(--bg-page); color: var(--text-primary);
+  outline: none; transition: border-color .15s;
+}
+.inq-field input:focus, .inq-field textarea:focus { border-color: var(--accent); }
+.inq-field textarea { min-height: 72px; resize: vertical; padding: 9px 11px; }
+.inq-submit {
+  height: 40px; background: var(--accent); color: #fff;
+  border: none; border-radius: 7px;
+  font-weight: 700; font-size: .82rem;
+  cursor: pointer; font-family: inherit;
+  width: 100%; margin-top: 2px;
+  transition: opacity .15s;
+}
+.inq-submit:hover { opacity: .9; }
+.inq-submit:disabled { opacity: .5; cursor: not-allowed; }
+.inq-msg {
+  font-size: .78rem; padding: 8px;
+  border-radius: 6px; margin-top: 6px;
+  text-align: center;
+}
+.inq-msg.success { background: rgba(22,101,52,.1); color: #166534; }
+.inq-msg.error { background: rgba(185,28,28,.1); color: #991b1b; }
+
+/* ============================
+   BUY NOW MODAL
+   ============================ */
+#buyOverlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.7);
+  z-index: 300;
+  align-items: flex-start; justify-content: center;
+  padding: 24px 16px;
+  overflow-y: auto;
+  backdrop-filter: blur(4px);
+}
+#buyOverlay.open { display: flex; }
+
+#buyModal {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  max-width: 580px; width: 100%;
+  padding: 36px;
+  position: relative;
+  margin: auto 0;
+  box-shadow: 0 24px 64px rgba(0,0,0,.32);
+}
+.buy-close {
+  position: absolute; top: 14px; right: 14px;
+  background: var(--bg-surface); border: 1px solid var(--border);
+  border-radius: 50%; width: 30px; height: 30px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .9rem; cursor: pointer; color: var(--text-secondary);
+  transition: background .15s;
+}
+.buy-close:hover { background: var(--border); }
+.buy-title {
+  font-size: 1.35rem; font-weight: 800;
+  color: var(--text-primary); margin-bottom: 4px;
+}
+.buy-subtitle { font-size: .84rem; color: var(--text-secondary); margin-bottom: 16px; }
+.buy-config {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 10px 14px;
+  font-size: .78rem; color: var(--text-secondary);
+  margin-bottom: 22px;
+  line-height: 1.6;
+}
+.buy-config strong { color: var(--text-primary); }
+.buy-form { display: flex; flex-direction: column; gap: 12px; }
+.buy-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.buy-field label {
+  display: block; font-size: .74rem; font-weight: 600;
+  color: var(--text-primary); margin-bottom: 4px;
+}
+.buy-field input, .buy-field textarea {
+  width: 100%; padding: 9px 11px;
+  border: 1.5px solid var(--border); border-radius: 7px;
+  font-size: .84rem; font-family: inherit;
+  background: var(--bg-page); color: var(--text-primary);
+  outline: none; transition: border-color .15s;
+}
+.buy-field input:focus, .buy-field textarea:focus { border-color: var(--accent); }
+.buy-field textarea { min-height: 72px; resize: vertical; padding: 9px 11px; }
+.buy-submit {
+  height: 46px; background: var(--accent); color: #fff;
+  border: none; border-radius: 8px;
+  font-weight: 700; font-size: .88rem;
+  cursor: pointer; font-family: inherit;
+  width: 100%;
+  transition: opacity .15s;
+  margin-top: 4px;
+}
+.buy-submit:hover { opacity: .9; }
+.buy-submit:disabled { opacity: .5; cursor: not-allowed; }
+.buy-success {
+  text-align: center;
+  padding: 40px 20px;
+}
+.buy-success-icon { font-size: 2.8rem; margin-bottom: 14px; }
+.buy-success-title {
+  font-size: 1.2rem; font-weight: 800;
+  color: var(--text-primary); margin-bottom: 8px;
+}
+.buy-success-sub { font-size: .875rem; color: var(--text-secondary); }
+
+/* ============================
+   RESPONSIVE
+   ============================ */
+@media (max-width: 1100px) {
+  #hero { padding: 44px 28px; }
+  #filterBar { padding: 10px 24px; }
+  #listingsSection { padding: 22px 24px 60px; }
+}
+@media (max-width: 768px) {
+  #controlBar { flex-wrap: wrap; min-height: auto; }
+  .ctrl-controls { order: 3; width: 100%; }
+  #hero { flex-direction: column; padding: 32px 20px; gap: 20px; }
+  .hero-avatar { display: none; }
+  #filterBar { padding: 10px 16px; }
+  #listingsSection { padding: 18px 16px 48px; }
+  #listingsGrid.layout-list .card { grid-template-columns: 1fr; }
+  #listingsGrid.layout-list .card .card-img {
+    height: 180px !important; aspect-ratio: auto !important;
+    border-radius: var(--radius) var(--radius) 0 0;
+  }
+  #listingsGrid.layout-hero .card.hero-card { grid-template-columns: 1fr; }
+  #mainContent.map-active #mapSidePanel {
+    display: none; /* hide map on mobile — too small */
+  }
+  #mainContent.map-active #listingsGrid { grid-template-columns: 1fr !important; }
+  .det-body { grid-template-columns: 1fr; }
+  .buy-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================
+     CONTROL BAR
+     ============================ -->
+<div id="controlBar">
+  <div class="ctrl-logo">
+    <div class="ctrl-logo-mark" id="ctrlLogoMark">RL</div>
+    <div class="ctrl-logo-text">RealNex <span>Listings Pro</span></div>
+  </div>
+  <div class="ctrl-sep"></div>
+
+  <div class="ctrl-controls" id="ctrlControls">
+    <!-- Theme -->
+    <div class="ctrl-group">
+      <span class="ctrl-label">Theme</span>
+      <div class="ctrl-pills" id="themePills">
+        <button class="ctrl-pill active" data-theme="classic">Classic</button>
+        <button class="ctrl-pill" data-theme="darkpro">Dark Pro</button>
+        <button class="ctrl-pill" data-theme="steel">Steel</button>
+        <button class="ctrl-pill" data-theme="ember">Ember</button>
+      </div>
+    </div>
+    <div class="ctrl-sep"></div>
+
+    <!-- Layout -->
+    <div class="ctrl-group">
+      <span class="ctrl-label">Layout</span>
+      <div class="ctrl-pills" id="layoutPills">
+        <button class="ctrl-pill active" data-layout="grid">Card Grid</button>
+        <button class="ctrl-pill" data-layout="list">List View</button>
+        <button class="ctrl-pill" data-layout="hero">Hero+Grid</button>
+        <button class="ctrl-pill" data-layout="map">Grid+Map</button>
+      </div>
+    </div>
+    <div class="ctrl-sep"></div>
+
+    <!-- Color -->
+    <div class="ctrl-group">
+      <span class="ctrl-label">Color</span>
+      <div class="ctrl-swatches" id="colorSwatches"></div>
+      <input class="ctrl-hex" type="text" id="colorHexInput" placeholder="#1e3a5f" maxlength="7">
+    </div>
+    <div class="ctrl-sep"></div>
+
+    <!-- Background -->
+    <div class="ctrl-group">
+      <span class="ctrl-label">BG</span>
+      <div class="ctrl-pills" id="bgPills">
+        <button class="ctrl-pill active" data-bg="light">Light</button>
+        <button class="ctrl-pill" data-bg="dark">Dark</button>
+      </div>
+    </div>
+  </div>
+
+  <button id="buyNowBtn">Buy Now &#x2192;</button>
+</div>
+
+<!-- ============================
+     HERO
+     ============================ -->
+<div id="hero">
+  <div class="hero-left">
+    <div class="hero-name" id="heroName"></div>
+    <div class="hero-tagline" id="heroTagline"></div>
+    <div class="hero-sub" id="heroSub"></div>
+    <div class="hero-stats" id="heroStats"></div>
+  </div>
+  <div class="hero-avatar" id="heroAvatar"></div>
+</div>
+
+<!-- ============================
+     FILTER BAR
+     ============================ -->
+<div id="filterBar">
+  <button class="filter-chip active" data-filter="all">All</button>
+  <button class="filter-chip" data-filter="For Lease">For Lease</button>
+  <button class="filter-chip" data-filter="For Sale">For Sale</button>
+  <button class="filter-chip" data-filter="SOLD">Sold</button>
+  <span class="filter-results" id="resultsCount"></span>
+  <div class="filter-view-pills">
+    <button class="filter-view-pill active" data-viewlayout="grid">Grid</button>
+    <button class="filter-view-pill" data-viewlayout="list">List</button>
+    <button class="filter-view-pill" data-viewlayout="hero">Hero</button>
+    <button class="filter-view-pill" data-viewlayout="map">Map</button>
+  </div>
+</div>
+
+<!-- ============================
+     LISTINGS + MAP
+     ============================ -->
+<div id="mainContent">
+  <div id="listingsSection">
+    <div id="listingsGrid">
+      <div class="state-msg">
+        <div class="spinner"></div>
+        <p>Loading listings&hellip;</p>
+      </div>
+    </div>
+    <div id="pagination"></div>
+  </div>
+  <div id="mapSidePanel">
+    <div id="leafletMap"></div>
+  </div>
+</div>
+
+<!-- ============================
+     DETAIL OVERLAY
+     ============================ -->
+<div id="detailOverlay" onclick="if(event.target===this)closeDetail()">
+  <div id="detailModal">
+    <button class="det-close" onclick="closeDetail()">&#x2715; Close</button>
+    <div id="detailContent">
+      <div class="state-msg">
+        <div class="spinner"></div>
+        <p>Loading property&hellip;</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================
+     BUY NOW MODAL
+     ============================ -->
+<div id="buyOverlay" onclick="if(event.target===this)closeBuy()">
+  <div id="buyModal">
+    <button class="buy-close" onclick="closeBuy()">&#x2715;</button>
+    <div id="buyContent">
+      <div class="buy-title">Get MP Premier 2.0</div>
+      <div class="buy-subtitle">We'll install and configure your live RealNex listings site on WordPress.</div>
+      <div class="buy-config" id="buyConfigSummary"></div>
+      <form class="buy-form" id="buyForm" onsubmit="submitOrder(event)">
+        <div class="buy-row">
+          <div class="buy-field">
+            <label>Full Name <span style="color:#ef4444">*</span></label>
+            <input type="text" id="buy-name" required placeholder="Your name">
+          </div>
+          <div class="buy-field">
+            <label>Company / Brokerage <span style="color:#ef4444">*</span></label>
+            <input type="text" id="buy-company" required placeholder="Brokerage name">
+          </div>
+        </div>
+        <div class="buy-row">
+          <div class="buy-field">
+            <label>Email <span style="color:#ef4444">*</span></label>
+            <input type="email" id="buy-email" required placeholder="you@example.com">
+          </div>
+          <div class="buy-field">
+            <label>Phone</label>
+            <input type="tel" id="buy-phone" placeholder="(555) 000-0000">
+          </div>
+        </div>
+        <div class="buy-field">
+          <label>WordPress Site URL <span style="color:#ef4444">*</span></label>
+          <input type="url" id="buy-url" required placeholder="https://yoursite.com">
+        </div>
+        <div class="buy-row">
+          <div class="buy-field">
+            <label>WP Admin Username <span style="color:#ef4444">*</span></label>
+            <input type="text" id="buy-wpuser" required placeholder="admin">
+          </div>
+          <div class="buy-field">
+            <label>WP Admin Password <span style="color:#ef4444">*</span></label>
+            <input type="password" id="buy-wppass" required placeholder="password">
+          </div>
+        </div>
+        <div class="buy-field">
+          <label>Notes / Special Requests</label>
+          <textarea id="buy-notes" placeholder="Any special configuration requests&hellip;"></textarea>
+        </div>
+        <button type="submit" class="buy-submit" id="buySubmitBtn">Submit Order</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  /* ============================
+     CONSTANTS
+     ============================ */
+  const SERIAL = 'RNLP-MDLG-001';
+  const API = 'https://api.initial3development.com';
+  const PER_PAGE = 12;
+
+  /* ============================
+     PERSONAS
+     ============================ */
+  const PERSONAS = {
+    classic: {
+      name: 'Dana Whitmore, CCIM',
+      tagline: 'Trusted guidance for every transaction.',
+      sub: 'Commercial Real Estate \u00b7 Northeast Ohio',
+      stats: ['$340M+ Volume', '20+ Years', '180+ Closed', 'CCIM'],
+      avatar: 'DW'
+    },
+    darkpro: {
+      name: 'Marcus Chen, SIOR',
+      tagline: 'Data-driven. Deal-focused.',
+      sub: 'Industrial \u00b7 Dallas-Fort Worth',
+      stats: ['$510M+ Closed', '14 Years', '220+ Deals', 'SIOR'],
+      avatar: 'MC'
+    },
+    steel: {
+      name: 'Meridian Commercial Group',
+      tagline: 'Your market partner for every deal.',
+      sub: 'Full-Service CRE \u00b7 Las Vegas Metro',
+      stats: ['85+ Listings', '$1.2B Closed', '8 Brokers', '18yr'],
+      avatar: 'MCG'
+    },
+    ember: {
+      name: 'Westfield Partners CRE',
+      tagline: 'We find deals others miss.',
+      sub: 'Boutique Commercial Brokerage \u00b7 Southwest',
+      stats: ['$290M Closed', '12yr Experience', 'SW Focus', 'Boutique'],
+      avatar: 'W'
+    }
+  };
+
+  /* ============================
+     THEME CONFIGS
+     ============================ */
+  const THEMES = {
+    classic: {
+      accent:      '#1e3a5f',
+      bgPage:      '#ffffff',
+      bgCard:      '#ffffff',
+      bgSurface:   '#f8f9fc',
+      textPrimary: '#111827',
+      textSecondary:'#6b7280',
+      border:      '#e5e7eb',
+      heroBg:      '#1e3a5f',
+      heroText:    '#ffffff',
+      heroSub:     'rgba(255,255,255,0.75)',
+      heroStat:    '#c9a84c',
+      badgeBg:     'rgba(30,58,95,0.85)',
+      shadow:      '0 10px 30px rgba(15,23,42,0.10)',
+      font:        "'DM Sans', sans-serif"
+    },
+    darkpro: {
+      accent:      '#3b82f6',
+      bgPage:      '#0d1117',
+      bgCard:      '#161b22',
+      bgSurface:   '#1c2333',
+      textPrimary: '#e6edf3',
+      textSecondary:'#8b949e',
+      border:      'rgba(255,255,255,0.10)',
+      heroBg:      '#0d1117',
+      heroText:    '#e6edf3',
+      heroSub:     'rgba(230,237,243,0.6)',
+      heroStat:    '#3b82f6',
+      badgeBg:     'rgba(59,130,246,0.85)',
+      shadow:      '0 14px 36px rgba(0,0,0,0.34)',
+      font:        "'Inter', sans-serif"
+    },
+    steel: {
+      accent:      '#1e3a5f',
+      bgPage:      '#f0f4f8',
+      bgCard:      '#ffffff',
+      bgSurface:   '#e2e8f0',
+      textPrimary: '#1e2d4d',
+      textSecondary:'#64748b',
+      border:      '#dde2ec',
+      heroBg:      '#1e3a5f',
+      heroText:    '#ffffff',
+      heroSub:     'rgba(255,255,255,0.75)',
+      heroStat:    '#c9a84c',
+      badgeBg:     'rgba(30,58,95,0.85)',
+      shadow:      '0 10px 30px rgba(15,23,42,0.10)',
+      font:        "'DM Sans', sans-serif"
+    },
+    ember: {
+      accent:      '#ea580c',
+      bgPage:      '#1a1209',
+      bgCard:      '#231a0f',
+      bgSurface:   '#2a1f12',
+      textPrimary: '#f5e6d3',
+      textSecondary:'#a87d5a',
+      border:      'rgba(255,255,255,0.10)',
+      heroBg:      '#1a1209',
+      heroText:    '#ea580c',
+      heroSub:     'rgba(245,230,211,0.65)',
+      heroStat:    '#ea580c',
+      badgeBg:     'rgba(234,88,12,0.85)',
+      shadow:      '0 14px 36px rgba(0,0,0,0.40)',
+      font:        "Georgia, 'Times New Roman', serif"
+    }
+  };
+
+  /* ============================
+     COLORS
+     ============================ */
+  const COLORS = [
+    { label: 'Navy',    hex: '#1e3a5f' },
+    { label: 'Blue',    hex: '#1d4ed8' },
+    { label: 'Gold',    hex: '#c9a84c' },
+    { label: 'Forest',  hex: '#15803d' },
+    { label: 'Slate',   hex: '#475569' },
+    { label: 'Crimson', hex: '#7f1d1d' },
+    { label: 'Ember',   hex: '#ea580c' },
+    { label: 'Steel',   hex: '#374151' }
+  ];
+
+  /* ============================
+     STATE
+     ============================ */
+  const state = {
+    listings: [],
+    filtered: [],
+    filter: 'all',
+    layout: 'grid',
+    theme: 'classic',
+    color: '#1e3a5f',
+    dark: false,
+    page: 1,
+    mapInstance: null,
+    mapMarkers: []
+  };
+
+  /* ============================
+     UTILITIES
+     ============================ */
+  function esc(v) {
+    return String(v == null ? '' : v).replace(/[&<>"']/g, c =>
+      ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;' })[c]);
+  }
+
+  function escAttr(v) {
+    return esc(v).replace(/`/g, '&#096;');
+  }
+
+  function clean(v) {
+    const s = String(v == null ? '' : v).trim();
+    return /^(undefined|null|n\/a)$/i.test(s) ? '' : s;
+  }
+
+  function first(...args) {
+    for (const a of args) {
+      const v = clean(a);
+      if (v) return v;
+    }
+    return '';
+  }
+
+  function fmt(n) {
+    const num = Number(n);
+    return Number.isFinite(num) ? num.toLocaleString('en-US', { maximumFractionDigits: 0 }) : '';
+  }
+
+  function titleCase(str) {
+    const s = String(str || '');
+    if (s === s.toUpperCase() && s.length > 3) {
+      return s.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+    }
+    return s;
+  }
+
+  function photoUrl(att, h) {
+    if (!att || !att.FileName) return '';
+    return att.FileName + '?h=' + h + '&mode=max&autorotate=true';
+  }
+
+  function isValidHex(s) {
+    return /^#[0-9a-f]{6}$/i.test(String(s || ''));
+  }
+
+  /* ============================
+     NORMALIZE LISTING
+     ============================ */
+  function normalizeListing(raw) {
+    raw = raw || {};
+    const photos = (raw.Attachments || []).filter(a =>
+      (a.AttachmentType || a.attachment_type) === 'photo' && a.FileName
+    );
+    const imgUrl = photos[0] ? photos[0].FileName : '';
+    const idFromImg = imgUrl.indexOf('/ListingAttachment/') > -1
+      ? imgUrl.split('/ListingAttachment/')[1].split('/')[0]
+      : '';
+    const address = [raw.Street, raw.City, raw.State, raw.Zip].map(clean).filter(Boolean).join(', ');
+    const locFallback = [raw.City, raw.State].map(clean).filter(Boolean).join(', ');
+    const title = first(raw.PropertyName, raw.Name, raw.Title, raw.Street, locFallback, 'Property details available on request.');
+    const listingType = clean(raw.ListingType);
+    const status = first(raw.Status, listingType);
+    const user = (raw.UserList && raw.UserList[0]) || raw.User || {};
+    const price = raw.PriceDisclosed && raw.ListPrice ? '$' + fmt(raw.ListPrice) : '';
+    const rate = raw.PriceDisclosed && raw.ListPrice && /lease/i.test(listingType)
+      ? '$' + fmt(raw.ListPrice) + (raw.PriceUnits ? ' /SF ' + clean(raw.PriceUnits).toUpperCase() : ' /SF')
+      : '';
+    const lat = parseFloat(raw.Latitude || raw.Lat || raw.lat || 0) || null;
+    const lng = parseFloat(raw.Longitude || raw.Lng || raw.Long || raw.lon || 0) || null;
+
+    return {
+      id: first(raw.Id, raw.ListingId, raw.PropertyId, idFromImg),
+      title,
+      address: address || locFallback || 'Property details available on request.',
+      city: clean(raw.City),
+      state: clean(raw.State),
+      zip: clean(raw.Zip),
+      status,
+      listing_type: listingType,
+      property_type: (raw.PropertyTypes || []).map(clean).filter(Boolean).slice(0, 2).join(', '),
+      price,
+      rate,
+      size_sf: raw.BuildingSf ? fmt(raw.BuildingSf) + ' SF' : '',
+      avail_sf: raw.AvailableSf ? fmt(raw.AvailableSf) + ' SF' : '',
+      acreage: raw.LandSize ? clean(raw.LandSize) + ' ' + first(raw.LandSizeType, 'AC') : '',
+      description: first(raw.PropertyDescription, 'Contact the listing broker for full property details.'),
+      hero_image: photos[0] ? photoUrl(photos[0], 700) : '',
+      images: photos.map(a => photoUrl(a, 900)),
+      broker_name: [user.FirstName, user.LastName].map(clean).filter(Boolean).join(' '),
+      broker_email: clean(user.Email),
+      broker_phone: clean(user.Phone),
+      brochure_url: first(raw.BrochureUrl, raw.BrochureURL),
+      lat,
+      lng,
+      raw
+    };
+  }
+
+  function extractListings(data) {
+    if (Array.isArray(data) && Array.isArray(data[0])) return data[0];
+    if (Array.isArray(data)) return data;
+    if (data && Array.isArray(data.listings))   return data.listings;
+    if (data && Array.isArray(data.Listings))   return data.Listings;
+    if (data && Array.isArray(data.data))        return data.data;
+    if (data && Array.isArray(data.Properties)) return data.Properties;
+    if (data && Array.isArray(data.results))     return data.results;
+    return [];
+  }
+
+  function badgeText(listing) {
+    const lt = listing.listing_type.toUpperCase();
+    const st = String(listing.status).toUpperCase();
+    if (/SOLD/.test(st) || /SOLD/.test(lt)) return 'Sold';
+    if (/LEASED/.test(st) || /LEASED/.test(lt)) return 'Leased';
+    if (lt === 'FOR LEASE') return 'For Lease';
+    if (lt === 'FOR SALE') return 'For Sale';
+    return listing.status || 'Available';
+  }
+
+  function badgeCls(listing) {
+    const t = badgeText(listing).toLowerCase();
+    if (t === 'sold') return 'sold';
+    if (t === 'leased') return 'leased';
+    return '';
+  }
+
+  /* ============================
+     THEME / STYLE APPLICATION
+     ============================ */
+  function cssVar(name, value) {
+    document.documentElement.style.setProperty(name, value);
+  }
+
+  function applyTheme(themeId) {
+    const t = THEMES[themeId];
+    if (!t) return;
+    state.theme = themeId;
+    state.color = t.accent;
+
+    cssVar('--accent',        t.accent);
+    cssVar('--badge-bg',      t.badgeBg);
+    cssVar('--shadow',        t.shadow);
+    cssVar('--font',          t.font);
+    document.body.style.fontFamily = t.font;
+
+    // Background vars (may be overridden by bg toggle below)
+    cssVar('--bg-page',       t.bgPage);
+    cssVar('--bg-card',       t.bgCard);
+    cssVar('--bg-surface',    t.bgSurface);
+    cssVar('--text-primary',  t.textPrimary);
+    cssVar('--text-secondary',t.textSecondary);
+    cssVar('--border',        t.border);
+
+    // Hero vars
+    cssVar('--hero-bg',       t.heroBg);
+    cssVar('--hero-text',     t.heroText);
+    cssVar('--hero-sub',      t.heroSub);
+    cssVar('--hero-stat',     t.heroStat);
+
+    // Apply current bg override if active
+    state.dark = ['darkpro','ember'].includes(themeId);
+    applyBg(state.dark, false); // false = don't override hero vars
+
+    renderHero(themeId);
+    document.getElementById('ctrlLogoMark').style.background = t.accent;
+    syncColorUI(t.accent);
+
+    // Sync bg toggle pills
+    document.querySelectorAll('[data-bg]').forEach(b => {
+      b.classList.toggle('active', b.dataset.bg === (state.dark ? 'dark' : 'light'));
+    });
+  }
+
+  function applyColor(hex) {
+    if (!isValidHex(hex)) return;
+    state.color = hex;
+    cssVar('--accent', hex);
+    document.getElementById('ctrlLogoMark').style.background = hex;
+    syncColorUI(hex);
+  }
+
+  function applyBg(dark, updateHeroVars) {
+    state.dark = dark;
+    if (dark) {
+      cssVar('--bg-page',        '#0d1117');
+      cssVar('--bg-card',        '#161b22');
+      cssVar('--bg-surface',     '#1c2333');
+      cssVar('--text-primary',   '#e6edf3');
+      cssVar('--text-secondary', '#8b949e');
+      cssVar('--border',         'rgba(255,255,255,0.10)');
+    } else {
+      // Use theme's light values
+      const t = THEMES[state.theme];
+      // Only apply light overrides if the theme isn't natively dark
+      if (['classic','steel'].includes(state.theme)) {
+        cssVar('--bg-page',        t.bgPage);
+        cssVar('--bg-card',        t.bgCard);
+        cssVar('--bg-surface',     t.bgSurface);
+        cssVar('--text-primary',   t.textPrimary);
+        cssVar('--text-secondary', t.textSecondary);
+        cssVar('--border',         t.border);
+      } else {
+        // Force light for dark themes
+        cssVar('--bg-page',        '#ffffff');
+        cssVar('--bg-card',        '#ffffff');
+        cssVar('--bg-surface',     '#f8f9fc');
+        cssVar('--text-primary',   '#111827');
+        cssVar('--text-secondary', '#6b7280');
+        cssVar('--border',         '#e5e7eb');
+      }
+    }
+  }
+
+  function syncColorUI(hex) {
+    document.querySelectorAll('.ctrl-swatch').forEach(sw => {
+      sw.classList.toggle('active', sw.dataset.hex === hex);
+    });
+    const input = document.getElementById('colorHexInput');
+    if (input) input.value = hex;
+  }
+
+  /* ============================
+     RENDER HERO
+     ============================ */
+  function renderHero(themeId) {
+    const p = PERSONAS[themeId];
+    if (!p) return;
+    document.getElementById('heroName').textContent = p.name;
+    document.getElementById('heroTagline').textContent = p.tagline;
+    document.getElementById('heroSub').textContent = p.sub;
+    document.getElementById('heroAvatar').textContent = p.avatar;
+
+    const statsEl = document.getElementById('heroStats');
+    statsEl.innerHTML = p.stats.map(s => `
+      <div>
+        <span class="hero-stat-val">${esc(s)}</span>
+        <span class="hero-stat-lbl">&nbsp;</span>
+      </div>
+    `).join('');
+  }
+
+  /* ============================
+     BUILD COLOR SWATCHES
+     ============================ */
+  function buildColorSwatches() {
+    const wrap = document.getElementById('colorSwatches');
+    wrap.innerHTML = COLORS.map(c => `
+      <button class="ctrl-swatch" data-hex="${escAttr(c.hex)}"
+        style="background:${escAttr(c.hex)}" title="${escAttr(c.label)}"
+        aria-label="${escAttr(c.label)}"></button>
+    `).join('');
+  }
+
+  /* ============================
+     FETCH LISTINGS
+     ============================ */
+  async function fetchListings() {
+    const grid = document.getElementById('listingsGrid');
+    try {
+      const resp = await fetch(API + '/listings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          serial: SERIAL,
+          filters: { startIndex: 0, NoOfRecords: 500, SortBy: 'updated', SortHow: 'desc', SearchType: '' }
+        })
+      });
+      if (!resp.ok) throw new Error('HTTP ' + resp.status);
+      const data = await resp.json();
+      console.log('[RNLP Demo] listings response:', data);
+      const raw = extractListings(data);
+      state.listings = raw.map(normalizeListing).filter(l => l.id);
+      window.rnlpListings = state.listings;
+      console.log('[RNLP Demo] loaded', state.listings.length, 'listings');
+      applyFilter();
+    } catch (err) {
+      console.error('[RNLP Demo] fetch error:', err);
+      grid.innerHTML = '<div class="state-msg state-error">Listings are temporarily unavailable. Please try again.</div>';
+    }
+  }
+
+  /* ============================
+     FILTER
+     ============================ */
+  function applyFilter() {
+    const f = state.filter;
+    state.filtered = state.listings.filter(l => {
+      const st = (l.status + ' ' + l.listing_type).toUpperCase();
+      if (f === 'all') return true;
+      if (f === 'SOLD') return /SOLD|LEASED/.test(st);
+      if (f === 'For Lease') return /FOR LEASE/.test(st) && !/SOLD|LEASED/.test(st);
+      if (f === 'For Sale') return /FOR SALE/.test(st) && !/SOLD|LEASED/.test(st);
+      return true;
+    });
+    state.page = 1;
+    renderListings();
+  }
+
+  /* ============================
+     RENDER LISTINGS
+     ============================ */
+  function renderListings() {
+    const grid = document.getElementById('listingsGrid');
+    const countEl = document.getElementById('resultsCount');
+    if (countEl) {
+      countEl.textContent = state.filtered.length + ' listing' + (state.filtered.length === 1 ? '' : 's');
+    }
+
+    // Apply layout class
+    grid.className = '';
+    if (state.layout === 'list') grid.classList.add('layout-list');
+    if (state.layout === 'hero') grid.classList.add('layout-hero');
+
+    // Map layout — toggle side panel
+    const mainContent = document.getElementById('mainContent');
+    if (state.layout === 'map') {
+      mainContent.classList.add('map-active');
+      initMap();
+    } else {
+      mainContent.classList.remove('map-active');
+    }
+
+    if (!state.filtered.length) {
+      grid.innerHTML = '<div class="state-msg">No listings found. Try a different filter.</div>';
+      renderPagination();
+      return;
+    }
+
+    const start = (state.page - 1) * PER_PAGE;
+    const slice = state.filtered.slice(start, start + PER_PAGE);
+
+    let html = '';
+    if (state.layout === 'hero' && state.filtered.length > 0) {
+      const heroListing = state.filtered[0];
+      html += renderCard(heroListing, true);
+      const restSlice = state.filtered.slice(Math.max(1, start), start + PER_PAGE);
+      html += restSlice.map(l => renderCard(l, false)).join('');
+    } else {
+      html = slice.map(l => renderCard(l, false)).join('');
+    }
+
+    grid.innerHTML = html;
+    renderPagination();
+
+    // Update map markers
+    if (state.layout === 'map' && state.mapInstance) {
+      updateMapMarkers();
+    }
+
+    // Handle image errors
+    grid.querySelectorAll('img').forEach(img => {
+      img.addEventListener('error', function () {
+        const wrap = this.closest('.card-img');
+        if (wrap) {
+          const fb = document.createElement('div');
+          fb.className = 'card-fallback';
+          fb.textContent = this.alt || 'Property image unavailable';
+          this.replaceWith(fb);
+        }
+      });
+    });
+  }
+
+  /* ============================
+     RENDER CARD
+     ============================ */
+  function renderCard(listing, isHero) {
+    const price = listing.rate || listing.price;
+    const bt = badgeText(listing);
+    const bc = badgeCls(listing);
+    const meta = [listing.property_type, listing.size_sf || listing.acreage].filter(Boolean);
+
+    const imgHtml = listing.hero_image
+      ? `<img src="${escAttr(listing.hero_image)}" alt="${escAttr(titleCase(listing.title))}" loading="${isHero ? 'eager' : 'lazy'}" fetchpriority="${isHero ? 'high' : 'auto'}">`
+      : `<div class="card-fallback">${esc(titleCase(listing.title))}</div>`;
+
+    return `
+      <article class="card${isHero ? ' hero-card' : ''}" data-listing-id="${escAttr(listing.id)}">
+        <div class="card-img">
+          ${imgHtml}
+          <span class="card-badge ${bc}">${esc(bt)}</span>
+          ${price ? `<span class="card-price">${esc(price)}</span>` : ''}
+        </div>
+        <div class="card-body">
+          <div class="card-name">${esc(titleCase(listing.title))}</div>
+          <div class="card-addr">${esc(listing.address)}</div>
+          ${meta.length ? `<div class="card-pills">${meta.map(m => `<span class="card-pill">${esc(m)}</span>`).join('')}</div>` : ''}
+          <div class="card-stats">
+            ${listing.size_sf ? `<div><span class="card-stat-lbl">Building</span><span class="card-stat-val">${esc(listing.size_sf)}</span></div>` : ''}
+            ${listing.avail_sf ? `<div><span class="card-stat-lbl">Available</span><span class="card-stat-val">${esc(listing.avail_sf)}</span></div>` : ''}
+            ${listing.acreage ? `<div><span class="card-stat-lbl">Land</span><span class="card-stat-val">${esc(listing.acreage)}</span></div>` : ''}
+          </div>
+        </div>
+      </article>
+    `;
+  }
+
+  /* ============================
+     PAGINATION
+     ============================ */
+  function renderPagination() {
+    const el = document.getElementById('pagination');
+    if (!el) return;
+    const total = Math.ceil(state.filtered.length / PER_PAGE);
+    if (total <= 1) { el.innerHTML = ''; return; }
+
+    let html = `<button class="page-btn" ${state.page === 1 ? 'disabled' : ''} data-page="${state.page - 1}">&lsaquo;</button>`;
+    for (let i = 1; i <= total; i++) {
+      if (i === 1 || i === total || Math.abs(i - state.page) <= 1) {
+        html += `<button class="page-btn${i === state.page ? ' active' : ''}" data-page="${i}">${i}</button>`;
+      } else if (Math.abs(i - state.page) === 2) {
+        html += `<span class="page-btn" style="pointer-events:none;opacity:.4">&hellip;</span>`;
+      }
+    }
+    html += `<button class="page-btn" ${state.page === total ? 'disabled' : ''} data-page="${state.page + 1}">&rsaquo;</button>`;
+    el.innerHTML = html;
+  }
+
+  /* ============================
+     MAP
+     ============================ */
+  function initMap() {
+    if (state.mapInstance) {
+      setTimeout(() => state.mapInstance.invalidateSize(), 100);
+      return;
+    }
+    const container = document.getElementById('leafletMap');
+    if (!container || typeof L === 'undefined') return;
+
+    // Compute centroid
+    const withCoords = state.listings.filter(l => l.lat && l.lng);
+    let center = [36.1699, -115.1398]; // default: Las Vegas
+    if (withCoords.length) {
+      const avgLat = withCoords.reduce((s, l) => s + l.lat, 0) / withCoords.length;
+      const avgLng = withCoords.reduce((s, l) => s + l.lng, 0) / withCoords.length;
+      center = [avgLat, avgLng];
+    }
+
+    state.mapInstance = L.map(container).setView(center, 10);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      maxZoom: 19
+    }).addTo(state.mapInstance);
+
+    updateMapMarkers();
+    setTimeout(() => state.mapInstance.invalidateSize(), 200);
+  }
+
+  function updateMapMarkers() {
+    if (!state.mapInstance) return;
+    state.mapMarkers.forEach(m => m.remove());
+    state.mapMarkers = [];
+
+    state.filtered.forEach(listing => {
+      if (!listing.lat || !listing.lng) return;
+      const marker = L.marker([listing.lat, listing.lng])
+        .addTo(state.mapInstance)
+        .bindPopup(`<strong>${titleCase(listing.title)}</strong><br>${listing.address}`);
+      marker.on('click', () => showDetail(listing.id));
+      state.mapMarkers.push(marker);
+    });
+  }
+
+  /* ============================
+     DETAIL POPUP
+     ============================ */
+  async function showDetail(id) {
+    if (!id) return;
+    const overlay = document.getElementById('detailOverlay');
+    const content = document.getElementById('detailContent');
+    content.innerHTML = '<div class="state-msg"><div class="spinner"></div><p>Loading property&hellip;</p></div>';
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+
+    // Try GET /listing/:id first, fall back to stored data
+    let listing = null;
+    try {
+      const resp = await fetch(API + '/listing/' + encodeURIComponent(id), {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+      });
+      if (resp.ok) {
+        const data = await resp.json();
+        listing = normalizeListing(data.listing || data.property || data);
+      }
+    } catch (_) { /* fall through */ }
+
+    // Fall back to stored listing
+    if (!listing || !listing.id) {
+      listing = (window.rnlpListings || []).find(l => String(l.id) === String(id)) || null;
+    }
+
+    if (!listing) {
+      content.innerHTML = '<div class="state-msg state-error">Could not load property details.</div>';
+      return;
+    }
+
+    renderDetailContent(listing);
+  }
+
+  function renderDetailContent(listing) {
+    const content = document.getElementById('detailContent');
+    const price = listing.rate || listing.price;
+    const bt = badgeText(listing);
+    const bc = badgeCls(listing);
+
+    const heroHtml = listing.hero_image
+      ? `<img src="${escAttr(listing.hero_image)}" alt="${escAttr(titleCase(listing.title))}" loading="eager" fetchpriority="high" style="width:100%;height:100%;object-fit:cover;display:block;">`
+      : `<div class="det-hero-placeholder">No photo available</div>`;
+
+    const factHtml = [
+      listing.size_sf ? `<div class="det-fact"><div class="det-fact-lbl">Building SF</div><div class="det-fact-val">${esc(listing.size_sf)}</div></div>` : '',
+      listing.avail_sf ? `<div class="det-fact"><div class="det-fact-lbl">Available SF</div><div class="det-fact-val">${esc(listing.avail_sf)}</div></div>` : '',
+      listing.acreage ? `<div class="det-fact"><div class="det-fact-lbl">Land Size</div><div class="det-fact-val">${esc(listing.acreage)}</div></div>` : '',
+      listing.city ? `<div class="det-fact"><div class="det-fact-lbl">Market</div><div class="det-fact-val">${esc([listing.city, listing.state].filter(Boolean).join(', '))}</div></div>` : '',
+      listing.property_type ? `<div class="det-fact"><div class="det-fact-lbl">Type</div><div class="det-fact-val">${esc(listing.property_type)}</div></div>` : ''
+    ].filter(Boolean).join('');
+
+    const brokerHtml = listing.broker_name ? `
+      <div class="det-broker">
+        <div class="det-broker-name">${esc(listing.broker_name)}</div>
+        ${listing.broker_email ? `<a class="det-broker-contact" href="mailto:${escAttr(listing.broker_email)}">${esc(listing.broker_email)}</a>` : ''}
+        ${listing.broker_phone ? `<a class="det-broker-contact" href="tel:${escAttr(listing.broker_phone)}">${esc(listing.broker_phone)}</a>` : ''}
+      </div>
+    ` : '';
+
+    content.innerHTML = `
+      <div class="det-hero-wrap">
+        ${heroHtml}
+        <div class="det-hero-overlay"></div>
+        <span class="det-hero-badge ${bc}">${esc(bt)}</span>
+        ${price ? `<span class="det-hero-price">${esc(price)}</span>` : ''}
+        <div class="det-hero-title">
+          <h2>${esc(titleCase(listing.title))}</h2>
+          <p>${esc(listing.address)}</p>
+        </div>
+      </div>
+
+      ${factHtml ? `<div class="det-facts">${factHtml}</div>` : ''}
+
+      <div class="det-body">
+        <div class="det-desc">
+          <h3>Description</h3>
+          <p>${esc(listing.description)}</p>
+        </div>
+        <div class="det-sidebar">
+          ${brokerHtml}
+          <button class="det-btn det-btn-primary" id="inquireToggleBtn" onclick="toggleInquiry()">
+            Inquire About This Property
+          </button>
+          ${listing.brochure_url ? `<a class="det-btn det-btn-outline" href="${escAttr(listing.brochure_url)}" target="_blank" rel="noopener">Download Brochure</a>` : ''}
+          <button class="det-btn det-btn-outline" onclick="navigator.clipboard&&navigator.clipboard.writeText(location.href)">Share Property</button>
+
+          <div id="inqFormWrap">
+            <form id="inqForm" onsubmit="submitInquiry(event, '${escAttr(listing.id)}', '${escAttr(listing.title)}', '${escAttr(listing.broker_email)}')">
+              <div class="inq-field">
+                <label>Full Name <span style="color:#ef4444">*</span></label>
+                <input type="text" id="inq-name" required placeholder="Your name">
+              </div>
+              <div class="inq-field">
+                <label>Email <span style="color:#ef4444">*</span></label>
+                <input type="email" id="inq-email" required placeholder="you@example.com">
+              </div>
+              <div class="inq-field">
+                <label>Phone</label>
+                <input type="tel" id="inq-phone" placeholder="(555) 000-0000">
+              </div>
+              <div class="inq-field">
+                <label>Message</label>
+                <textarea id="inq-msg" placeholder="Tell us about your needs&hellip;"></textarea>
+              </div>
+              <button type="submit" class="inq-submit" id="inqSubmitBtn">Send Inquiry</button>
+              <div id="inqFeedback"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function closeDetail() {
+    document.getElementById('detailOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function toggleInquiry() {
+    const wrap = document.getElementById('inqFormWrap');
+    const btn = document.getElementById('inquireToggleBtn');
+    if (!wrap) return;
+    const open = wrap.classList.toggle('open');
+    if (btn) btn.textContent = open ? 'Hide Inquiry Form' : 'Inquire About This Property';
+  }
+
+  async function submitInquiry(event, propId, propName, brokerEmail) {
+    event.preventDefault();
+    const btn = document.getElementById('inqSubmitBtn');
+    const feedback = document.getElementById('inqFeedback');
+    const name = document.getElementById('inq-name').value;
+    const email = document.getElementById('inq-email').value;
+    const phone = document.getElementById('inq-phone').value;
+    const msg = document.getElementById('inq-msg').value;
+
+    if (btn) { btn.disabled = true; btn.textContent = 'Sending\u2026'; }
+
+    try {
+      const resp = await fetch(API + '/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          serial: SERIAL,
+          name,
+          email,
+          phone,
+          message: `Property inquiry: ${propName}\n\n${msg}`,
+          property_id: propId,
+          property_name: propName,
+          broker_email: brokerEmail,
+          page_url: location.href,
+          source_website: location.origin
+        })
+      });
+      const data = await resp.json().catch(() => ({}));
+      if (!resp.ok && !data.success) throw new Error(data.message || 'Send failed');
+      if (feedback) {
+        feedback.innerHTML = '<div class="inq-msg success">Thanks! Your inquiry was sent.</div>';
+      }
+      event.target.reset();
+    } catch (err) {
+      if (feedback) {
+        feedback.innerHTML = '<div class="inq-msg error">Could not send inquiry. Please try again.</div>';
+      }
+    } finally {
+      if (btn) { btn.disabled = false; btn.textContent = 'Send Inquiry'; }
+    }
+  }
+
+  /* ============================
+     BUY NOW MODAL
+     ============================ */
+  function openBuy() {
+    const summary = document.getElementById('buyConfigSummary');
+    const t = state.theme.charAt(0).toUpperCase() + state.theme.slice(1);
+    const layoutLabels = { grid: 'Card Grid', list: 'List View', hero: 'Hero + Grid', map: 'Grid + Map' };
+    const l = layoutLabels[state.layout] || state.layout;
+    summary.innerHTML = `<strong>Your selection:</strong> Theme: ${esc(t)} &nbsp;|&nbsp; Layout: ${esc(l)} &nbsp;|&nbsp; Color: <span style="color:${escAttr(state.color)}">${esc(state.color)}</span> &nbsp;|&nbsp; Background: ${state.dark ? 'Dark' : 'Light'}`;
+    document.getElementById('buyOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeBuy() {
+    document.getElementById('buyOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function buildOrderMessage() {
+    const url = document.getElementById('buy-url').value;
+    const wpuser = document.getElementById('buy-wpuser').value;
+    const wppass = document.getElementById('buy-wppass').value;
+    const notes = document.getElementById('buy-notes').value;
+    const layoutLabels = { grid: 'Card Grid', list: 'List View', hero: 'Hero + Grid', map: 'Grid + Map' };
+    return [
+      'MP Premier 2.0 Order',
+      '---',
+      `Theme: ${state.theme}`,
+      `Layout: ${layoutLabels[state.layout] || state.layout}`,
+      `Accent Color: ${state.color}`,
+      `Background: ${state.dark ? 'Dark' : 'Light'}`,
+      '---',
+      `WordPress URL: ${url}`,
+      `WP Admin Username: ${wpuser}`,
+      `WP Admin Password: ${wppass}`,
+      notes ? `Notes: ${notes}` : ''
+    ].filter(Boolean).join('\n');
+  }
+
+  async function submitOrder(event) {
+    event.preventDefault();
+    const btn = document.getElementById('buySubmitBtn');
+    if (btn) { btn.disabled = true; btn.textContent = 'Submitting\u2026'; }
+
+    try {
+      const resp = await fetch(API + '/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          serial: SERIAL,
+          name: document.getElementById('buy-name').value,
+          email: document.getElementById('buy-email').value,
+          phone: document.getElementById('buy-phone').value,
+          message: buildOrderMessage()
+        })
+      });
+      const data = await resp.json().catch(() => ({}));
+      if (!resp.ok && !data.success) throw new Error(data.message || 'Submit failed');
+
+      document.getElementById('buyContent').innerHTML = `
+        <div class="buy-success">
+          <div class="buy-success-icon">&#x2713;</div>
+          <div class="buy-success-title">Order received! Check your email.</div>
+          <div class="buy-success-sub">We'll reach out within one business day to get your site configured.</div>
+        </div>
+      `;
+      setTimeout(closeBuy, 3000);
+    } catch (err) {
+      if (btn) { btn.disabled = false; btn.textContent = 'Submit Order'; }
+      alert('Could not submit your order. Please try again or email us directly.');
+    }
+  }
+
+  /* ============================
+     SET LAYOUT
+     ============================ */
+  function setLayout(id) {
+    state.layout = id;
+    // Sync both layout pill sets
+    document.querySelectorAll('[data-layout]').forEach(b => {
+      b.classList.toggle('active', b.dataset.layout === id);
+    });
+    document.querySelectorAll('[data-viewlayout]').forEach(b => {
+      b.classList.toggle('active', b.dataset.viewlayout === id);
+    });
+    renderListings();
+  }
+
+  /* ============================
+     EVENT BINDING
+     ============================ */
+  function bindEvents() {
+    // Theme pills
+    document.getElementById('themePills').addEventListener('click', e => {
+      const pill = e.target.closest('[data-theme]');
+      if (!pill) return;
+      document.querySelectorAll('[data-theme]').forEach(b => b.classList.remove('active'));
+      pill.classList.add('active');
+      applyTheme(pill.dataset.theme);
+    });
+
+    // Layout pills (control bar)
+    document.getElementById('layoutPills').addEventListener('click', e => {
+      const pill = e.target.closest('[data-layout]');
+      if (!pill) return;
+      setLayout(pill.dataset.layout);
+    });
+
+    // Layout pills (filter bar)
+    document.getElementById('filterBar').addEventListener('click', e => {
+      const vp = e.target.closest('[data-viewlayout]');
+      if (vp) setLayout(vp.dataset.viewlayout);
+      const fc = e.target.closest('[data-filter]');
+      if (fc) {
+        document.querySelectorAll('[data-filter]').forEach(b => b.classList.remove('active'));
+        fc.classList.add('active');
+        state.filter = fc.dataset.filter;
+        applyFilter();
+      }
+    });
+
+    // Color swatches
+    document.getElementById('colorSwatches').addEventListener('click', e => {
+      const sw = e.target.closest('[data-hex]');
+      if (!sw) return;
+      applyColor(sw.dataset.hex);
+    });
+
+    // Hex input
+    const hexInput = document.getElementById('colorHexInput');
+    hexInput.addEventListener('input', () => {
+      const v = hexInput.value.trim();
+      if (isValidHex(v)) applyColor(v);
+    });
+    hexInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        const v = hexInput.value.trim();
+        if (isValidHex(v)) applyColor(v);
+      }
+    });
+
+    // Background toggle
+    document.getElementById('bgPills').addEventListener('click', e => {
+      const pill = e.target.closest('[data-bg]');
+      if (!pill) return;
+      document.querySelectorAll('[data-bg]').forEach(b => b.classList.remove('active'));
+      pill.classList.add('active');
+      applyBg(pill.dataset.bg === 'dark', true);
+    });
+
+    // Buy Now
+    document.getElementById('buyNowBtn').addEventListener('click', openBuy);
+
+    // Card clicks — event delegation on grid
+    document.getElementById('listingsSection').addEventListener('click', e => {
+      const card = e.target.closest('[data-listing-id]');
+      if (card) showDetail(card.dataset.listingId);
+    });
+
+    // Pagination clicks
+    document.getElementById('pagination').addEventListener('click', e => {
+      const btn = e.target.closest('[data-page]');
+      if (!btn) return;
+      state.page = Math.max(1, Number(btn.dataset.page) || 1);
+      renderListings();
+      document.getElementById('filterBar').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    // Escape key
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        closeDetail();
+        closeBuy();
+      }
+    });
+  }
+
+  /* ============================
+     INIT
+     ============================ */
+  function init() {
+    buildColorSwatches();
+    applyTheme('classic');
+    bindEvents();
+    fetchListings();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+  // Expose globals used by inline event handlers
+  window.closeDetail = closeDetail;
+  window.closeBuy = closeBuy;
+  window.toggleInquiry = toggleInquiry;
+  window.submitInquiry = submitInquiry;
+  window.submitOrder = submitOrder;
+
+})();
+</script>
+</body>
+</html>

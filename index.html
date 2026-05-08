@@ -138,285 +138,96 @@ footer{border-top:1px solid var(--border);padding:32px 60px;display:flex;justify
 </header>
 
 <div class="hero">
-  <div class="hero-eyebrow">Live Demo Gallery</div>
-  <h1>Five ways to showcase<br>your <span>listings.</span></h1>
-  <p>Every site below fetches live RealNex data through the RNLP proxy. Pick a theme, click launch, and see your listings come to life — no WordPress required.</p>
+  <div class="hero-eyebrow">Live Demo</div>
+  <h1>One page. Every theme.<br>Your <span>listings live.</span></h1>
+  <p>Switch themes, layouts, colors, and backgrounds in real time — all backed by live RealNex data. No page reloads. No iframes. Everything instant.</p>
   <div class="hero-meta">
-    <div class="hero-meta-item"><div class="hero-meta-val">5</div><div class="hero-meta-lbl">Unique Themes</div></div>
+    <div class="hero-meta-item"><div class="hero-meta-val">4</div><div class="hero-meta-lbl">Themes</div></div>
+    <div class="hero-meta-item"><div class="hero-meta-val">4</div><div class="hero-meta-lbl">Layouts</div></div>
     <div class="hero-meta-item"><div class="hero-meta-val">Live</div><div class="hero-meta-lbl">Data Feed</div></div>
-    <div class="hero-meta-item"><div class="hero-meta-val">100%</div><div class="hero-meta-lbl">Responsive</div></div>
     <div class="hero-meta-item"><div class="hero-meta-val">RealNex</div><div class="hero-meta-lbl">Powered</div></div>
   </div>
 </div>
 
 <div class="grid">
 
-  <!-- CONFIGURE CTA CARD -->
-  <div class="demo-card featured" style="border-color:rgba(201,162,39,.4);background:linear-gradient(135deg,rgba(201,162,39,.07) 0%,var(--surface) 100%)">
-    <div class="preview preview-cta">
-      <div class="preview-cta-icon" style="border-color:rgba(201,162,39,.5);font-size:1.6rem">⚙</div>
-      <div class="preview-cta-text" style="color:var(--gold);font-weight:700">Configure & Preview</div>
+  <!-- MAIN DEMO CARD -->
+  <div class="demo-card featured" style="grid-column:1/-1;max-width:720px;margin:0 auto;width:100%;border-color:rgba(201,162,39,.35);background:linear-gradient(135deg,rgba(201,162,39,.06) 0%,var(--surface) 100%)">
+    <div class="preview" style="height:220px;background:var(--surface2);position:relative;overflow:hidden">
+      <!-- Mini control bar mockup -->
+      <div style="height:32px;background:rgba(0,0,0,.4);display:flex;align-items:center;padding:0 12px;gap:8px;border-bottom:1px solid rgba(255,255,255,.06)">
+        <div style="width:20px;height:20px;background:var(--gold);border-radius:4px;font-size:.55rem;font-weight:900;color:#111;display:flex;align-items:center;justify-content:center">RL</div>
+        <div style="display:flex;gap:4px">
+          <div style="height:14px;background:#013161;border-radius:10px;padding:0 8px;font-size:.5rem;color:#fff;display:flex;align-items:center">Classic</div>
+          <div style="height:14px;background:rgba(255,255,255,.08);border-radius:10px;padding:0 8px;font-size:.5rem;color:rgba(255,255,255,.5);display:flex;align-items:center">Dark Pro</div>
+          <div style="height:14px;background:rgba(255,255,255,.08);border-radius:10px;padding:0 8px;font-size:.5rem;color:rgba(255,255,255,.5);display:flex;align-items:center">Steel</div>
+          <div style="height:14px;background:rgba(255,255,255,.08);border-radius:10px;padding:0 8px;font-size:.5rem;color:rgba(255,255,255,.5);display:flex;align-items:center">Ember</div>
+        </div>
+        <div style="margin-left:auto;display:flex;gap:3px">
+          <div style="width:8px;height:8px;border-radius:50%;background:#013161"></div>
+          <div style="width:8px;height:8px;border-radius:50%;background:#1d4ed8"></div>
+          <div style="width:8px;height:8px;border-radius:50%;background:#c9a84c"></div>
+          <div style="width:8px;height:8px;border-radius:50%;background:#15803d"></div>
+        </div>
+        <div style="height:16px;background:var(--gold);border-radius:4px;padding:0 8px;font-size:.5rem;font-weight:700;color:#111;display:flex;align-items:center">Buy Now</div>
+      </div>
+      <!-- Mini hero -->
+      <div style="height:52px;background:#013161;display:flex;align-items:center;padding:0 12px;gap:8px">
+        <div>
+          <div style="font-size:.55rem;font-weight:700;color:#fff">Dana Whitmore, CCIM</div>
+          <div style="font-size:.48rem;color:rgba(255,255,255,.6)">Trusted guidance for every transaction.</div>
+        </div>
+        <div style="margin-left:auto;display:flex;gap:12px">
+          <div style="text-align:center"><div style="font-size:.62rem;font-weight:800;color:#c9a84c">$340M+</div><div style="font-size:.42rem;color:rgba(255,255,255,.5);text-transform:uppercase">Volume</div></div>
+          <div style="text-align:center"><div style="font-size:.62rem;font-weight:800;color:#c9a84c">20+</div><div style="font-size:.42rem;color:rgba(255,255,255,.5);text-transform:uppercase">Years</div></div>
+        </div>
+      </div>
+      <!-- Mini cards grid -->
+      <div style="padding:8px 10px;display:grid;grid-template-columns:repeat(3,1fr);gap:6px;background:#f5f6f8">
+        <div style="background:#fff;border-radius:4px;height:52px;border:1px solid #e2e8f0;overflow:hidden">
+          <div style="height:28px;background:#e8edf5"></div>
+          <div style="padding:3px 4px"><div style="height:4px;background:#e2e8f0;border-radius:2px;margin-bottom:2px"></div><div style="height:3px;background:#e2e8f0;border-radius:2px;width:70%"></div></div>
+        </div>
+        <div style="background:#fff;border-radius:4px;height:52px;border:1px solid #e2e8f0;overflow:hidden">
+          <div style="height:28px;background:#dbeafe"></div>
+          <div style="padding:3px 4px"><div style="height:4px;background:#e2e8f0;border-radius:2px;margin-bottom:2px"></div><div style="height:3px;background:#e2e8f0;border-radius:2px;width:60%"></div></div>
+        </div>
+        <div style="background:#fff;border-radius:4px;height:52px;border:1px solid #e2e8f0;overflow:hidden">
+          <div style="height:28px;background:#dcfce7"></div>
+          <div style="padding:3px 4px"><div style="height:4px;background:#e2e8f0;border-radius:2px;margin-bottom:2px"></div><div style="height:3px;background:#e2e8f0;border-radius:2px;width:80%"></div></div>
+        </div>
+      </div>
     </div>
     <div class="card-body">
       <div class="card-header">
-        <div class="card-title" style="font-size:1.05rem">Build Your Custom Site</div>
-        <span class="card-badge badge-cta" style="background:rgba(201,162,39,.18);color:var(--gold);border-color:rgba(201,162,39,.35)">Start Here →</span>
+        <div class="card-title" style="font-size:1.1rem">MP Premier 2.0 — Live Demo</div>
+        <span class="card-badge badge-cta" style="background:rgba(201,162,39,.18);color:var(--gold);border-color:rgba(201,162,39,.35)">New</span>
       </div>
-      <p class="card-desc">Pick your theme, set your brand colors, choose your layout, get a live preview, and order — all in one place. Your live RealNex site, configured in minutes.</p>
-      <div class="card-actions">
-        <a class="btn-launch" href="/configure" style="background:var(--gold);color:#111">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="13" height="13"><path d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a6.759 6.759 0 010 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 010-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28z"/><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-          Configure & Buy
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <!-- FILE 1: Classic Broker -->
-  <div class="demo-card">
-    <div class="preview preview-classic">
-      <div class="preview-nav">
-        <div class="preview-dot" style="background:#ff5f57"></div>
-        <div class="preview-dot" style="background:#ffbd2e"></div>
-        <div class="preview-dot" style="background:#28c840"></div>
-        <div style="flex:1;height:10px;background:#e8edf5;border-radius:3px;margin-left:6px"></div>
-      </div>
-      <div class="preview-body">
-        <div class="preview-hero" style="background:#013161">
-          <div class="preview-hero-overlay"></div>
-          <div class="preview-hero-title">Dana Whitmore, CCIM<br>Northeast Ohio</div>
-        </div>
-        <div class="preview-cards">
-          <div class="preview-card"></div>
-          <div class="preview-card"></div>
-          <div class="preview-card"></div>
-        </div>
-      </div>
-    </div>
-    <div class="card-body">
-      <div class="card-header">
-        <div class="card-title">Classic Broker</div>
-        <span class="card-badge badge-classic">Light</span>
-      </div>
-      <p class="card-desc">Clean, professional, corporate. White background with navy accents and DM Sans typography. Built for the seasoned CCIM who wants timeless credibility.</p>
+      <p class="card-desc">See your listings. Change everything. Buy now. One URL — switch themes, layouts, accent colors, and background mode in real time. All 131 live RealNex listings, no reload required.</p>
       <div class="card-meta">
         <div class="card-meta-item">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="13" height="13"><path d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
-          Single Broker
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="13" height="13"><path d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.043-.025a15.994 15.994 0 011.622-3.395m3.42 3.42a15.995 15.995 0 004.764-4.648l3.876-5.814a1.151 1.151 0 00-1.597-1.597L14.146 6.32a15.996 15.996 0 00-4.649 4.763m3.42 3.42a6.776 6.776 0 00-3.42-3.42"/></svg>
+          4 Themes
         </div>
         <div class="card-meta-item">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="13" height="13"><path d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.043-.025a15.994 15.994 0 011.622-3.395m3.42 3.42a15.995 15.995 0 004.764-4.648l3.876-5.814a1.151 1.151 0 00-1.597-1.597L14.146 6.32a15.996 15.996 0 00-4.649 4.763m3.42 3.42a6.776 6.776 0 00-3.42-3.42"/></svg>
-          Navy + White
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="13" height="13"><path d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z"/></svg>
+          4 Layouts
         </div>
         <div class="card-meta-item">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="13" height="13"><path d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z"/></svg>
-          RNLP-MDLG-001
+          Live RealNex Data
+        </div>
+        <div style="display:flex;gap:5px;align-items:center;margin-left:4px">
+          <div style="width:10px;height:10px;border-radius:50%;background:#1e3a5f"></div>
+          <div style="width:10px;height:10px;border-radius:50%;background:#3b82f6"></div>
+          <div style="width:10px;height:10px;border-radius:50%;background:#f0f4f8;border:1px solid #dde2ec"></div>
+          <div style="width:10px;height:10px;border-radius:50%;background:#1a1209;border:1px solid rgba(255,255,255,.2)"></div>
         </div>
       </div>
       <div class="card-actions">
-        <a class="btn-launch" href="classic-broker.html" target="_blank">
+        <a class="btn-launch" href="/demo" style="background:var(--gold);color:#111">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="13" height="13"><path d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/></svg>
-          Launch Demo
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <!-- FILE 2: Dark Pro -->
-  <div class="demo-card">
-    <div class="preview preview-darkpro">
-      <div class="preview-nav">
-        <div class="preview-dot" style="background:#ff5f57"></div>
-        <div class="preview-dot" style="background:#ffbd2e"></div>
-        <div class="preview-dot" style="background:#28c840"></div>
-        <div style="flex:1;height:10px;background:rgba(59,130,246,.2);border-radius:3px;margin-left:6px"></div>
-      </div>
-      <div class="preview-body">
-        <div class="preview-hero" style="background:linear-gradient(135deg,#0d1117,#0f1923)">
-          <div class="preview-hero-overlay"></div>
-          <div class="preview-hero-title" style="color:#3b82f6">Marcus Chen, SIOR<br><span style="color:#e6edf3;font-weight:400">Industrial · Dallas-Fort Worth</span></div>
-        </div>
-        <div class="preview-cards">
-          <div class="preview-card" style="border-color:rgba(59,130,246,.2)"></div>
-          <div class="preview-card" style="border-color:rgba(59,130,246,.2)"></div>
-          <div class="preview-card" style="border-color:rgba(59,130,246,.2)"></div>
-        </div>
-      </div>
-    </div>
-    <div class="card-body">
-      <div class="card-header">
-        <div class="card-title">Dark Pro Broker</div>
-        <span class="card-badge badge-dark">Dark</span>
-      </div>
-      <p class="card-desc">Tech-forward, dark, modern. #0d1117 background with electric blue accents and Inter font. Built for the next-gen industrial broker who wants to stand out.</p>
-      <div class="card-meta">
-        <div class="card-meta-item">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="13" height="13"><path d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
-          Single Broker
-        </div>
-        <div class="card-meta-item">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="13" height="13"><path d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.043-.025a15.994 15.994 0 011.622-3.395m3.42 3.42a15.995 15.995 0 004.764-4.648l3.876-5.814a1.151 1.151 0 00-1.597-1.597L14.146 6.32a15.996 15.996 0 00-4.649 4.763m3.42 3.42a6.776 6.776 0 00-3.42-3.42"/></svg>
-          Dark + Blue Glow
-        </div>
-        <div class="card-meta-item">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="13" height="13"><path d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z"/></svg>
-          RNLP-MDLG-001
-        </div>
-      </div>
-      <div class="card-actions">
-        <a class="btn-launch" href="darkpro-broker.html" target="_blank">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="13" height="13"><path d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/></svg>
-          Launch Demo
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <!-- FILE 3: Steel Company -->
-  <div class="demo-card">
-    <div class="preview preview-steel">
-      <div class="preview-nav">
-        <div class="preview-dot" style="background:#ff5f57"></div>
-        <div class="preview-dot" style="background:#ffbd2e"></div>
-        <div class="preview-dot" style="background:#28c840"></div>
-        <div style="flex:1;height:10px;background:rgba(255,255,255,.1);border-radius:3px;margin-left:6px"></div>
-      </div>
-      <div class="preview-body">
-        <div class="preview-hero" style="background:#1e2d4d">
-          <div class="preview-hero-overlay"></div>
-          <div class="preview-hero-title">Meridian Commercial Group<br>Las Vegas Metro</div>
-        </div>
-        <div class="preview-cards" style="background:#f4f5f8;padding:4px">
-          <div class="preview-card" style="background:#fff;border-top:2px solid #1e2d4d"></div>
-          <div class="preview-card" style="background:#fff;border-top:2px solid #1e2d4d"></div>
-          <div class="preview-card" style="background:#fff;border-top:2px solid #1e2d4d"></div>
-        </div>
-      </div>
-    </div>
-    <div class="card-body">
-      <div class="card-header">
-        <div class="card-title">Steel Blue Company</div>
-        <span class="card-badge badge-steel">Corporate</span>
-      </div>
-      <p class="card-desc">Corporate, institutional, trust-building. Navy filter bar over white cards with gold subtle accent. Built for full-service commercial brokerage firms.</p>
-      <div class="card-meta">
-        <div class="card-meta-item">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="13" height="13"><path d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21"/></svg>
-          Company Site
-        </div>
-        <div class="card-meta-item">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="13" height="13"><path d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.043-.025a15.994 15.994 0 011.622-3.395m3.42 3.42a15.995 15.995 0 004.764-4.648l3.876-5.814a1.151 1.151 0 00-1.597-1.597L14.146 6.32a15.996 15.996 0 00-4.649 4.763m3.42 3.42a6.776 6.776 0 00-3.42-3.42"/></svg>
-          Navy + Gold
-        </div>
-        <div class="card-meta-item">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="13" height="13"><path d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z"/></svg>
-          RNLP-MDLG-001
-        </div>
-      </div>
-      <div class="card-actions">
-        <a class="btn-launch" href="steel-company.html" target="_blank">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="13" height="13"><path d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/></svg>
-          Launch Demo
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <!-- FILE 4: Ember Company -->
-  <div class="demo-card">
-    <div class="preview preview-ember">
-      <div class="preview-nav">
-        <div class="preview-dot" style="background:#ff5f57"></div>
-        <div class="preview-dot" style="background:#ffbd2e"></div>
-        <div class="preview-dot" style="background:#28c840"></div>
-        <div style="flex:1;height:10px;background:rgba(249,115,22,.15);border-radius:3px;margin-left:6px"></div>
-      </div>
-      <div class="preview-body">
-        <div class="preview-hero" style="background:linear-gradient(135deg,#111,#1a1008)">
-          <div class="preview-hero-overlay"></div>
-          <div class="preview-hero-title" style="color:#f97316">Westfield Partners CRE</div>
-        </div>
-        <div class="preview-cards">
-          <div class="preview-card" style="border-color:rgba(249,115,22,.2)"></div>
-          <div class="preview-card" style="border-color:rgba(249,115,22,.2)"></div>
-          <div class="preview-card" style="border-color:rgba(249,115,22,.2)"></div>
-        </div>
-      </div>
-    </div>
-    <div class="card-body">
-      <div class="card-header">
-        <div class="card-title">Ember Company</div>
-        <span class="card-badge badge-ember">Boutique</span>
-      </div>
-      <p class="card-desc">Warm, boutique, approachable luxury. Dark charcoal with orange gradient accents and Cormorant Garamond serif. Built for the boutique firm with character.</p>
-      <div class="card-meta">
-        <div class="card-meta-item">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="13" height="13"><path d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21"/></svg>
-          Company Site
-        </div>
-        <div class="card-meta-item">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="13" height="13"><path d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.043-.025a15.994 15.994 0 011.622-3.395m3.42 3.42a15.995 15.995 0 004.764-4.648l3.876-5.814a1.151 1.151 0 00-1.597-1.597L14.146 6.32a15.996 15.996 0 00-4.649 4.763m3.42 3.42a6.776 6.776 0 00-3.42-3.42"/></svg>
-          Dark + Orange
-        </div>
-        <div class="card-meta-item">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="13" height="13"><path d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z"/></svg>
-          RNLP-MDLG-001
-        </div>
-      </div>
-      <div class="card-actions">
-        <a class="btn-launch" href="ember-company.html" target="_blank">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="13" height="13"><path d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/></svg>
-          Launch Demo
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <!-- FILE 5: HCBRE Replica -->
-  <div class="demo-card featured">
-    <div class="preview preview-hcbre">
-      <div class="preview-nav">
-        <div class="preview-dot" style="background:#ff5f57"></div>
-        <div class="preview-dot" style="background:#ffbd2e"></div>
-        <div class="preview-dot" style="background:#28c840"></div>
-        <div style="flex:1;height:10px;background:rgba(201,162,39,.15);border-radius:3px;margin-left:6px"></div>
-      </div>
-      <div class="preview-body">
-        <div class="preview-hero" style="background:linear-gradient(135deg,#0a0c10,#0d1018)">
-          <div class="preview-hero-overlay"></div>
-          <div class="preview-hero-title" style="color:var(--gold)">HCBRE<br><span style="color:rgba(255,255,255,.7);font-weight:400">Gillette, Wyoming</span></div>
-        </div>
-        <div class="preview-cards">
-          <div class="preview-card" style="border-color:rgba(201,162,39,.15)"></div>
-          <div class="preview-card" style="border-color:rgba(201,162,39,.15)"></div>
-          <div class="preview-card" style="border-color:rgba(201,162,39,.15)"></div>
-        </div>
-      </div>
-    </div>
-    <div class="card-body">
-      <div class="card-header">
-        <div class="card-title">HCBRE Replica ✦</div>
-        <span class="card-badge badge-hcbre">Reference</span>
-      </div>
-      <p class="card-desc">Matches the look and feel of hcbre.com — dark navy/black, clean minimal, property grid with map toggle. The "before/after" demo for new client pitches.</p>
-      <div class="card-meta">
-        <div class="card-meta-item">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="13" height="13"><path d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21"/></svg>
-          Gillette WY
-        </div>
-        <div class="card-meta-item">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="13" height="13"><path d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.043-.025a15.994 15.994 0 011.622-3.395m3.42 3.42a15.995 15.995 0 004.764-4.648l3.876-5.814a1.151 1.151 0 00-1.597-1.597L14.146 6.32a15.996 15.996 0 00-4.649 4.763m3.42 3.42a6.776 6.776 0 00-3.42-3.42"/></svg>
-          Dark + Gold
-        </div>
-        <div class="card-meta-item">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="13" height="13"><path d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z"/></svg>
-          RNLP-MDLG-001
-        </div>
-      </div>
-      <div class="card-actions">
-        <a class="btn-launch" href="hcbre-replica.html" target="_blank">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="13" height="13"><path d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/></svg>
-          Launch Demo
+          Launch Demo &#x2192;
         </a>
       </div>
     </div>
